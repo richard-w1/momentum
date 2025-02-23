@@ -1,9 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+def landing(request):
+    return render(request, 'landing.html')
 
-def hello_world(request):
-    return HttpResponse("Hello, World!")
+def login(request):
+    return render(request, 'login.html')
+
+def signup(request):
+    return render(request, 'signup.html')
 
 def dashboard(request):
-    return render(request, 'dashboard/dashboard.html')
+    return render(request, 'dashboard.html')
