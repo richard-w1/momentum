@@ -1,5 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.shortcuts import redirect
+
+def home_redirect(request):
+    return redirect('landing')
 
 def landing(request):
     return render(request, 'landing.html')
