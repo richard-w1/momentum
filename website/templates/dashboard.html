@@ -1,79 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #5e6f7d, #1e2a3a);
-            color: #ffffff;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        h1 {
-            font-size: 3em;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #ffffff;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
-        }
-
-        /* buttons */
-        .btn {
-            display: block;
-            width: 250px;
-            padding: 15px;
-            margin: 15px auto;
-            background-color: #f8f9fa;
-            color: #1e2a3a;
-            font-size: 1.2em;
-            font-weight: 500;
-            text-decoration: none;
-            border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #1e2a3a;
-            color: white;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .btn:active {
-            transform: translateY(2px);
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
-
-            .btn {
-                width: 200px;
-                font-size: 1em;
-                padding: 12px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <h1>Dashboard</h1>
     <a href="#" class="btn">My Profile</a>
     <a href="#" class="btn">Calendar</a>
-    <a href="#" class="btn">To-Do List</a>
+    <a href="#" class="btn">To Do List</a>
 </body>
 </html>
