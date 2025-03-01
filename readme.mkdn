@@ -30,6 +30,19 @@ This will install dependencies.
 ### 3. Run server
 
 ```bash
+cd website
+```
+
+This changes the directory from the project to webiste.
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+This ensures that all the applications are migrated into the project.
+
+```bash
 python manage.py runserver
 ```
 
