@@ -133,6 +133,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# default login url
+LOGIN_URL = 'login/' 
+
+# default login/logout regirect url
+LOGOUT_REDIRECT_URL = '/landing'
+LOGIN_REDIRECT_URL = '/dashboard/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
