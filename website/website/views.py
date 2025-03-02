@@ -31,11 +31,11 @@ def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Save the new user
-            auth_login(request, user)  # Log in the user
-            return redirect('dashboard')  # Redirect to the dashboard or any other page
+            user = form.save()
+            auth_login(request, user)
+            return redirect('dashboard')
     else:
-        form = UserCreationForm()  # Create an empty form for GET requests
+        form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
 def dashboard(request):
