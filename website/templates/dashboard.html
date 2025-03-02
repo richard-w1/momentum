@@ -13,5 +13,9 @@
     <a href="{% url 'profile' %}" class="btn">My profile</a>
     <a href="#" class="btn">Calendar</a>
     <a href="#" class="btn">To Do List</a>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn">Logout</button>
+    </form>
 </body>
 </html>
