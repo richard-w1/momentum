@@ -15,3 +15,10 @@ class Habit(models.Model):
 
     def __str__(self):
         return self.name
+    
+class HabitCompletion(models.Model):
+    habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
+    date_completed = models.DateField()
+
+    def __str__(self):
+        return f"{self.habit.name} completed on {self.date_completed}"
