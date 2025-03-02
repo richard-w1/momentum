@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+    <h2>Welcome, {{ user.username }}</h2>
     <h1>Dashboard</h1>
-    <a href="#" class="btn">My Profile</a>
+    <a href="{% url 'profile' %}" class="btn">My profile</a>
     <a href="#" class="btn">Calendar</a>
     <a href="#" class="btn">To Do List</a>
 </body>

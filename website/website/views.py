@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
+
 
 def home_redirect(request):
     return redirect('landing')
@@ -40,3 +42,7 @@ def signup(request):
 
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
