@@ -12,7 +12,7 @@
     <h1>Dashboard</h1>
     <a href="{% url 'profile' %}" class="btn">My profile</a>
     <a href="#" class="btn">Calendar</a>
-    <a href="#" class="btn">To Do List</a>
+    <a href="{% url 'add_habit' %}" class="btn">Add Habit</a>
     <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit" class="btn">Logout</button>
