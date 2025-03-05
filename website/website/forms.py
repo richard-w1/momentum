@@ -9,6 +9,14 @@ class HabitForm(forms.ModelForm):
     class Meta:
         model = Habit
         fields = ['name', 'frequency']
+    
+    def save(self, commit=True, user=None):
+        habit = super().save(commit=False)
+        if user:
+            habit.user = user
+        if commit:
+            habit.save()
+        return habit
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
