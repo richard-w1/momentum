@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
+from .forms import HabitForm
 
 
 def home_redirect(request):
@@ -47,3 +48,15 @@ def dashboard(request):
 @login_required
 def profile(request):
     return render(request, 'profile.html')
+
+@login_required
+def add_habit(request):
+    if request.method == 'POST':
+        form = HabitForm(request.POST)
+        if form.is_valid():
+            form.save(user=request.user)
+            return redirect('dashboard')
+    else:
+        form = HabitForm()
+
+    return render(request, 'add_habit.html', {'form': form})
