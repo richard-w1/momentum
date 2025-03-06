@@ -28,9 +28,11 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', views.signup, name='signup'),
-    path('profile/', views.profile, name='profile'),
     path('logout/', auth_views.LogoutView.as_view(next_page='landing'), name='logout'),
     path('add_habit/', views.add_habit, name='add_habit'),
     path('my_habits/', views.my_habits, name='my_habits'),
-
+    path('my_profile/', views.my_profile, name='my_profile'),
+    path('my_calendar/', views.my_calendar, name='my_calendar'),
+    path('my_progress/', views.my_progress, name='my_progress'),
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
     ]

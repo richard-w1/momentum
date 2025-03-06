@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="habit-container">
-        <h1>Your Habits</h1>
+        <h2>My Habits</h2>
         
         {% if habits %}
             <ul class="habit-list">
@@ -21,6 +21,11 @@
         {% else %}
             <p>You don't have any habits yet. Start adding some!</p>
         {% endif %}
+        <p>To-dos:</p>
+        <p>Edit habits</p>
+        <p>Delete habits</p>
+        <p>Mark habits as completed</p>
+        <p>Give habits rewards (experience points)</p>
         <div>
             <a href="{% url 'add_habit' %}" class="btn">Add a New Habit</a>
         </div>

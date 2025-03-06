@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Your Profile</h2>
+<h2>My Profile</h2>
 
 <p><strong>Username:</strong> {{ user.username }}</p>
 <p><strong>Email:</strong> {{ user.email }}</p>
 <p><strong>First Name:</strong> {{ user.first_name }}</p>
 <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+<p>To-dos:</p>
+<p>Ability to edit your profile</p>
 
 <a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
 {% endblock %}

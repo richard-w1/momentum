@@ -47,8 +47,8 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 @login_required
-def profile(request):
-    return render(request, 'profile.html')
+def my_profile(request):
+    return render(request, 'my_profile.html')
 
 @login_required
 def add_habit(request):
@@ -66,3 +66,15 @@ def add_habit(request):
 def my_habits(request):
     habits = Habit.objects.filter(user=request.user)
     return render(request, 'my_habits.html', {'habits': habits})
+
+@login_required
+def my_calendar(request):
+    return render(request, 'my_calendar.html')
+
+@login_required
+def my_progress(request):
+    return render(request, 'my_progress.html')
+
+@login_required
+def leaderboard(request):
+    return render(request, 'leaderboard.html')
