@@ -8,6 +8,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 from .forms import HabitForm
+from .models import Habit
 
 
 def home_redirect(request):
@@ -60,3 +61,8 @@ def add_habit(request):
         form = HabitForm()
 
     return render(request, 'add_habit.html', {'form': form})
+
+@login_required
+def my_habits(request):
+    habits = Habit.objects.filter(user=request.user)
+    return render(request, 'my_habits.html', {'habits': habits})

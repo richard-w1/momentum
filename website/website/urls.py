@@ -31,4 +31,6 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('logout/', auth_views.LogoutView.as_view(next_page='landing'), name='logout'),
     path('add_habit/', views.add_habit, name='add_habit'),
+    path('my_habits/', views.my_habits, name='my_habits'),
+
     ]
