@@ -1,21 +1,12 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h2>Welcome, {{ user.username }}</h2>
     <h1>Dashboard</h1>
-    <a href="{% url 'profile' %}" class="btn">My profile</a>
-    <a href="#" class="btn">Calendar</a>
-    <a href="{% url 'add_habit' %}" class="btn">Add Habit</a>
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn">Logout</button>
-    </form>
-</body>
-</html>
+    <p>To-Dos:</p>
+    <p>Summary of progress</p>
+    <p>calender</p>
+    <p>quick statistics</p>
+    <p>quotes/tips/suggestions</p>
+    <p>daily tasks</p>
+{% endblock %}

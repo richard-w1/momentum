@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<div class="topnav">
+    <a href="/dashboard/">Dashboard</a>
+    <a href="/my_habits/">My Habits</a>
+    <a href="/progress/">Progress</a>
+    <a href="/calendar/">Calendar</a>
+    <a href="/profile/">Profile</a>
+    <a href="/settings/">Settings</a>
+    <a href="{% url 'logout' %}">Logout</a>
+</div>
+<body>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
