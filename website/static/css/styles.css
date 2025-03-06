@@ -43,6 +43,28 @@ body {
     color: white;
 }
 
+.logout-form {
+    margin: 0;
+    padding: 0;
+}
+
+.logout-btn {
+    background-color: #333;
+    color: #f2f2f2;
+    padding: 14px 16px;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    width: auto;
+}
+
+.logout-btn:hover {
+    background-color: #ddd;
+    color: black;
+}
+
 h1 {
     font-size: 3em;
     font-weight: 700;
