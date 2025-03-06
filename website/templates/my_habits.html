@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="habit-container">
+        <h1>Your Habits</h1>
+        
+        {% if habits %}
+            <ul class="habit-list">
+            {% for habit in habits %}
+                <li class="habit-item">
+                    <div class="habit-details">
+                        <strong class="habit-name">{{ habit.name }}</strong> 
+                        <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
+                    </div>
+                    <div class="habit-meta">
+                        Created at: <span class="habit-date">{{ habit.created_at }}</span>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>You don't have any habits yet. Start adding some!</p>
+        {% endif %}
+        <div>
+            <a href="{% url 'add_habit' %}" class="btn">Add a New Habit</a>
+        </div>
+    </div>
+{% endblock %}
