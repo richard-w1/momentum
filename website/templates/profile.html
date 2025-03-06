@@ -1,12 +1,5 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
+{% extends 'base.html' %}
+{% block content %}
 <h2>Your Profile</h2>
 
 <p><strong>Username:</strong> {{ user.username }}</p>
@@ -15,3 +8,4 @@
 <p><strong>Last Name:</strong> {{ user.last_name }}</p>
 
 <a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+{% endblock %}
