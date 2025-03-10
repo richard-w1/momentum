@@ -1,0 +1,9 @@
+What did you do:
+We decided to use Django for our web app and I had no experience using Django before so most of the sprint was spent learning about Django. For sprint 1 I set up the JWT token generator which created an access token and a refresh token for the user upon valid login. I also initialized the login and login URL to make sure the users were redirected to the proper webpage. Clarified the setup instructions for the web app in the readme
+Challenges
+The most difficult challenge for me was the initial learning curve. Since Django is a complete web framework, there is a lot to learn. There are also multiple ways to do the same thing, so it is hard to figure out what is the most appropriate for the situation. Communication was also a major hurdle in this sprint. Since click was not set up, we didn’t know what the other was working on, resulting in some redundant work.
+What did you learn? 
+This was my first time doing Django. So, I learned a lot about how the backend of a website works. Working on the login page I learned about the various types of ways of user authentication like session-based authentication and authentication using JSON web tokens and cookies.
+I also learned that you need to be quick and adaptable. I was trying to learn everything possible about Django when that was not possible in the given time frame. Rather than trying to learn everything, it would have been much more useful if I had just learned what I needed and polished my knowledge as I went.
+What could have been improved?
+Communication between members could be easily improved. Now that clickup is set up it should be easy to see what everyone is working on leading to a more efficient workflow. 
