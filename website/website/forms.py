@@ -20,7 +20,11 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(max_length=100, required=True)
     last_name = forms.CharField(max_length=100, required=True)
+    birth_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=True,
+    )
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2', 'birth_date']
