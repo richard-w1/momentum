@@ -1,6 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+#creating a custom model for users
+class custom_user(models.Model):
+    #using the default  model as the basis
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birth_date = models.DateField(null=True)
+    
+    def __str__(self):
+        return f'{self.user.username} custom_user'
+
 class Habit(models.Model):
     FREQUENCY_CHOICES = [
         ('daily', 'Daily'),
