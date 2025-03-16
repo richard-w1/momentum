@@ -7,8 +7,6 @@
 <p><strong>First Name:</strong> {{ user.first_name }}</p>
 <p><strong>Last Name:</strong> {{ user.last_name }}</p>
 <p><strong>Date of birth:</strong> {{ user.custom_user.birth_date}}</p>
-<p>To-dos:</p>
-<p>Ability to edit your profile</p>
-
+<a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
 <a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
 {% endblock %}
