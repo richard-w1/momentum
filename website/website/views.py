@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, EditUserProfileForm
 from .forms import HabitForm
 from .models import Habit
 
@@ -55,12 +55,12 @@ def my_profile(request):
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
-        form = UserChangeForm(request.POST, instance=request.user)
+        form = EditUserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect('my_profile')
     else:
-        form = UserChangeForm(instance=request.user)
+        form = EditUserProfileForm(instance=request.user)
     return render(request, 'edit_profile.html', {'form': form})
 
 @login_required
