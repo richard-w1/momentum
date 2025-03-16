@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
@@ -50,6 +51,17 @@ def dashboard(request):
 @login_required
 def my_profile(request):
     return render(request, 'my_profile.html')
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('my_profile')
+    else:
+        form = UserChangeForm(instance=request.user)
+    return render(request, 'edit_profile.html', {'form': form})
 
 @login_required
 def add_habit(request):
