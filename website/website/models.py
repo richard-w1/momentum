@@ -80,8 +80,16 @@ class Habit(models.Model):
 
 
 class HabitCompletion(models.Model):
-    habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
-    date_completed = models.DateField()
+    habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="completions")
+    date_completed = models.DateField(default=date.today)
+
+    class Meta:
+        unique_together = ('habit', 'date_completed')
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.habit.last_completed = self.date_completed
+        self.habit.save()
 
     def __str__(self):
         return f"{self.habit.name} completed on {self.date_completed}"
