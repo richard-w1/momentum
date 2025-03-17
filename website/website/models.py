@@ -69,6 +69,16 @@ class Habit(models.Model):
 
         return missed_count
     
+    def get_completion_rate(self):
+        if not self.last_completed:
+            return 0
+
+        total_occurrences = (date.today() - self.created_at.date()).days // (1 if self.frequency == "daily" else (7 if self.frequency == "weekly" else 30))
+
+        total_completions = self.completions.count()
+        return round((total_completions / max(total_occurrences, 1)) * 100, 2)
+
+
 class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
     date_completed = models.DateField()
