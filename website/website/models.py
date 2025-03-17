@@ -22,9 +22,13 @@ class Habit(models.Model):
     name = models.CharField(max_length=100)
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
+    last_completed = models.DateField(null=True, blank=True)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.frequency})"
+    
+    
     
 class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
