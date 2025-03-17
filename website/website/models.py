@@ -51,6 +51,23 @@ class Habit(models.Model):
         
         return streak
 
+    def get_missed_occurrences(self):
+        if not self.last_completed:
+            return 0 
+
+        today = date.today()
+        missed_count = 0
+        interval = timedelta(days=1 if self.frequency == 'daily' else (7 if self.frequency == 'weekly' else 30))
+
+        expected_dates = [self.last_completed + (i * interval) for i in range(1, (today - self.last_completed).days // interval.days + 1)]
+        
+        completed_dates = set(self.completions.values_list('date_completed', flat=True))
+
+        for expected_date in expected_dates:
+            if expected_date not in completed_dates:
+                missed_count += 1
+
+        return missed_count
     
 class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
