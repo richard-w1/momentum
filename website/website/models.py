@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date, timedelta
+
 
 #creating a custom model for users
 class custom_user(models.Model):
@@ -28,7 +30,27 @@ class Habit(models.Model):
     def __str__(self):
         return f"{self.name} ({self.frequency})"
     
-    
+    def get_streak(self):
+        completions = self.completions.order_by('-date_completed')
+        streak = 0
+        if not completions.exists():
+            return streak
+        
+        today = date.today()
+        expected_gap = timedelta(
+            days=1 if self.frequency == 'daily' 
+            else (7 if self.frequency == 'weekly' 
+            else 30))
+        for i, completion in enumerate(completions):
+            if i == 0 and completion.date_completed == today:
+                streak += 1
+            elif i > 0 and (completions[i-1].date_completed - completion.date_completed) == expected_gap:
+                streak += 1
+            else:
+                break
+        
+        return streak
+
     
 class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
