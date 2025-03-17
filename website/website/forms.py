@@ -48,3 +48,8 @@ class EditUserProfileForm(UserChangeForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
+
+class EditCustomUserProfileForm(forms.ModelForm):
+    class Meta:
+        model = custom_user
+        fields = ['birth_date']

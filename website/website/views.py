@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, EditUserProfileForm
+from .forms import CustomUserCreationForm, EditUserProfileForm, EditCustomUserProfileForm
 from .forms import HabitForm
 from .models import Habit
 
@@ -56,12 +56,15 @@ def my_profile(request):
 def edit_profile(request):
     if request.method == 'POST':
         form = EditUserProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
+        custom_form= EditCustomUserProfileForm(request.POST, instance=request.user.custom_user)
+        if form.is_valid() and custom_form.is_valid():
             form.save()
+            custom_form.save()
             return redirect('my_profile')
     else:
         form = EditUserProfileForm(instance=request.user)
-    return render(request, 'edit_profile.html', {'form': form})
+        custom_form = EditCustomUserProfileForm(instance=request.user.custom_user)
+    return render(request, 'edit_profile.html', {'form': form, 'custom_form': custom_form})
 
 @login_required
 def add_habit(request):
