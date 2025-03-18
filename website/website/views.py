@@ -92,6 +92,17 @@ def edit_habit(request, habit_id):
     return render(request, "edit_habit.html", {"form": form, "habit": habit})
 
 @login_required
+def complete_habit(request, habit_id):
+    habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+    if HabitCompletion.objects.filter(habit=habit, date_completed=date.today()).exists():
+        return redirect("my_habits")
+    HabitCompletion.objects.create(habit=habit, date_completed=date.today())
+    habit.last_completed = date.today()
+    habit.save()
+
+    return redirect("my_habits")
+
+@login_required
 def delete_habit(request, habit_id):
     habit = get_object_or_404(Habit, id=habit_id, user=request.user)
     if request.method == "POST":

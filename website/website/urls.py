@@ -34,6 +34,7 @@ urlpatterns = [
     path("my_habits/add/", views.add_habit, name="add_habit"),
     path("my_habits/<int:habit_id>/edit/", views.edit_habit, name="edit_habit"),
     path("my_habits/<int:habit_id>/delete/", views.delete_habit, name="delete_habit"),
+    path("my_habits/<int:habit_id>/complete/", views.complete_habit, name="complete_habit"),
     path('my_profile/', views.my_profile, name='my_profile'),
     path('my_profile/edit', views.edit_profile, name='edit_profile'),
     path('my_calendar/', views.my_calendar, name='my_calendar'),
