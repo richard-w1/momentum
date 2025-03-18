@@ -1,6 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserChangeForm
@@ -9,7 +8,8 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, EditUserProfileForm, EditCustomUserProfileForm
 from .forms import HabitForm
-from .models import Habit
+from .models import Habit, HabitCompletion
+from datetime import date
 
 
 def home_redirect(request):
@@ -77,6 +77,19 @@ def add_habit(request):
         form = HabitForm()
 
     return render(request, 'add_habit.html', {'form': form})
+
+@login_required
+def edit_habit(request, habit_id):
+    habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+    if request.method == "POST":
+        form = HabitForm(request.POST, instance=habit)
+        if form.is_valid():
+            form.save()
+            return redirect("my_habits")
+    else:
+        form = HabitForm(instance=habit)
+
+    return render(request, "edit_habit.html", {"form": form, "habit": habit})
 
 @login_required
 def my_habits(request):
