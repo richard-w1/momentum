@@ -92,6 +92,14 @@ def edit_habit(request, habit_id):
     return render(request, "edit_habit.html", {"form": form, "habit": habit})
 
 @login_required
+def delete_habit(request, habit_id):
+    habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+    if request.method == "POST":
+        habit.delete()
+        return redirect("my_habits")
+    return render(request, "delete_habit.html", {"habit": habit})
+
+@login_required
 def my_habits(request):
     habits = Habit.objects.filter(user=request.user)
     return render(request, 'my_habits.html', {'habits': habits})
