@@ -1,4 +1,7 @@
+{% extends 'base.html' %}
 {% load static %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,14 +12,16 @@
 </head>
 <body>
     <h1>Edit Profile</h1>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {{ custom_form.as_p }}
-        <button type="submit" class="small-btn">Submit</button>
-    </form>
-    <a href="{% url 'change_password' %}" class="small-btn">Change Password</a>
+    <specialform>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{ custom_form.as_p }}
+            <button type="submit" class="btn">Submit</button>
+        </form>
+</specialform>
+    <a href="{% url 'change_password' %}" class="btn">Change Password</a>
 
 </body>
 </html>
+{% endblock %}

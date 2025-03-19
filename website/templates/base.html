@@ -15,7 +15,7 @@
     <a href="/my_calendar/">Calendar</a>
     <a href="/my_profile/">Profile</a>
     <a href="/leaderboard/">Leaderboard</a>
-    <form action="{% url 'logout' %}" method="POST" class="logout-form">
+    <form action="{% url 'logout' %}" method="POST" class="logout-f">
         {% csrf_token %}
         <button type="submit" class="logout-btn">Logout</button>
     </form>

@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Edit Habit: {{ habit.name }}</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="small-btn" type="submit">Save Changes</button>
-</form>
+<specialform>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="small-btn" type="submit">Save Changes</button>
+    </form>
+</specialform>
 <a href="{% url 'my_habits' %}" class="small-btn">Cancel</a>
 {% endblock %}

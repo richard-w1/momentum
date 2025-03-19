@@ -1,4 +1,6 @@
+{% extends 'base2.html' %}
 {% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,13 +11,17 @@
 </head>
 <body>
     <h1>Sign Up</h1>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn">Sign Up</button>
-    </form>
-
-    <a href="{% url 'login' %}" class="btn">Already have an account? Log in</a>
+    <specialform>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+    </specialform>
+    <p>
+        Already have an account? 
+    </p>
+    <a href="{% url 'login' %}" class="btn">Log in</a>
 </body>
 </html>
+{% endblock %}
