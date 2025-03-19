@@ -15,6 +15,14 @@
                     <div class="habit-meta">
                         Created at: <span class="habit-date">{{ habit.created_at }}</span>
                     </div>
+                    <div class="habit-actions">
+                        <a href="{% url 'edit_habit' habit.id %}" class="small-btn">Edit</a> | 
+                        <a href="{% url 'delete_habit' habit.id %}" class="small-btn">Delete</a> | 
+                        <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="small-btn">Mark as Completed</button>
+                        </form>
+                    </div>
                 </li>
             {% endfor %}
             </ul>
