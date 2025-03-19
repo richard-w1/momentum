@@ -48,6 +48,7 @@ class EditUserProfileForm(UserChangeForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
+    password = forms.CharField(widget=forms.HiddenInput(), required=False)
 
 class EditCustomUserProfileForm(forms.ModelForm):
     class Meta:

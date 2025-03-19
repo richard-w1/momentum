@@ -14,7 +14,9 @@
         {% csrf_token %}
         {{ form.as_p }}
         {{ custom_form.as_p }}
-        <button type="submit" class="btn">Submit</button>
+        <button type="submit" class="small-btn">Submit</button>
     </form>
+    <a href="{% url 'change_password' %}" class="small-btn">Change Password</a>
+
 </body>
 </html>

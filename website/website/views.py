@@ -3,8 +3,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, EditUserProfileForm, EditCustomUserProfileForm
 from .forms import HabitForm
@@ -67,12 +69,25 @@ def edit_profile(request):
     return render(request, 'edit_profile.html', {'form': form, 'custom_form': custom_form})
 
 @login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('my_profile')
+    else:
+        form = PasswordChangeForm(request.user)
+    
+    return render(request, 'change_password.html', {'form': form})
+
+@login_required
 def add_habit(request):
     if request.method == 'POST':
         form = HabitForm(request.POST)
         if form.is_valid():
             form.save(user=request.user)
-            return redirect('dashboard')
+            return redirect('my_habits')
     else:
         form = HabitForm()
 

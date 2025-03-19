@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 from django.contrib.auth import views as auth_views
+from .views import change_password
 
 urlpatterns = [
     path('', views.home_redirect),
@@ -37,6 +38,7 @@ urlpatterns = [
     path("my_habits/<int:habit_id>/complete/", views.complete_habit, name="complete_habit"),
     path('my_profile/', views.my_profile, name='my_profile'),
     path('my_profile/edit', views.edit_profile, name='edit_profile'),
+    path('change-password/', change_password, name='change_password'),
     path('my_calendar/', views.my_calendar, name='my_calendar'),
     path('my_progress/', views.my_progress, name='my_progress'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
