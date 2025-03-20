@@ -45,10 +45,23 @@
                     <div class="habit-actions">
                         <a href="{% url 'edit_habit' habit.id %}" class="small-btn">Edit</a> | 
                         <a href="{% url 'delete_habit' habit.id %}" class="small-btn">Delete</a> | 
-                        <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="small-btn">Mark as Completed</button>
-                        </form>
+                        <!-- dont show mark as completed button if it's already been completed this time period-->
+                        {% if habit.frequency == 'daily' and not habit.is_completed_today %}
+                            <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="small-btn">Mark as Completed</button>
+                            </form>
+                        {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week %}
+                            <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="small-btn">Mark as Completed</button>
+                            </form>
+                        {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
+                            <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="small-btn">Mark as Completed</button>
+                            </form>
+                        {% endif %}
                     </div>
                 </li>
                 <hr>
