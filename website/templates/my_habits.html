@@ -37,29 +37,29 @@
                     <br>
                     Streak: {{ habit.get_streak }}
                     <br>
-                    Missed Occurrences: {{ habit.get_missed_occurrences }}
+                    Missed: {{ habit.get_missed_occurrences }}
                     <br>
-                    Completion Rate: {{ habit.get_completion_rate }}%
+                    Rate: {{ habit.get_completion_rate }}%
                     <br>
                     </div>
                     <div class="habit-actions">
                         <a href="{% url 'edit_habit' habit.id %}" class="small-btn">Edit</a> | 
-                        <a href="{% url 'delete_habit' habit.id %}" class="small-btn">Delete</a> | 
+                        <a href="{% url 'delete_habit' habit.id %}" class="small-btn">Delete</a> 
                         <!-- dont show mark as completed button if it's already been completed this time period-->
                         {% if habit.frequency == 'daily' and not habit.is_completed_today %}
                             <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="small-btn">Mark as Completed</button>
+                                | <button type="submit" class="small-btn">Complete!</button>
                             </form>
                         {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week %}
                             <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="small-btn">Mark as Completed</button>
+                                | <button type="submit" class="small-btn">Complete!</button>
                             </form>
                         {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
                             <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="small-btn">Mark as Completed</button>
+                                | <button type="submit" class="small-btn">Complete!</button>
                             </form>
                         {% endif %}
                     </div>
