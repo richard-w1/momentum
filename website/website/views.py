@@ -12,7 +12,8 @@ from .forms import CustomUserCreationForm, EditUserProfileForm, EditCustomUserPr
 from .forms import HabitForm
 from .models import Habit, HabitCompletion
 from datetime import date
-
+from django.utils import timezone
+from datetime import timedelta
 
 def home_redirect(request):
     return redirect('landing')
@@ -128,6 +129,20 @@ def delete_habit(request, habit_id):
 @login_required
 def my_habits(request):
     habits = Habit.objects.filter(user=request.user)
+    today = timezone.now().date()
+    for habit in habits:
+        if habit.frequency == 'daily':
+            habit.is_completed_today = HabitCompletion.objects.filter(habit=habit, date_completed=today).exists()
+        elif habit.frequency == 'weekly':
+            start_of_week = today - timedelta(days=today.weekday())
+            end_of_week = start_of_week + timedelta(days=6)
+            habit.is_completed_this_week = HabitCompletion.objects.filter(habit=habit, date_completed__range=[start_of_week, end_of_week]).exists()
+        elif habit.frequency == 'monthly':
+            start_of_month = today.replace(day=1)
+            next_month = today.replace(day=28) + timedelta(days=4)
+            start_of_next_month = next_month.replace(day=1)
+            habit.is_completed_this_month = HabitCompletion.objects.filter(habit=habit, date_completed__range=[start_of_month, start_of_next_month - timedelta(days=1)]).exists()
+
     return render(request, 'my_habits.html', {'habits': habits})
 
 @login_required

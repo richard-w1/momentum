@@ -33,6 +33,7 @@ class Habit(models.Model):
     def get_streak(self):
         completions = self.completions.order_by('-date_completed')
         streak = 0
+        today = date.today()
         if not completions.exists():
             return streak
         
@@ -41,10 +42,16 @@ class Habit(models.Model):
             days=1 if self.frequency == 'daily' 
             else (7 if self.frequency == 'weekly' 
             else 30))
-        for i, completion in enumerate(completions):
-            if i == 0 and completion.date_completed == today:
-                streak += 1
-            elif i > 0 and (completions[i-1].date_completed - completion.date_completed) == expected_gap:
+        
+        first_completion = completions[0]
+        if first_completion.date_completed == today:
+            streak += 1
+
+        for i in range(1, len(completions)):
+            prev_completion = completions[i-1]
+            current_completion = completions[i]
+            
+            if (prev_completion.date_completed - current_completion.date_completed) == expected_gap:
                 streak += 1
             else:
                 break
