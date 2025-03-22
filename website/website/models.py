@@ -37,6 +37,12 @@ class Habit(models.Model):
             return timedelta(days=7)
         else:
             return timedelta(days=30)
+        
+    def get_frequency_display(self):
+        for choice in self.FREQUENCY_CHOICES:
+            if choice[0] == self.frequency:
+                return choice[1]
+        return self.frequency
     
     def get_streak(self):
         completions = list(self.completions.order_by('-date_completed').values_list('date_completed', flat=True))

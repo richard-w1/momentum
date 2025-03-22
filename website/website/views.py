@@ -14,6 +14,7 @@ from .models import Habit, HabitCompletion
 from datetime import date
 from django.utils import timezone
 from datetime import timedelta
+import random
 
 def home_redirect(request):
     return redirect('landing')
@@ -49,12 +50,68 @@ def signup(request):
 
 @login_required
 def dashboard(request):
-    user_habits = Habit.objects.filter(user=request.user, active=True)
-    incomplete_habits = [habit for habit in user_habits if not habit.is_completed_today()]
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    all_habits = Habit.objects.filter(user=request.user, active=True)
+
+    daily_habits = all_habits.filter(frequency='daily')
+    weekly_habits = all_habits.filter(frequency='weekly')
+    monthly_habits = all_habits.filter(frequency='monthly')
+
+    # stats
+    today = date.today()
+    completed_today = HabitCompletion.objects.filter(
+        habit__user=request.user, date_completed=today).count()
+    
+
+    top_streaks = sorted(list(all_habits), key=lambda x: x.get_streak(), reverse=True)[:3]
+    top_completion_rates = sorted(list(all_habits), key=lambda x: x.get_completion_rate(), reverse=True)[:3]
+
+    missed_habits = [habit for habit in all_habits if habit.get_missed_occurrences() > 0]
+
+    total_completions = HabitCompletion.objects.filter(
+        habit__user=request.user
+    ).count()
+    
+    tips = [
+        "\"The secret of getting ahead is getting started.\" - Mark Twain",
+        "\"We become what we repeatedly do.\" - Sean Covey",
+        "\"Your beliefs become your thoughts, your thoughts become your words, your words become your actions, your actions become your habits, your habits become your values, your values become your destiny.\" - Gandhi",
+        "\"If your habits don't line up with your dream, you either need to change your habits or change your dream.\" - John Maxwell",
+        "\"First forget inspiration. Habit is more dependable. Habit will sustain you whether you're inspired or not.\" - Octavia Butler",
+        "\"Seek clarity. Generate energy. Raise necessity. Increase productivity. Develop influence. Demonstrate courage.\" - Brendan Burchard",
+        "\"If you believe you can change – if you make it a habit – the change becomes real.\" - Charles Duhigg",
+        "\"Dreams are lovely. But they are just dreams. It's hard work that makes things happen. It's hard work that creates change.\" - Shonda Rhimes",
+        "\"True life is lived when tiny changes occur.\" - Leo Tolstoy",
+        "\"Successful people are simply those with successful habits.\" - Brian Tracy",
+        "\"Do small things with great love.\" - Mother Teresa",
+        "\"It is easier to prevent bad habits than to break them.\" - Benjamin Franklin",
+        "\"Our character is basically a composite of our habits. Because they are consistent patterns, they constantly express our character.\" - Stephen Covey",
+        "\"If you are going to achieve excellence in big things, you develop the habit in little matters.\" - Colin Powell",
+        "\"If you pick the right small behavior and sequence it right, then you won't have to motivate yourself to have it grow. It will just happen naturally.\" - BJ Fogg",
+        "\"Excellence is an art won by training and habituation.\" - Aristotle",
+        "\"You'll never change your life until you change something you do daily. The secret of your success is found in your daily routine.\" - John C. Maxwell",
+        "\"When nothing seems to help, I go and look at a stonecutter hammering away at his rock. Yet at the hundred and first blow it will split in two, and I know it was not that last blow that did it—but all that had gone before.\" - James Clear",
+        "\"Energy is usually at its peak during the first part of your day, which means you should be completing habits that inspire or excite you about the day ahead.\" - S.J. Scott",
+        "\"If you start with a big behavior that's hard to do, the design is unstable. However, a habit that is easy to do can weather a storm like flexible sprouts.\" - BJ Fogg"
+    ]
+    random_tip = random.choice(tips)
+    
     context = {
-        'habits': incomplete_habits,
+        'habit_count': all_habits.count(),
+        'daily_habits': daily_habits,
+        'weekly_habits': weekly_habits,
+        'monthly_habits': monthly_habits,
+        'completed_today': completed_today,
+        'total_completions': total_completions,
+        'top_streaks': top_streaks,
+        'top_completion_rates': top_completion_rates,
+        'missed_habits': missed_habits,
+        'random_tip': random_tip,
     }
-    return render(request, 'dashboard.html')
+
+    return render(request, 'dashboard.html', context)
 
 @login_required
 def my_profile(request):
