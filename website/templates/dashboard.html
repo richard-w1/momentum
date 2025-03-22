@@ -1,12 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Welcome, {{ user.username }}</h2>
-    <h1>My Dashboard</h1>
-    <p>To-Dos:</p>
-    <p>Summary of progress</p>
-    <p>calender</p>
-    <p>quick statistics</p>
-    <p>quotes/tips/suggestions</p>
-    <p>daily tasks</p>
+    <div class="dashboard">
+        <h2>Welcome, {{ user.username }}</h2>
+        <h1>My Dashboard</h1>
+
+        <div class="dashboard-sections">
+            <div class="section">
+                <h3>Today's Tasks</h3>
+                <div class="habit-container">                   
+                    {% if habits %}
+                        <ul class="habit-list">
+                        {% for habit in habits %}
+                            <li class="habit-item">
+                                <div class="habit-details">
+                                    <strong class="habit-name">{{ habit.name }}</strong>
+                                    <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
+                                </div>
+                            </li>
+                            <hr>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Looks like you're all caught up! Take this time to rest and recharge.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Progress Summary</h3>
+            </div>
+
+            <div class="section">
+                <h3>Quick Statistics</h3>
+            </div>
+
+            <div class="section">
+                <h3>Tips & Suggestions</h3>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}

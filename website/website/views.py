@@ -49,6 +49,11 @@ def signup(request):
 
 @login_required
 def dashboard(request):
+    user_habits = Habit.objects.filter(user=request.user, active=True)
+    incomplete_habits = [habit for habit in user_habits if not habit.is_completed_today()]
+    context = {
+        'habits': incomplete_habits,
+    }
     return render(request, 'dashboard.html')
 
 @login_required
