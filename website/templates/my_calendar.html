@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h2>My Calender</h2>
-<p>Add visual scrollable calendar</p>
-<p>Most likely in javascript, probably</p>
-<p>Should have tasks that are due in each day in the squares</p>
+
+<div id="calendar"></div>
+    
+<!-- Getting the full calendar css & js file through CDN-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+
+<!-- Path to custom habit calendar script -->
+<script src="{% static 'js/calendar.js' %}"></script>
+
 {% endblock %}
