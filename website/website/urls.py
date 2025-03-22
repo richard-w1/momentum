@@ -40,6 +40,7 @@ urlpatterns = [
     path('my_profile/edit', views.edit_profile, name='edit_profile'),
     path('change-password/', change_password, name='change_password'),
     path('my_calendar/', views.my_calendar, name='my_calendar'),
+    path('get_habits/', views.get_habits, name='get_habits'),
     path('my_progress/', views.my_progress, name='my_progress'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     ]
