@@ -1,0 +1,9 @@
+#calendar{
+    background-color: #657C9A;
+    display: flex;
+    justify-content: center;
+    padding: 25px 75px;
+    width: 150vh;
+    height: 90vh;
+    border-radius: 8px;
+}

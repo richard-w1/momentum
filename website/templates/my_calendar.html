@@ -4,10 +4,11 @@
 
 <div id="calendar"></div>
     
-<!-- Getting the full calendar css & js file through CDN-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.css">
+<!-- Getting the full calendar js file through CDN-->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
+<!-- Path to custom css style -->
+<link rel="stylesheet" href="{% static 'css/calendar.css' %}">
 
 <!-- Path to custom habit calendar script -->
 <script src="{% static 'js/calendar.js' %}"></script>
