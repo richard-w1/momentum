@@ -225,9 +225,15 @@ def get_habits(request):
     habit_list = []
 
     for habit in habits:
+        #getting the completed_dates list
+        completed_dates = habit.completions.values_list('date_completed', flat=True)
+        #converting the date into ISO format
+        completed_dates_iso = [date.isoformat() for date in completed_dates]
+
         habit_property = {
             'title': habit.name,
             'allDay': True,
+            'completed_dates' : completed_dates_iso,
         }
         if(habit.frequency != 'monthly'):
             habit_property['startRecur'] = habit.created_at.isoformat()
@@ -238,7 +244,7 @@ def get_habits(request):
                 'dtstart': habit.created_at.isoformat(),
                 'bymonthday': [habit.created_at.day]
             }
-            
+        
         habit_list.append(habit_property)
         
     return JsonResponse(habit_list, safe=False)
