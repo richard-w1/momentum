@@ -1,0 +1,14 @@
+What did you do?
+Sprint 2 expanded on the base we set up in Sprint 1. For Sprint 2 I mostly worked on the user model. The user wanted to enter the birth date when signing up so I created a custom model based on Django's default user model to store the data. I updated the login form to include a field for users to enter their birth date. 
+I also worked on the user profile. To allow the user to change their profile used the default userchange form as well as a custom form for our custom fields. Restricted some features of the form to ensure users weren't able to access administrative privileges.
+
+Challenges:
+As our project is starting to take shape we are beginning to see the restrictions of our design decision. We decided to use Django's default auth for user authentication which only accepts Django's default user model. So, we can't directly define our custom user model without changing the whole authentication system. To work around this I defined a custom model using the base model as the reference which allows us to use the auth system as well as expand the functionality of the user model.
+
+What did you learn? 
+Making custom models and forms during this sprint was very interesting. It allowed me to understand how Django models are created and how the framework interacts with these models. 
+I have mostly only used C/C++ for academic projects which are very verbose with their syntax at least compared to Python. Switching to Python I always felt like I didn't make the most of its syntax and semantics. But now, I find them to be intuitive and easy to use
+Planning is important. It's only Sprint 2 but we are already getting restricted by our project. Fortunately, there were workarounds in this case so we didn't have to make any drastic changes.
+
+What could have been improved?
+Consistency in development could be improved. Most of the work I did was concentrated on a few days. I will try to spread the work evenly across the sprint period next time.

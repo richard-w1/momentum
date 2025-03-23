@@ -18,12 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
             //getting today's date parsing out the time 
             var today = (new Date()).toISOString().split('T')[0];
 
-            if(completed_dates &&completed_dates.includes(eventDate)){
-                info.el.style.backgroundColor = 'green';;
+            if(completed_dates && completed_dates.includes(eventDate)){
+                info.el.style.backgroundColor = 'green';
             }else if(eventDate >= today){
-                info.el.style.backgroundColor = 'light blue';;
+                info.el.style.backgroundColor = 'light blue';
             }else{
-                info.el.style.backgroundColor = 'red';;
+                info.el.style.backgroundColor = 'red';
             }
         },
         events: '/get_habits/'
