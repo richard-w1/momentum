@@ -219,14 +219,20 @@ def my_progress(request):
 def leaderboard(request):
     return render(request, 'leaderboard.html')
 
+@login_required
 def get_habits(request):
     habits = Habit.objects.all()
     habit_list = []
 
     for habit in habits:
-        habit_list.append({
+        habit_property = {
             'title': habit.name,
+            'allDay': True,
             'start': habit.created_at.isoformat(),
-        })
+        }
+        if(habit.frequency != 'monthly'):
+            habit_property['daysOfWeek'] = list(range(7)) if habit.frequency == 'daily' else [1]
+        
+        habit_list.append(habit_property)
     
     return JsonResponse(habit_list, safe=False)
