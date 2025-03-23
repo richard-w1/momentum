@@ -228,11 +228,17 @@ def get_habits(request):
         habit_property = {
             'title': habit.name,
             'allDay': True,
-            'start': habit.created_at.isoformat(),
         }
         if(habit.frequency != 'monthly'):
-            habit_property['daysOfWeek'] = list(range(7)) if habit.frequency == 'daily' else [1]
-        
+            habit_property['startRecur'] = habit.created_at.isoformat()
+            habit_property['daysOfWeek'] = list(range(7)) if habit.frequency == 'daily' else [0]
+        else:
+            habit_property['rrule'] = {
+                'freq': 'monthly',
+                'dtstart': habit.created_at.isoformat(),
+                'bymonthday': [habit.created_at.day]
+            }
+            
         habit_list.append(habit_property)
-    
+        
     return JsonResponse(habit_list, safe=False)

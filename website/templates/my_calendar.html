@@ -3,9 +3,15 @@
 {% block content %}
 
 <div id="calendar"></div>
-    
-<!-- Getting the full calendar js file through CDN-->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+<!-- Importing rrule.js lib for more recurance functionality -->
+<script src='https://cdn.jsdelivr.net/npm/rrule@2.6.4/dist/es5/rrule.min.js'></script>
+
+<!-- Getting the fullcalendar.js file through CDN -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+
+<!-- Importing the rrule to fullcalendar connector -->
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/rrule@6.1.15/index.global.min.js'></script>
 
 <!-- Path to custom css style -->
 <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
