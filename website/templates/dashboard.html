@@ -18,9 +18,6 @@
                                             <strong class="habit-name">{{ habit.name }}</strong>
                                             <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
                                         </div>
-                                        <div class="habit-streaks">
-                                            <span>Current Streak: {{ habit.get_current_streak }}</span>
-                                        </div>
                                     </li>
                                 {% endif %}
                             {% endfor %}
@@ -32,9 +29,6 @@
                                             <strong class="habit-name">{{ habit.name }}</strong>
                                             <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
                                         </div>
-                                        <div class="habit-streaks">
-                                            <span>Current Streak: {{ habit.get_current_streak }}</span>
-                                        </div>
                                     </li>
                                 {% endif %}
                             {% endfor %}
@@ -45,9 +39,6 @@
                                         <div class="habit-details">
                                             <strong class="habit-name">{{ habit.name }}</strong>
                                             <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
-                                        </div>
-                                        <div class="habit-streaks">
-                                            <span>Current Streak: {{ habit.get_current_streak }}</span>
                                         </div>
                                     </li>
                                 {% endif %}

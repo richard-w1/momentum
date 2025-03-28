@@ -24,16 +24,16 @@
 </head>
 <body>
     <div class="header">
-        <h1>Habit Tracker Notification</h1>
+        <h1>Your Momentum Habits for Today</h1>
         <p>{{ today|date:"F d, Y" }}</p>
     </div>
 
     <h2>Hey {{ user.username }}!</h2>
-    <p>Here are your incomplete habits:</p>
+    <p>Here are your incomplete habits for today!</p>
 
     {% if daily_incomplete %}
     <div class="habit-section">
-        <h3>Daily Habits Not Completed</h3>
+        <h3>Daily Habits</h3>
         <ul class="habit-list">
             {% for habit in daily_incomplete %}
             <li>{{ habit.name }}</li>
@@ -44,7 +44,7 @@
 
     {% if weekly_incomplete %}
     <div class="habit-section">
-        <h3>Weekly Habits Not Completed</h3>
+        <h3>Weekly Habits</h3>
         <ul class="habit-list">
             {% for habit in weekly_incomplete %}
             <li>{{ habit.name }}</li>
@@ -55,7 +55,7 @@
 
     {% if monthly_incomplete %}
     <div class="habit-section">
-        <h3>Monthly Habits Not Completed</h3>
+        <h3>Monthly Habits</h3>
         <ul class="habit-list">
             {% for habit in monthly_incomplete %}
             <li>{{ habit.name }}</li>

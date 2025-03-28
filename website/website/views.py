@@ -55,11 +55,11 @@ def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
     
-    all_habits = Habit.objects.filter(user=request.user, active=True)
+    all_habits = Habit.objects.filter(user=request.user)
 
-    daily_habits = all_habits.filter(frequency='daily', is_completed=False)
-    weekly_habits = all_habits.filter(frequency='weekly', is_completed=False)
-    monthly_habits = all_habits.filter(frequency='monthly', is_completed=False)
+    daily_habits = [habit for habit in all_habits if habit.frequency == 'daily']
+    weekly_habits = [habit for habit in all_habits if habit.frequency == 'weekly']
+    monthly_habits = [habit for habit in all_habits if habit.frequency == 'monthly']
 
     # stats
     today = date.today()

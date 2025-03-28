@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>My Progress</h2>
+
+<p>Want a email notification of your habits for today? Press this button!</p>
+<a href="{% url 'send_habit_notifications' %}">
+    <button class="small-btn">Send!</button>
+</a>
+
 <p>Graphs, charts, data goes here</p>
 <p>"Gamification" aspects, experience, levels</p>
 <p>Maybe completed habits</p>
