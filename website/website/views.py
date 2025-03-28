@@ -1,20 +1,22 @@
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.forms import UserChangeForm
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, EditUserProfileForm, EditCustomUserProfileForm
-from .forms import HabitForm
-from .models import Habit, HabitCompletion
-from datetime import date
-from django.utils import timezone
-from datetime import timedelta
+from datetime import date, timedelta
 import random
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import (
+    AuthenticationForm, PasswordChangeForm, UserChangeForm, UserCreationForm
+)
+from django.core.mail import send_mail
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.utils import timezone
+from django.utils.html import strip_tags
+from .forms import (
+    CustomUserCreationForm, EditCustomUserProfileForm, EditUserProfileForm, HabitForm
+)
+from .models import Habit, HabitCompletion
+from django.conf import settings
 
 def home_redirect(request):
     return redirect('landing')
@@ -42,7 +44,7 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user)
+            login(request, user)
             return redirect('dashboard')
     else:
         form = CustomUserCreationForm()
@@ -55,24 +57,22 @@ def dashboard(request):
     
     all_habits = Habit.objects.filter(user=request.user, active=True)
 
-    daily_habits = all_habits.filter(frequency='daily')
-    weekly_habits = all_habits.filter(frequency='weekly')
-    monthly_habits = all_habits.filter(frequency='monthly')
+    daily_habits = all_habits.filter(frequency='daily', is_completed=False)
+    weekly_habits = all_habits.filter(frequency='weekly', is_completed=False)
+    monthly_habits = all_habits.filter(frequency='monthly', is_completed=False)
 
     # stats
     today = date.today()
     completed_today = HabitCompletion.objects.filter(
         habit__user=request.user, date_completed=today).count()
-    
-
-    top_streaks = sorted(list(all_habits), key=lambda x: x.get_streak(), reverse=True)[:3]
-    top_completion_rates = sorted(list(all_habits), key=lambda x: x.get_completion_rate(), reverse=True)[:3]
-
+    top_streaks = sorted(
+        list(all_habits), key=lambda x: x.get_current_streak(), reverse=True)[:3]
+    top_max_streaks = sorted(
+        list(all_habits), key=lambda x: x.get_max_streak(), reverse=True)[:3]
+    top_completion_rates = sorted(
+        list(all_habits), key=lambda x: x.get_completion_rate(), reverse=True)[:3]
     missed_habits = [habit for habit in all_habits if habit.get_missed_occurrences() > 0]
-
-    total_completions = HabitCompletion.objects.filter(
-        habit__user=request.user
-    ).count()
+    total_completions = HabitCompletion.objects.filter(habit__user=request.user).count()
     
     tips = [
         "\"The secret of getting ahead is getting started.\" - Mark Twain",

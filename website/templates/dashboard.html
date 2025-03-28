@@ -7,54 +7,54 @@
 
         <div class="dashboard-sections">
             <div class="section">
-                <h3>Today's Tasks</h3>
-                <div class="habit-container">                   
-                    {% if daily_habits %}
+                <h3>Incomplete Tasks</h3>
+                <div class="habit-container">
+                    {% if daily_habits or weekly_habits or monthly_habits %}
                         <ul class="habit-list">
                             {% for habit in daily_habits %}
-                                <li class="habit-item {% if habit.is_completed_today %}completed{% else %}not-completed{% endif %}">
-                                    {% if not habit.is_completed_today %}
+                                {% if not habit.is_completed_today %}
+                                    <li class="habit-item not-completed">
                                         <div class="habit-details">
                                             <strong class="habit-name">{{ habit.name }}</strong>
                                             <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
                                         </div>
-                                        <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
-                                            {% csrf_token %}
-                                            <button type="submit" class="small-btn">Complete!</button>
-                                        </form>
-                                    {% endif %}
-                                </li>
+                                        <div class="habit-streaks">
+                                            <span>Current Streak: {{ habit.get_current_streak }}</span>
+                                        </div>
+                                    </li>
+                                {% endif %}
                             {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>No tasks for today.</p>
-                    {% endif %}
-                    
-                    <h4>This Week</h4>
-                    {% if weekly_habits %}
-                        <ul class="habit-list">
-                            {% for habit in weekly_habits %}
-                                <li class="habit-item {% if habit.is_completed_this_week %}completed{% else %}not-completed{% endif %}">
 
-                                    {% if not habit.is_completed_this_week %}
+                            {% for habit in weekly_habits %}
+                                {% if not habit.is_completed_this_week %}
+                                    <li class="habit-item not-completed">
                                         <div class="habit-details">
                                             <strong class="habit-name">{{ habit.name }}</strong>
                                             <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
                                         </div>
-                                        <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
-                                            {% csrf_token %}
-                                            <button type="submit" class="small-btn">Complete!</button>
-                                        </form>
-                                    {% endif %}
-                                </li>
+                                        <div class="habit-streaks">
+                                            <span>Current Streak: {{ habit.get_current_streak }}</span>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% for habit in monthly_habits %}
+                                {% if not habit.is_completed_this_month %}
+                                    <li class="habit-item not-completed">
+                                        <div class="habit-details">
+                                            <strong class="habit-name">{{ habit.name }}</strong>
+                                            <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
+                                        </div>
+                                        <div class="habit-streaks">
+                                            <span>Current Streak: {{ habit.get_current_streak }}</span>
+                                        </div>
+                                    </li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     {% else %}
-                        <p>No weekly tasks.</p>
-                    {% endif %}
-                    
-                    {% if not daily_habits and not weekly_habits %}
-                        <p>Looks like you're all caught up! Take this time to rest and recharge.</p>
+                        <p>No tasks! Horray!</p>
                     {% endif %}
                 </div>
             </div>
