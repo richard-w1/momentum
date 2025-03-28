@@ -238,3 +238,50 @@ def get_habits(request):
         habit_list.append(habit_property)
         
     return JsonResponse(habit_list, safe=False)
+
+
+#momentumhabitapp@gmail.com
+#momentum123
+@login_required
+def send_habit_notifications(request):
+    user = request.user
+    today = timezone.now().date()
+
+    habits = user.habit_set.filter(active=True)
+
+    daily_incomplete = []
+    weekly_incomplete = []
+    monthly_incomplete = []
+
+    for habit in habits:
+        if habit.frequency == 'daily' and not habit.is_completed_today():
+            daily_incomplete.append(habit)
+        elif habit.frequency == 'weekly' and not habit.is_completed_this_week():
+            weekly_incomplete.append(habit)
+        elif habit.frequency == 'monthly' and not habit.is_completed_this_month():
+            monthly_incomplete.append(habit)
+
+    context = {
+        'user': user,
+        'daily_incomplete': daily_incomplete,
+        'weekly_incomplete': weekly_incomplete,
+        'monthly_incomplete': monthly_incomplete,
+        'today': today,
+    }
+
+    html_message = render_to_string('habit_notification_email.html', context)
+    plain_message = strip_tags(html_message)
+
+    try:
+        send_mail(
+            'Incomplete Habits Notification',
+            plain_message,
+            settings.DEFAULT_FROM_EMAIL,
+            [user.email],
+            html_message=html_message,
+        )
+        messages.success(request, 'Notification email sent successfully!')
+    except Exception as e:
+        messages.error(request, f'Failed to send notification: {str(e)}')
+
+    return redirect('my_habits')

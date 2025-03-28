@@ -19,6 +19,7 @@ from django.urls import path, include
 from . import views
 from django.contrib.auth import views as auth_views
 from .views import change_password
+from .views import send_habit_notifications
 
 urlpatterns = [
     path('', views.home_redirect),
@@ -43,4 +44,5 @@ urlpatterns = [
     path('get_habits/', views.get_habits, name='get_habits'),
     path('my_progress/', views.my_progress, name='my_progress'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('send-habit-notifications/', send_habit_notifications, name='send_habit_notifications'),
     ]
