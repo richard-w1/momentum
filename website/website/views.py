@@ -172,12 +172,16 @@ def edit_habit(request, habit_id):
 @login_required
 def complete_habit(request, habit_id):
     habit = get_object_or_404(Habit, id=habit_id, user=request.user)
-    if HabitCompletion.objects.filter(habit=habit, date_completed=date.today()).exists():
-        return redirect("my_habits")
-    HabitCompletion.objects.create(habit=habit, date_completed=date.today())
-    habit.last_completed = date.today()
-    habit.save()
+    today = timezone.now().date()
 
+    if habit.frequency == 'daily' and habit.is_completed_today():
+        return redirect("my_habits")
+    elif habit.frequency == 'weekly' and habit.is_completed_this_week():
+        return redirect("my_habits")
+    elif habit.frequency == 'monthly' and habit.is_completed_this_month():
+        return redirect("my_habits")
+    HabitCompletion.objects.create(habit=habit, date_completed=today)
+    
     return redirect("my_habits")
 
 @login_required
@@ -191,20 +195,6 @@ def delete_habit(request, habit_id):
 @login_required
 def my_habits(request):
     habits = Habit.objects.filter(user=request.user)
-    today = timezone.now().date()
-    for habit in habits:
-        if habit.frequency == 'daily':
-            habit.is_completed_today = HabitCompletion.objects.filter(habit=habit, date_completed=today).exists()
-        elif habit.frequency == 'weekly':
-            start_of_week = today - timedelta(days=today.weekday())
-            end_of_week = start_of_week + timedelta(days=6)
-            habit.is_completed_this_week = HabitCompletion.objects.filter(habit=habit, date_completed__range=[start_of_week, end_of_week]).exists()
-        elif habit.frequency == 'monthly':
-            start_of_month = today.replace(day=1)
-            next_month = today.replace(day=28) + timedelta(days=4)
-            start_of_next_month = next_month.replace(day=1)
-            habit.is_completed_this_month = HabitCompletion.objects.filter(habit=habit, date_completed__range=[start_of_month, start_of_next_month - timedelta(days=1)]).exists()
-
     return render(request, 'my_habits.html', {'habits': habits})
 
 @login_required

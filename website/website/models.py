@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date, timedelta
-
+from django.utils import timezone
 
 #creating a custom model for users
 class custom_user(models.Model):
@@ -26,6 +26,8 @@ class Habit(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_completed = models.DateField(null=True, blank=True)
     active = models.BooleanField(default=True)
+    current_streak = models.IntegerField(default=0)
+    max_streak = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} ({self.frequency})"
@@ -35,7 +37,7 @@ class Habit(models.Model):
             return timedelta(days=1)
         elif self.frequency == 'weekly':
             return timedelta(days=7)
-        else:
+        elif self.frequency == 'monthly':
             return timedelta(days=30)
         
     def get_frequency_display(self):
@@ -44,78 +46,102 @@ class Habit(models.Model):
                 return choice[1]
         return self.frequency
     
-    def get_streak(self):
+    def get_current_streak(self):
         completions = list(self.completions.order_by('-date_completed').values_list('date_completed', flat=True))
         if not completions:
             return 0
         
+        current_streak = 1
         today = date.today()
-
-        if self.frequency == 'daily' and completions[0] != today:
-            return 0
-
-        streak = 1
-        if len(completions) == 1:
-            return streak
-
-        for i in range(len(completions) - 1):
-            if completions[i] - completions[i+1] == self.get_interval():
-                streak += 1
-            else:
-                break
         
-        return streak
+        # Check if today is completed
+        if completions[0] == today:
+            for i in range(1, len(completions)):
+                if completions[i-1] - completions[i] == self.get_interval():
+                    current_streak += 1
+                else:
+                    break
+        
+        return current_streak
+    
+    def get_max_streak(self):
+        completions = list(self.completions.order_by('-date_completed').values_list('date_completed', flat=True))
+        
+        if not completions:
+            return 0
+        
+        current_streak = 1
+        max_streak = 1
+        
+        for i in range(1, len(completions)):
+            if completions[i-1] - completions[i] == self.get_interval():
+                current_streak += 1
+                max_streak = max(max_streak, current_streak)
+            else:
+                current_streak = 1
+        return max_streak
 
     def get_missed_occurrences(self):
-        if not self.last_completed:
+        if not self.completions.exists():
             return 0
         
         today = date.today()
+        first_completion = self.completions.order_by('date_completed').first().date_completed
+
+        current_date = self.created_at.date()
+        missed_count = 0
         
-        expected_dates = []
-        current_date = self.last_completed + self.get_interval()
         while current_date <= today:
-            expected_dates.append(current_date)
-            current_date += self.get_interval()
+            expected_next_date = current_date + self.get_interval()
+            
+            if current_date != first_completion and not self.completions.filter(date_completed=current_date).exists():
+                missed_count += 1
+            
+            current_date = expected_next_date
         
-        if not expected_dates:
-            return 0
-        
-        completed_dates = set(self.completions.values_list('date_completed', flat=True))
-        return sum(1 for date in expected_dates if date not in completed_dates)
+        return missed_count
     
+
     def get_completion_rate(self):
-        start_date = self.created_at.date()
         today = date.today()
-        days_since_creation = (today - start_date).days
-        
-        if days_since_creation == 0:
-            return 100.0
+        start_date = self.created_at.date()
         
         if self.frequency == 'daily':
-            total_expected = days_since_creation
+            total_expected = max(1, (today - start_date).days + 1)
         elif self.frequency == 'weekly':
-            total_expected = days_since_creation // 7
-        else:
-            total_expected = days_since_creation // 30
+            total_expected = max(1, ((today - start_date).days // 7) + 1)
+        elif self.frequency == 'monthly':
+            total_expected = max(1, ((today - start_date).days // 30) + 1)
         
-        total_expected = max(total_expected, 1)
         total_completions = self.completions.count()
-        
-        return round((total_completions / total_expected) * 100, 2)
+        completion_rate = (total_completions / total_expected) * 100
+        return round(min(completion_rate, 100.0), 2)
 
     def is_completed_today(self):
-        return self.completions.filter(date_completed=date.today()).exists()
+        today = timezone.now().date()
+        return self.completions.filter(date_completed=today).exists()
 
     def is_completed_this_week(self):
-        today = date.today()
+        if self.frequency != 'weekly':
+            return False
+        today = timezone.now().date()
         start_of_week = today - timedelta(days=today.weekday())
-        return self.completions.filter(date_completed__gte=start_of_week).exists()
+        end_of_week = start_of_week + timedelta(days=6)
+        return self.completions.filter(
+            date_completed__gte=start_of_week, 
+            date_completed__lte=end_of_week
+        ).exists()
 
     def is_completed_this_month(self):
-        today = date.today()
-        start_of_month = date(today.year, today.month, 1)
-        return self.completions.filter(date_completed__gte=start_of_month).exists()
+        if self.frequency != 'monthly':
+            return False
+        today = timezone.now().date()
+        start_of_month = today.replace(day=1)
+        end_of_month = (today.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+        return self.completions.filter(
+            date_completed__gte=start_of_month, 
+            date_completed__lte=end_of_month
+        ).exists()
 
 class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="completions")
