@@ -203,7 +203,16 @@ def my_calendar(request):
 
 @login_required
 def my_progress(request):
-    return render(request, 'my_progress.html')
+    habits = Habit.objects.filter(user=request.user)
+    total_habits = habits.count()
+    completed_habits = habits.filter(completions__isnull=False).distinct().count()  # adjust if needed
+    percentage = int((completed_habits / total_habits) * 100) if total_habits > 0 else 0
+
+    return render(request, 'my_progress.html', {
+        'percentage': percentage,
+        'completed_habits': completed_habits,
+        'total_habits': total_habits
+    })
 
 @login_required
 def leaderboard(request):
