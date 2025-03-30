@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>My Progress</h2>
-<p>Want an email notification of your habits for today? Press this button!</p>
-<a href="{% url 'send_habit_notifications' %}">
-    <button class="small-btn">Send!</button>
-</a>
+<p>Want an email notification of your habits for today?
+    <a href="{% url 'send_habit_notifications' %}">
+        <button class="small-btn">Send!</button>
+    </a>
+</p>
 
-<p>Completed: {{ completed_habits }} / {{ total_habits }}</p>
-<p>Progress: {{ percentage }}%</p>
+<p>Today's Progress: {{ completed_habits }} / {{ total_habits }} ({{ percentage }}%)</p>
 
 <div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
-    <div class="progress-bar-fill" style="background-color: green; height: 100%; width: {{ percentage }}%; border-radius: 5px;"></div>
+    <div class="progress-bar-fill" style="--progress: {{ percentage|default:0 }}%;"></div>
 </div>
 
 <p>"Gamification" aspects, experience, levels</p>

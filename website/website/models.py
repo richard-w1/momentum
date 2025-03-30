@@ -54,7 +54,6 @@ class Habit(models.Model):
         current_streak = 1
         today = date.today()
         
-        # Check if today is completed
         if completions[0] == today:
             for i in range(1, len(completions)):
                 if completions[i-1] - completions[i] == self.get_interval():
