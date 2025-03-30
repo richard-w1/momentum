@@ -3,78 +3,56 @@
 {% block content %}
     <div class="habit-container">
         <h2>My Habits</h2>
-        
+        <div>
+            <a href="{% url 'add_habit' %}" class="btn">Add a New Habit</a>
+        </div>
         {% if habits %}
             <ul class="habit-list">
             {% for habit in habits %}
                 <li class="habit-item">
-                    <div class="habit-details">
-                        <strong class="habit-name">{{ habit.name }}</strong> 
-                        <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
-                    </div>
-                    <div class="habit-meta">
-                        Created at: <span class="habit-date">{{ habit.created_at|date:"F d, Y" }}</span>
-                        <br>
-                        {% if habit.frequency == 'daily' %}
-                            {% if habit.is_completed_today %}
-                                <span class="completed-status">Completed today</span>
-                            {% else %}
-                                <span class="not-completed-status">Not completed today</span>
-                            {% endif %}
-                        {% elif habit.frequency == 'weekly' %}
-                            {% if habit.is_completed_this_week %}
-                                <span class="completed-status">Completed this week</span>
-                            {% else %}
-                                <span class="not-completed-status">Not completed this week</span>
-                            {% endif %}
-                        {% elif habit.frequency == 'monthly' %}
-                            {% if habit.is_completed_this_month %}
-                                <span class="completed-status">Completed this month</span>
-                            {% else %}
-                                <span class="not-completed-status">Not completed this month</span>
-                            {% endif %}
-                        {% endif %}
-                        <br>
-                        Current Streak: {{ habit.get_current_streak }}
-                        <br>
-                        Max Streak: {{ habit.get_max_streak }}
-                        <br>
-                        Missed Occurrences: {{ habit.get_missed_occurrences }}
-                        <br>
-                        Completion Rate: {{ habit.get_completion_rate|floatformat:2 }}%
-                        <br>
-                    </div>
-                    <div class="habit-actions">
-                        <a href="{% url 'edit_habit' habit.id %}" class="small-btn">Edit</a> | 
-                        <a href="{% url 'delete_habit' habit.id %}" class="small-btn">Delete</a> 
+                    <table class="habit-table">
+                        <tr>
+                            <td class="habit-details-name">{{ habit.name }}</td>
+                            <td class="habit-details-labels">Current Streak</td>
+                            <td class="habit-details-labels">Max Streak</td>
+                            <td class="habit-details-labels">Missed</td>
+                            <td class="habit-details-labels">Rate</td>
+                            <td class="habit-details-labels">
+                                    {% if habit.frequency == 'daily' and not habit.is_completed_today %}
+                                        <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="small-btn done-btn">Done!</button>
+                                        </form>
+                                    {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week %}
+                                        <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="small-btn done-btn">Done!</button>
+                                        </form>
+                                    {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
+                                        <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="small-btn done-btn">Done!</button>
+                                        </form>
+                                    {% endif %}
+                            </td>
+                            <td><a href="{% url 'edit_habit' habit.id %}" class="small-btn edit-btn">Edit</a></td>
+                            <td><a href="{% url 'delete_habit' habit.id %}" class="small-btn delete-btn">Delete</a></td>
+
+                        </tr>
                         
-                        {% if habit.frequency == 'daily' and not habit.is_completed_today %}
-                            <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
-                                {% csrf_token %}
-                                | <button type="submit" class="small-btn">Complete!</button>
-                            </form>
-                        {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week %}
-                            <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
-                                {% csrf_token %}
-                                | <button type="submit" class="small-btn">Complete!</button>
-                            </form>
-                        {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
-                            <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
-                                {% csrf_token %}
-                                | <button type="submit" class="small-btn">Complete!</button>
-                            </form>
-                        {% endif %}
-                    </div>
+                        <tr>
+                            <td class="habit-data">{{ habit.get_frequency_display }}</td>
+                            <td class="habit-data">{{ habit.get_current_streak }}</td>
+                            <td class="habit-data">{{ habit.get_max_streak }}</td>
+                            <td class="habit-data">{{ habit.get_missed_occurrences }}</td>
+                            <td class="habit-data">{{ habit.get_completion_rate|floatformat:2 }}%</td>
+                        </tr>
+                    </table>
                 </li>
-                <hr>
             {% endfor %}
             </ul>
         {% else %}
             <p>You don't have any habits yet. Start adding some!</p>
         {% endif %}
-        
-        <div>
-            <a href="{% url 'add_habit' %}" class="btn">Add a New Habit</a>
-        </div>
     </div>
 {% endblock %}
