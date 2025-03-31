@@ -7,12 +7,23 @@
     </a>
 </p>
 
-<p>Today's Progress: {{ completed_habits }} / {{ total_habits }} ({{ percentage }}%)</p>
+<p>Today's Progress: {{ completed_habits }} / {{ total_habits }} ({{ daily_percentage }}%) habits completed!</p>
 
 <div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
-    <div class="progress-bar-fill" style="--progress: {{ percentage|default:0 }}%;"></div>
+    <div class="progress-bar-fill" style="--progress: {{ daily_percentage|default:0 }}%;"></div>
 </div>
 
+<p>This week's progress:</p>
+<div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
+    <div class="progress-bar-fill" style="--progress: {{ weekly_percentage|default:0 }}%;"></div>
+</div>
+
+<p>This month's progress:</p>
+<div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
+    <div class="progress-bar-fill" style="--progress: {{ monthly_percentage|default:0 }}%;"></div>
+</div>
+
+<p>TODO:</p>
 <p>"Gamification" aspects, experience, levels</p>
 <p>Maybe completed habits</p>
 

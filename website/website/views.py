@@ -98,6 +98,12 @@ def dashboard(request):
     ]
     random_tip = random.choice(tips)
     
+    # progress card
+    habits = Habit.objects.filter(user=request.user)
+    total_habits = habits.count()
+    completed_habits = habits.filter(completions__isnull=False).distinct().count()  # adjust if needed
+    daily_percentage = int((completed_habits / total_habits) * 100) if total_habits > 0 else 0
+
     context = {
         'habit_count': all_habits.count(),
         'daily_habits': daily_habits,
@@ -109,8 +115,10 @@ def dashboard(request):
         'top_completion_rates': top_completion_rates,
         'missed_habits': missed_habits,
         'random_tip': random_tip,
+        'daily_percentage': daily_percentage,
+        'completed_habits': completed_habits,
+        'total_habits': total_habits
     }
-
     return render(request, 'dashboard.html', context)
 
 @login_required
@@ -206,10 +214,10 @@ def my_progress(request):
     habits = Habit.objects.filter(user=request.user)
     total_habits = habits.count()
     completed_habits = habits.filter(completions__isnull=False).distinct().count()  # adjust if needed
-    percentage = int((completed_habits / total_habits) * 100) if total_habits > 0 else 0
+    daily_percentage = int((completed_habits / total_habits) * 100) if total_habits > 0 else 0
 
     return render(request, 'my_progress.html', {
-        'percentage': percentage,
+        'daily_percentage': daily_percentage,
         'completed_habits': completed_habits,
         'total_habits': total_habits
     })
