@@ -12,14 +12,12 @@
 </head>
 <body>
     <h1>Edit Profile</h1>
-    <specialform>
-        <form method="post">
+        <form method="post" class="specialform">
             {% csrf_token %}
             {{ form.as_p }}
             {{ custom_form.as_p }}
             <button type="submit" class="btn">Submit</button>
         </form>
-</specialform>
     <a href="{% url 'change_password' %}" class="btn">Change Password</a>
 
 </body>

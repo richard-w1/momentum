@@ -11,8 +11,8 @@
 </head>
 <body>
     <h1>Sign Up</h1>
-    <specialform>
-        <form method="post">
+    <div>
+        <form method="post" class="specialform">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn">Sign Up</button>

@@ -1,6 +1,6 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #5e6f7d, #1e2a3a);
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #0d1b2a, #1b263b, #415a77);
     background-attachment: fixed;
     color: #ffffff;
     text-align: center;
@@ -11,6 +11,7 @@ body {
     flex-direction: column;
     align-items: center;
     overflow: auto;
+    position: relative;
 }
 
 main {
@@ -19,10 +20,10 @@ main {
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-    margin-top: 70px
+    margin-top: 70px;
 }
 
-specialform {
+.specialform {
     display: block;
     margin: 0 auto;
     text-align: left;
@@ -84,13 +85,13 @@ table td {
 .habit-details-labels {
     font-weight: bold;
     text-align: left;
-    width: 80px
+    width: 80px;
 }
 
 .habit-details-name {
     font-weight: bold;
     text-align: left;
-    width: 200px
+    width: 200px;
 }
 
 .habit-data {
@@ -156,7 +157,7 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 2px;
     color: #ffffff;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0 10px rgba(173, 216, 230, 0.8), 0 0 20px rgba(0, 255, 255, 0.5);
 }
 
 .btn {
@@ -164,20 +165,21 @@ h1 {
     width: 250px;
     padding: 15px;
     margin: 15px auto;
-    background-color: #f8f9fa;
-    color: #1e2a3a;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
     font-size: 1.2em;
     font-weight: 500;
     text-decoration: none;
     border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    transition: all 0.4s ease-in-out;
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .btn:hover {
-    background-color: #384d68;
-    color: white;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    transform: scale(1.05);
 }
 
 .small-btn {

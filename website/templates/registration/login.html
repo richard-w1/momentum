@@ -12,7 +12,7 @@
 <body>
     <h1>Log In</h1>
     <specialform>
-        <form method="post">
+        <form method="post" class="specialform">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn">Log In</button>

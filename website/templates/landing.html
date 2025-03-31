@@ -4,12 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing</title>
     <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
 </head>
 <body>
-    <h1>Welcome to Momentum</h1>
-    <a href="/login" class="btn">Login</a>
-    <a href="/signup" class="btn">Sign Up</a>
+    <div class="hero">
+        <div class="overlay"></div>
+        <div class="content">
+            <h2>Welcome to Momentum</h2>
+            <h1>Launch Your Productivity Journey</h1>
+            <p>Complete habits, earn XP, and explore the cosmos. From Earth to the stars, every habit gets you closer to the next frontier.</p>
+            <div class="cta-buttons">
+                <a href="/login" class="btn">Login</a>
+                <a href="/signup" class="btn primary">Sign Up & Start Your Mission</a>
+            </div>
+        </div>
+    </div>
+    
+    <section class="features">
+        <h2>Your Journey Awaits</h2>
+        <div class="feature-grid">
+            <div class="feature">
+                <img src="{% static 'images/earth.png' %}" alt="Earth">
+                <h3>Start from Earth</h3>
+                <p>Begin your productivity mission with small steps that build momentum.</p>
+            </div>
+            <div class="feature">
+                <img src="{% static 'images/moon.png' %}" alt="Moon">
+                <h3>Reach the Moon</h3>
+                <p>Stay consistent and unlock new challenges as you progress further.</p>
+            </div>
+            <div class="feature">
+                <img src="{% static 'images/milkyway.png' %}" alt="Milky Way">
+                <h3>Explore the Universe</h3>
+                <p>Master your habits and venture into deep space, unlocking exclusive rewards.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Momentum. Keep pushing forward!</p>
+    </footer>
 </body>
 </html>
