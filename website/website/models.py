@@ -10,9 +10,43 @@ class custom_user(models.Model):
     birth_date = models.DateField(null=True)
     bio = models.CharField(max_length=100, null=True, blank=True)
     
+    #leveling
+    total_exp = models.PositiveIntegerField(default=0)
+    level = models.PositiveIntegerField(default=1)
+    rank = models.CharField(max_length=100, default="Earthling - Earth")
+
     def __str__(self):
         return f'{self.user.username} custom_user'
+    
+    def calculate_level(self):
+        level = int((self.total_exp / 100) ** 0.5) + 1
+        self.level = level
 
+    def calculate_rank(self):
+        rank_milestones = [
+            (5, 'Skyward Wanderer - Atmosphere'),
+            (10, 'Lunar Explorer - Moon'),
+            (15, 'Martian Scout - Mars'),
+            (20, 'Storm Rider - Jupiter'),
+            (25, 'Ring Voyager - Saturn'),
+            (30, 'Ice Drifter - Uranus'),
+            (35, 'Deep Diver - Neptune'),
+            (40, 'Galactic Traveler - Milky Way'),
+            (45, 'Singularity Seeker - Black Hole'),
+            (50, 'Starborn Survivor - Nebula'),
+            (55, 'Intergalactic Navigator - The Deep Space...'),
+        ]
+
+        for milestone, rank_title in reversed(rank_milestones):
+            if self.level >= milestone:
+                self.rank = rank_title
+                break
+        
+    def update_user_progress(self):
+        self.calculate_level()
+        self.calculate_rank()
+        self.save()
+        
 class Habit(models.Model):
     FREQUENCY_CHOICES = [
         ('daily', 'Daily'),
