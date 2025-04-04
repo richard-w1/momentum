@@ -8,7 +8,20 @@
     <title>Habit Tracker</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<div class="topnav">
+<div class="sidebar">
+    
+    <div class="hud">
+        <div class="hud-item">
+            <p>Level {{ level }}</p>
+        </div>
+        <div class="hud-item">
+            <p>{{ rank }}</p>
+        </div>
+        <div class="hud-item">
+            <p>Exp: {{ exp_earned }} / {{ exp_required }}</p>
+            <progress value="{{ custom_user.get_current_level_exp_total }}" max="{{ custom_user.get_exp_per_level }}"></progress>
+        </div>
+    </div>
     <a href="/dashboard/">Dashboard</a>
     <a href="/my_habits/">Habits</a>
     <a href="/my_progress/">Progress</a>
