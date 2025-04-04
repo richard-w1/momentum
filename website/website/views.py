@@ -51,16 +51,11 @@ def signup(request):
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
+
 @login_required
 def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    
-    #level, rank, and exp
-    CustomUser = custom_user.objects.get(user=request.user)
-    CustomUser.update_progress()
-    exp_required = CustomUser.get_exp_per_level()
-    exp_earned = CustomUser.get_current_level_exp_total()
 
     all_habits = Habit.objects.filter(user=request.user)
 
@@ -112,10 +107,6 @@ def dashboard(request):
     daily_percentage = int((completed_habits / total_habits) * 100) if total_habits > 0 else 0
 
     context = {
-        'level': CustomUser.level,
-        'rank':  CustomUser.rank,
-        'exp_earned': exp_earned,
-        'exp_required': exp_required,
         'habit_count': all_habits.count(),
         'daily_habits': daily_habits,
         'weekly_habits': weekly_habits,
