@@ -18,22 +18,21 @@ class custom_user(models.Model):
     def __str__(self):
         return f'{self.user.username} custom_user'
 
-    def calculate_rank(self):
-        #level required, discovery, exp required for each level up
-        rank_milestones = [
-        (1, "Earthling - Earth", 1000),
-        (5, "Skyward Wanderer - Atmosphere", 2000),
-        (10, "Lunar Explorer - Moon", 3000),
-        (15, "Martian Scout - Mars", 4000),
-        (20, "Storm Rider - Jupiter", 5000),
-        (25, "Ring Voyager - Saturn", 6000),
-        (30, "Ice Drifter - Uranus", 7000),
-        (35, "Deep Diver - Neptune", 8000),
-        (40, "Galactic Traveler - Milky Way", 9000),
-        (45, "Singularity Seeker - Black Hole", 10000),
-        (50, "Starborn Survivor - Nebula", 11000),
-        (55, "Intergalactic Navigator - Deep Space...", 12000),
-        ]
+    #level required, discovery, exp required for each level up
+    rank_milestones = [
+    (1, "Earthling - Earth", 1000),
+    (5, "Skyward Wanderer - Atmosphere", 2000),
+    (10, "Lunar Explorer - Moon", 3000),
+    (15, "Martian Scout - Mars", 4000),
+    (20, "Storm Rider - Jupiter", 5000),
+    (25, "Ring Voyager - Saturn", 6000),
+    (30, "Ice Drifter - Uranus", 7000),
+    (35, "Deep Diver - Neptune", 8000),
+    (40, "Galactic Traveler - Milky Way", 9000),
+    (45, "Singularity Seeker - Black Hole", 10000),
+    (50, "Starborn Survivor - Nebula", 11000),
+    (55, "Intergalactic Navigator - Deep Space...", 12000),
+    ]
 
     #gets 3rd field in rank_milestones
     def get_exp_per_level(self):

@@ -1,7 +1,8 @@
 from datetime import date, timedelta
 import random
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth import authenticate, update_session_auth_hash
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import (
     AuthenticationForm, PasswordChangeForm, UserChangeForm, UserCreationForm
@@ -15,7 +16,7 @@ from django.utils.html import strip_tags
 from .forms import (
     CustomUserCreationForm, EditCustomUserProfileForm, EditUserProfileForm, HabitForm
 )
-from .models import Habit, HabitCompletion
+from .models import Habit, HabitCompletion, custom_user
 from django.conf import settings
 
 def home_redirect(request):
@@ -32,7 +33,7 @@ def login(request):
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
+                auth_login(request, user)
                 return redirect('dashboard')
             else:
                 form.add_error(None, 'Invalid username or password')
@@ -44,7 +45,7 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            auth_login(request, user)
             return redirect('dashboard')
     else:
         form = CustomUserCreationForm()
@@ -55,6 +56,12 @@ def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
     
+    #level, rank, and exp
+    CustomUser = custom_user.objects.get(user=request.user)
+    CustomUser.update_progress()
+    exp_required = CustomUser.get_exp_per_level()
+    exp_earned = CustomUser.get_current_level_exp_total()
+
     all_habits = Habit.objects.filter(user=request.user)
 
     daily_habits = [habit for habit in all_habits if habit.frequency == 'daily']
@@ -105,6 +112,10 @@ def dashboard(request):
     daily_percentage = int((completed_habits / total_habits) * 100) if total_habits > 0 else 0
 
     context = {
+        'level': CustomUser.level,
+        'rank':  CustomUser.rank,
+        'exp_earned': exp_earned,
+        'exp_required': exp_required,
         'habit_count': all_habits.count(),
         'daily_habits': daily_habits,
         'weekly_habits': weekly_habits,
