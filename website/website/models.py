@@ -17,34 +17,68 @@ class custom_user(models.Model):
 
     def __str__(self):
         return f'{self.user.username} custom_user'
-    
-    def calculate_level(self):
-        level = int((self.total_exp / 100) ** 0.5) + 1
-        self.level = level
 
     def calculate_rank(self):
+        #level required, discovery, exp required for each level up
         rank_milestones = [
-            (5, 'Skyward Wanderer - Atmosphere'),
-            (10, 'Lunar Explorer - Moon'),
-            (15, 'Martian Scout - Mars'),
-            (20, 'Storm Rider - Jupiter'),
-            (25, 'Ring Voyager - Saturn'),
-            (30, 'Ice Drifter - Uranus'),
-            (35, 'Deep Diver - Neptune'),
-            (40, 'Galactic Traveler - Milky Way'),
-            (45, 'Singularity Seeker - Black Hole'),
-            (50, 'Starborn Survivor - Nebula'),
-            (55, 'Intergalactic Navigator - The Deep Space...'),
+        (1, "Earthling - Earth", 1000),
+        (5, "Skyward Wanderer - Atmosphere", 2000),
+        (10, "Lunar Explorer - Moon", 3000),
+        (15, "Martian Scout - Mars", 4000),
+        (20, "Storm Rider - Jupiter", 5000),
+        (25, "Ring Voyager - Saturn", 6000),
+        (30, "Ice Drifter - Uranus", 7000),
+        (35, "Deep Diver - Neptune", 8000),
+        (40, "Galactic Traveler - Milky Way", 9000),
+        (45, "Singularity Seeker - Black Hole", 10000),
+        (50, "Starborn Survivor - Nebula", 11000),
+        (55, "Intergalactic Navigator - Deep Space...", 12000),
         ]
 
-        for milestone, rank_title in reversed(rank_milestones):
-            if self.level >= milestone:
-                self.rank = rank_title
-                break
+    #gets 3rd field in rank_milestones
+    def get_exp_per_level(self):
+        for milestone_level, _, exp_per_level in reversed(self.rank_milestones):
+            if self.level >= milestone_level:
+                return exp_per_level
+        return 1000
+    
+    def get_current_rank(self):
+        for milestone_level, rank_title, _ in reversed(self.rank_milestones):
+            if self.level >= milestone_level:
+                return rank_title
+        return "Earthling - Earth"
+    
+    #find exp earned from current level onwards
+    #so if the user just leveled up, it would be 0 or a low number
+    #this is just used to display to the user their progress to the next level
+    def get_current_level_exp_total(self):
+        total_for_previous_levels = 0
+        for level in range(1, self.level):
+            for milestone_level, _, exp_per_level in reversed(self.rank_milestones):
+                if level >= milestone_level:
+                    total_for_previous_levels += exp_per_level
+                    break
         
-    def update_user_progress(self):
-        self.calculate_level()
-        self.calculate_rank()
+        return self.total_exp - total_for_previous_levels
+
+    #update level and rank based on exp
+    def update_progress(self):
+        accumulated_exp = 0
+        new_level = 1
+
+        while True:
+            exp_per_level = 1000
+            for milestone_level, _, exp_amount in reversed(self.rank_milestones):
+                if new_level >= milestone_level:
+                    exp_per_level = exp_amount
+                    break
+            if accumulated_exp + exp_per_level > self.total_exp:
+                break
+            accumulated_exp += exp_per_level
+            new_level += 1
+
+        self.level = new_level
+        self.rank = self.get_current_rank()
         self.save()
         
 class Habit(models.Model):
