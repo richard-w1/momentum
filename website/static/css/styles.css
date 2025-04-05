@@ -98,6 +98,25 @@ table td {
     text-align: left;
 }
 
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .sidebar {
     background-color: #272b30;
     display: flex;
