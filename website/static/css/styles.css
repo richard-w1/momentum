@@ -319,3 +319,17 @@ h1 {
     width: var(--progress);
     border-radius: 5px;
 }
+
+.dropdown-menu{
+    display: block;
+    padding: 15px;
+    
+}
+
+/* Two CSS unicode triangle to toggle between */
+.dropdown-menu::after {
+    content: "\25BC";
+}
+.dropdown-menu.down::after {
+    content: "\25B6";
+}
