@@ -5,20 +5,7 @@ from django.utils import timezone
 
 #creating a custom model for users
 class custom_user(models.Model):
-    #using the default  model as the basis
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_date = models.DateField(null=True)
-    bio = models.CharField(max_length=100, null=True, blank=True)
-    
-    #leveling
-    total_exp = models.PositiveIntegerField(default=0)
-    level = models.PositiveIntegerField(default=1)
-    rank = models.CharField(max_length=100, default="Earthling - Earth")
-
-    def __str__(self):
-        return f'{self.user.username} custom_user'
-
-    #level required, title, location, exp required for each level up
+    #level required, rank, location, exp required for each level up
     rank_milestones = [
         (1, "Earthling", "Earth", 1000),
         (5, "Skyward Wanderer", "Atmosphere", 2000),
@@ -33,6 +20,21 @@ class custom_user(models.Model):
         (50, "Starborn Survivor", "Nebula", 11000),
         (55, "Intergalactic Navigator", "Deep Space...", 12000),
     ]
+
+    RANK_CHOICES = [(milestone[1], milestone[1]) for milestone in rank_milestones]
+
+    #using the default  model as the basis
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birth_date = models.DateField(null=True)
+    bio = models.CharField(max_length=100, null=True, blank=True)
+    
+    #leveling
+    total_exp = models.PositiveIntegerField(default=0)
+    level = models.PositiveIntegerField(default=1)
+    rank = models.CharField(max_length=100, choices=RANK_CHOICES, default="Earthling")
+
+    def __str__(self):
+        return f'{self.user.username} custom_user'
 
     #gets 4th field in rank_milestones
     def get_exp_per_level(self):
@@ -53,6 +55,19 @@ class custom_user(models.Model):
                 return location
         return "Earth"
     
+    def set_custom_rank(self, new_rank):
+            # Get all available ranks based on user's level
+            available_ranks = []
+            for milestone_level, rank_title, _, _ in self.rank_milestones:
+                if self.level >= milestone_level:
+                    available_ranks.append(rank_title)
+            
+            if new_rank in available_ranks:
+                self.rank = new_rank
+                self.save()
+                return f"Rank set to {new_rank}."
+            return "You cannot set this rank yet!"
+
     #find exp earned from current level onwards
     #so if the user just leveled up, it would be 0 or a low number
     #this is just used to display to the user their progress to the next level
@@ -83,7 +98,7 @@ class custom_user(models.Model):
             new_level += 1
 
         self.level = new_level
-        self.rank = self.get_current_rank()
+        # self.rank = self.get_current_rank()
         self.save()
         
 class Habit(models.Model):

@@ -53,4 +53,16 @@ class EditUserProfileForm(UserChangeForm):
 class EditCustomUserProfileForm(forms.ModelForm):
     class Meta:
         model = custom_user
-        fields = ['birth_date', 'bio']
+        fields = ['birth_date', 'bio', 'rank']
+
+    def __init__(self, *args, **kwargs):
+        super(EditCustomUserProfileForm, self).__init__(*args, **kwargs)
+        instance = kwargs.get('instance')
+        
+        if instance:
+            available_ranks = []
+            for milestone_level, rank_title, _, _ in instance.rank_milestones:
+                if instance.level >= milestone_level:
+                    available_ranks.append((rank_title, rank_title))
+            
+            self.fields['rank'].choices = available_ranks
