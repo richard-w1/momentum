@@ -11,6 +11,7 @@ def user_progress(request):
                 'rank': CustomUser.rank,
                 'exp_required': CustomUser.get_exp_per_level(),
                 'exp_earned': CustomUser.get_current_level_exp_total(),
+                'location': CustomUser.get_current_location(),
             }
         except custom_user.DoesNotExist:
             pass

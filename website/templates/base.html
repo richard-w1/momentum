@@ -21,13 +21,16 @@
     
     <div class="hud">
         <div class="hud-item">
-            <p>Level {{ level }}</p>
+            {{ user.username }} the {{ rank }}
         </div>
         <div class="hud-item">
-            <p>{{ rank }}</p>
+            <p>Location: {{ location }}
         </div>
         <div class="hud-item">
-            <p>Exp: {{ exp_earned }} / {{ exp_required }}</p>
+            Level: {{ level }}
+        </div>
+        <div class="hud-item">
+            Exp: {{ exp_earned }} / {{ exp_required }}
             <progress value="{{ custom_user.get_current_level_exp_total }}" max="{{ custom_user.get_exp_per_level }}"></progress>
         </div>
     </div>
