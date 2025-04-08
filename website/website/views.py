@@ -230,7 +230,8 @@ def leaderboard(request):
 
 @login_required
 def get_habits(request):
-    habits = Habit.objects.all()
+    user = request.user 
+    habits = Habit.objects.filter(user=user)
     habit_list = []
 
     for habit in habits:
