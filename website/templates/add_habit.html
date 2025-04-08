@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Add a New Habit</h2>
+<div>
+    We suggest 200 xp for daily habits, and 1000 xp for weekly habits.
+</div>
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}

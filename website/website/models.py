@@ -87,6 +87,14 @@ class Habit(models.Model):
         ('monthly', 'Monthly'),
     ]
 
+    EXPERIENCE_CHOICES = [
+        (100, '100 XP'),
+        (200, '200 XP'),
+        (500, '500 XP'),
+        (1000, '1000 XP'),
+        (-1, 'Custom XP'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES)
@@ -95,6 +103,8 @@ class Habit(models.Model):
     active = models.BooleanField(default=True)
     current_streak = models.IntegerField(default=0)
     max_streak = models.IntegerField(default=0)
+    experience = models.IntegerField(choices=EXPERIENCE_CHOICES)
+    custom_experience = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.frequency})"
@@ -208,6 +218,9 @@ class Habit(models.Model):
             date_completed__gte=start_of_month, 
             date_completed__lte=end_of_month
         ).exists()
+    
+    def get_experience_value(self):
+        return self.custom_experience if self.experience == -1 and self.custom_experience else self.experience
 
 class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="completions")
@@ -220,6 +233,10 @@ class HabitCompletion(models.Model):
         super().save(*args, **kwargs)
         self.habit.last_completed = self.date_completed
         self.habit.save()
+
+        profile = self.habit.user.custom_user
+        profile.total_exp += self.habit.get_experience_value()
+        profile.update_progress()
 
     def __str__(self):
         return f"{self.habit.name} completed on {self.date_completed}"

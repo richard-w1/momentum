@@ -303,4 +303,4 @@ def send_habit_notifications(request):
     except Exception as e:
         messages.error(request, f'Failed to send notification: {str(e)}')
 
-    return redirect('my_habits')
+    return redirect('dashboard')

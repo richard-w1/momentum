@@ -7,7 +7,7 @@ from .models import custom_user
 class HabitForm(forms.ModelForm):
     class Meta:
         model = Habit
-        fields = ['name', 'frequency']
+        fields = ['name', 'frequency', 'experience', 'custom_experience']
     
     def save(self, commit=True, user=None):
         habit = super().save(commit=False)
