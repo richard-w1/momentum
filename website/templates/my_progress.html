@@ -1,104 +1,122 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h2>My Progress</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Level</th>
-            <th>Location</th>
-            <th>Rank</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Earth</td>
-            <td>Earthling</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Atmosphere</td>
-            <td>Skyward Wanderer</td>
-        </tr>
-        <tr>
-            <td>10</td>
-            <td>Moon</td>
-            <td>Lunar Explorer</td>
-        </tr>
-        <tr>
-            <td>15</td>
-            <td>Mars</td>
-            <td>Martian Scout</td>
-        </tr>
-        <tr>
-            <td>20</td>
-            <td>Jupiter</td>
-            <td>Storm Rider</td>
-        </tr>
-        <tr>
-            <td>25</td>
-            <td>Saturn</td>
-            <td>Ring Voyager</td>
-        </tr>
-        <tr>
-            <td>30</td>
-            <td>Uranus</td>
-            <td>Ice Drifter</td>
-        </tr>
-        <tr>
-            <td>35</td>
-            <td>Neptune</td>
-            <td>Deep Diver</td>
-        </tr>
-        <tr>
-            <td>40</td>
-            <td>Milky Way</td>
-            <td>Galactic Traveler</td>
-        </tr>
-        <tr>
-            <td>45</td>
-            <td>Black Hole</td>
-            <td>Singularity Seeker</td>
-        </tr>
-        <tr>
-            <td>50</td>
-            <td>Nebula</td>
-            <td>Starborn Survivor</td>
-        </tr>
-        <tr>
-            <td>55</td>
-            <td>Deep Space...</td>
-            <td>Intergalactic Navigator</td>
-        </tr>
-    </tbody>
-</table>
 
-</body>
+<html>
+    <body>
+        <h2>My Progress</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>Location</th>
+                    <th>Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Earth</td>
+                    <td>Earthling</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Atmosphere</td>
+                    <td>Skyward Wanderer</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Moon</td>
+                    <td>Lunar Explorer</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>Mars</td>
+                    <td>Martian Scout</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>Jupiter</td>
+                    <td>Storm Rider</td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>Saturn</td>
+                    <td>Ring Voyager</td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>Uranus</td>
+                    <td>Ice Drifter</td>
+                </tr>
+                <tr>
+                    <td>35</td>
+                    <td>Neptune</td>
+                    <td>Deep Diver</td>
+                </tr>
+                <tr>
+                    <td>40</td>
+                    <td>Milky Way</td>
+                    <td>Galactic Traveler</td>
+                </tr>
+                <tr>
+                    <td>45</td>
+                    <td>Black Hole</td>
+                    <td>Singularity Seeker</td>
+                </tr>
+                <tr>
+                    <td>50</td>
+                    <td>Nebula</td>
+                    <td>Starborn Survivor</td>
+                </tr>
+                <tr>
+                    <td>55</td>
+                    <td>Deep Space...</td>
+                    <td>Intergalactic Navigator</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        
+        <p>Today's Progress: {{ completed_habits }} / {{ total_habits }} ({{ daily_percentage }}%) habits completed!</p>
+        
+        <div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
+            <div class="progress-bar-fill" style="--progress: {{ daily_percentage|default:0 }}%;"></div>
+        </div>
+        
+        <div>
+            <canvas id="chart" width="400" height="400"></canvas>
+        </div>
+        
+        <p>This week's progress:</p>
+        <div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
+            <div class="progress-bar-fill" style="--progress: {{ weekly_percentage|default:0 }}%;"></div>
+        </div>
+        
+        <p>This month's progress:</p>
+        <div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
+            <div class="progress-bar-fill" style="--progress: {{ monthly_percentage|default:0 }}%;"></div>
+        </div>
+        
+        <p>Want an email notification of your habits for today?
+            <a href="{% url 'send_habit_notifications' %}">
+                <button class="small-btn">Send!</button>
+            </a>
+        </p>
+        
+        <!-- Getting the Chart.js file through CDN here the file being 
+        .umd(universal module defination is important as is wont recognize it as a module other wise) -->
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'></script>
+        
+        <!-- Path to custom chart script -->
+        <script src="{% static 'js/stats.js' %}"></script>
+        
+        <p>TODO:</p>
+        <p>"Gamification" aspects, experience, levels</p>
+        <p>Maybe completed habits</p>
+
+    </body>
 </html>
-<p>Want an email notification of your habits for today?
-    <a href="{% url 'send_habit_notifications' %}">
-        <button class="small-btn">Send!</button>
-    </a>
-</p>
-
-<p>Today's Progress: {{ completed_habits }} / {{ total_habits }} ({{ daily_percentage }}%) habits completed!</p>
-
-<div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
-    <div class="progress-bar-fill" style="--progress: {{ daily_percentage|default:0 }}%;"></div>
-</div>
-
-<p>This week's progress:</p>
-<div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
-    <div class="progress-bar-fill" style="--progress: {{ weekly_percentage|default:0 }}%;"></div>
-</div>
-
-<p>This month's progress:</p>
-<div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
-    <div class="progress-bar-fill" style="--progress: {{ monthly_percentage|default:0 }}%;"></div>
-</div>
-
-<p>TODO:</p>
-<p>"Gamification" aspects, experience, levels</p>
-<p>Maybe completed habits</p>
 
 {% endblock %}
