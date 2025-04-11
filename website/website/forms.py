@@ -7,8 +7,12 @@ from .models import custom_user
 class HabitForm(forms.ModelForm):
     class Meta:
         model = Habit
-        fields = ['name', 'frequency', 'experience', 'custom_experience']
+        fields = ['name', 'frequency', 'experience', 'custom_experience', 'reminder_time', 'reminder_weekly', 'reminder_monthly']
     
+        help_texts = {
+        'reminder_time': "HH:MM in 24 hr format",
+    }
+
     def save(self, commit=True, user=None):
         habit = super().save(commit=False)
         if user:
