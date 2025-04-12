@@ -1,6 +1,6 @@
 # how to add cron job on linux:
 # crontab -e
-# * * * * * /home/user/habit-tracker/venv/bin/python /home/user/habit-tracker/manage.py send_reminders >> /home/user/habit-tracker/cron.log 2>&1
+# * * * * * /Sprint-Squad/venv/bin/python /Sprint-Squad/website/website/manage.py tasks >> /Sprint-Squad/website/website/cron.log 2>&1
 
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now

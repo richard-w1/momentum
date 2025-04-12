@@ -194,7 +194,24 @@ def complete_habit(request, habit_id):
     elif habit.frequency == 'monthly' and habit.is_completed_this_month():
         return redirect("my_habits")
     HabitCompletion.objects.create(habit=habit, date_completed=today)
-    
+
+    profile = habit.user.custom_user
+    old_level = profile.level
+    old_location = profile.get_current_location()
+
+    profile.total_exp += habit.get_experience_value()
+    profile.update_progress()
+
+    # check if lvl up
+    if profile.level > old_level:
+        new_location = profile.get_current_location()
+        level_up_data = {
+            'new_level': profile.level,
+            'new_location': new_location if new_location != old_location else None
+        }
+        request.session['level_up_data'] = level_up_data
+        return redirect('level_up_notification')
+
     return redirect("my_habits")
 
 @login_required
@@ -344,3 +361,11 @@ def get_stats(request):
     }
 
     return JsonResponse(daily_habit_stat, safe=False)
+
+@login_required
+def level_up_notification(request):
+    level_up_data = request.session.pop('level_up_data', None)
+
+    if not level_up_data:
+        return redirect('dashboard')
+    return render(request, 'level_up_notification.html', {'level_up_data': level_up_data})

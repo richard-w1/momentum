@@ -303,10 +303,3 @@ class HabitCompletion(models.Model):
         super().save(*args, **kwargs)
         self.habit.last_completed = self.date_completed
         self.habit.save()
-
-        profile = self.habit.user.custom_user
-        profile.total_exp += self.habit.get_experience_value()
-        profile.update_progress()
-
-    def __str__(self):
-        return f"{self.habit.name} completed on {self.date_completed}"

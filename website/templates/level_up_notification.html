@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h1>Congratulations!</h1>
+    <p>You have reached <strong>Level {{ level_up_data.new_level }}</strong>!</p>
+    {% if level_up_data.new_location %}
+        <p>You have also unlocked a new location: <strong>{{ level_up_data.new_location }}</strong>!</p>
+    {% endif %}
+    <a href="{% url 'my_habits' %}" class="btn">Continue</a>
+</div>
+{% endblock %}
