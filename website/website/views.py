@@ -348,19 +348,51 @@ def send_reminder_email(habit):
 @login_required
 def get_stats(request):
     habits = Habit.objects.filter(user = request.user)
+
+    # general stats variable
     daily_habit = 0
+    weekly_habit = 0
+    monthly_habit = 0
     daily_habits_done = 0
+    weekly_habits_done = 0
+    monthly_habits_done = 0
+
+    statistics = {}
     for habit in habits:
         if habit.frequency == 'daily':
             daily_habit += 1 
             daily_habits_done += 1 if habit.is_completed_today() else 0
+        
+        elif habit.frequency == 'weekly':
+            weekly_habit += 1
+            weekly_habits_done += 1 if habit.is_completed_this_week() else 0
+        else:
+            monthly_habit += 1
+            monthly_habits_done += 1 if habit.is_completed_this_month() else 0
+
 
     daily_habit_stat = {
         'daily_habits_done': daily_habits_done,
         'daily_habits_missed': daily_habit - daily_habits_done
     }
 
-    return JsonResponse(daily_habit_stat, safe=False)
+    weekly_habit_stat = {
+        'weekly_habits_done': weekly_habits_done,
+        'weekly_habits_missed': weekly_habit - weekly_habits_done
+    }
+
+    monthly_habit_stat = {
+        'monthly_habits_done' : monthly_habits_done,
+        'monthly_habits_missed' : monthly_habit -  monthly_habits_done,
+    }
+
+    statistics = {
+        'daily_habit_stat': daily_habit_stat,
+        'weekly_habit_stat':weekly_habit_stat,
+        'monthly_habit_stat': monthly_habit_stat,
+    }
+
+    return JsonResponse(statistics, safe=False)
 
 @login_required
 def level_up_notification(request):
