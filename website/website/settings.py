@@ -156,7 +156,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'momentumhabitapp@gmail.com'
 EMAIL_HOST_PASSWORD = 'mngj qkfv vyra yzvo'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
