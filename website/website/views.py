@@ -327,3 +327,20 @@ def send_reminder_email(habit):
     recipient_list = [habit.user.email]
 
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list)
+
+@login_required
+def get_stats(request):
+    habits = Habit.objects.filter(user = request.user)
+    daily_habit = 0
+    daily_habits_done = 0
+    for habit in habits:
+        if habit.frequency == 'daily':
+            daily_habit += 1 
+            daily_habits_done += 1 if habit.is_completed_today() else 0
+
+    daily_habit_stat = {
+        'daily_habits_done': daily_habits_done,
+        'daily_habits_missed': daily_habit - daily_habits_done
+    }
+
+    return JsonResponse(daily_habit_stat, safe=False)
