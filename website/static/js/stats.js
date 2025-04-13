@@ -1,3 +1,5 @@
+let currentChart = null
+
 // getting the data form the /get_stats/ which runs 
 // the get_stat view returning a json response
 fetch('/get_stats/', {
@@ -10,14 +12,28 @@ fetch('/get_stats/', {
     return response.json() //Convert response to JSON
 })
 .then(data => {
-    make_daily_habit_graph(data)
-    make_weekly_habit_graph(data)
-    make_monthly_habit_graph(data)
+    $(document).ready(function() {
+        $(".progress_report_frequency").change(function () {
+            
+            if (currentChart !== null) {
+                currentChart.destroy();
+            }
+
+            if ($(this).val() == "Daily") {
+                make_daily_habit_graph(data)
+            }else if ($(this).val() == "Weekly") {
+                make_weekly_habit_graph(data)
+            }else{
+                make_monthly_habit_graph(data)
+            }
+        });
+        $(".progress_report_frequency").trigger("change");
+    });
 })
 
 function make_daily_habit_graph(data){
-    const ctx = document.getElementById('daily_habit_chart');
-    new Chart(ctx, {
+    const ctx = document.getElementById('chart');
+    currentChart = new Chart(ctx, {
         type: 'pie',
         options: {
             animation: false,
@@ -45,8 +61,8 @@ function make_daily_habit_graph(data){
 }
 
 function make_weekly_habit_graph(data){
-    const ctx = document.getElementById('weekly_habit_chart');
-    new Chart(ctx, {
+    const ctx = document.getElementById('chart');
+    currentChart = new Chart(ctx, {
         type: 'pie',
         options: {
             animation: false,
@@ -70,12 +86,13 @@ function make_weekly_habit_graph(data){
         options: {
 
         }
+        
     });
 }
 
 function make_monthly_habit_graph(data){
-    const ctx = document.getElementById('monthly_habit_chart');
-    new Chart(ctx, {
+    const ctx = document.getElementById('chart');
+    currentChart = new Chart(ctx, {
         type: 'pie',
         options: {
             animation: false,
