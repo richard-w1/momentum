@@ -2,6 +2,13 @@
 {% block content %}
 <h2>My Profile</h2>
 
+{% if user.custom_user.profile_picture %}
+  <p><strong>Profile Picture:</strong></p>
+  <img src="{{ user.custom_user.profile_picture.url }}" alt="Profile Picture" style="width: 150px; border-radius: 50%;">
+{% else %}
+  <p><strong>Profile Picture:</strong> No image uploaded.</p>
+{% endif %}
+
 <p><strong>Username:</strong> {{ user.username }}</p>
 <p><strong>Email:</strong> {{ user.email }}</p>
 <p><strong>First Name:</strong> {{ user.first_name }}</p>
