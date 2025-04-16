@@ -12,7 +12,7 @@
 </head>
 <body>
     <h1>Edit Profile</h1>
-        <form method="post" class="specialform">
+        <form method="post" enctype="multipart/form-data" class="specialform">
             {% csrf_token %}
             {{ form.as_p }}
             {{ custom_form.as_p }}
