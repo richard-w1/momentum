@@ -57,7 +57,7 @@ class EditUserProfileForm(UserChangeForm):
 class EditCustomUserProfileForm(forms.ModelForm):
     class Meta:
         model = custom_user
-        fields = ['birth_date', 'bio', 'rank']
+        fields = ['birth_date', 'bio', 'rank', 'profile_picture']  # added profile_picture
 
     def __init__(self, *args, **kwargs):
         super(EditCustomUserProfileForm, self).__init__(*args, **kwargs)
