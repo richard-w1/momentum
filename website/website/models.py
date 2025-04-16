@@ -28,6 +28,8 @@ class custom_user(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birth_date = models.DateField(null=True)
     bio = models.CharField(max_length=100, null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+
     
     #leveling
     total_exp = models.PositiveIntegerField(default=0)
