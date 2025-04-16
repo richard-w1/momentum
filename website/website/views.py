@@ -19,7 +19,7 @@ from .forms import (
 from .models import Habit, HabitCompletion, custom_user
 from django.conf import settings
 from django.core.mail import send_mail
-from django.utils.timezone import now
+from django.utils.timezone import now, localtime
 from .models import Habit
 
 def home_redirect(request):
@@ -327,16 +327,32 @@ def send_habit_notifications(request):
     return redirect('dashboard')
 
 def send_habit_reminders():
+    #convert to server timezone
+    current_time = localtime().time()
+    print(f"Current server time: {current_time}")
+
     habits = Habit.objects.filter(active=True)
 
     for habit in habits:
         if habit.reminder_time:
-            if habit.frequency == 'daily' and habit.reminder_time == now().time():
-                send_reminder_email(habit)
-            elif habit.frequency == 'weekly' and habit.reminder_weekly == now().weekday() and habit.reminder_time == now().time():
-                send_reminder_email(habit)
-            elif habit.frequency == 'monthly' and habit.reminder_monthly == now().day and habit.reminder_time == now().time():
-                send_reminder_email(habit)
+            #1 minute time window
+            reminder_time_start = (datetime.combine(date.today(), habit.reminder_time) - timedelta(seconds=30)).time()
+            reminder_time_end = (datetime.combine(date.today(), habit.reminder_time) + timedelta(seconds=30)).time()
+
+            print(f"{habit.name} for user: {habit.user.username}, time window: {reminder_time_start} - {reminder_time_end}")
+
+            if reminder_time_start <= current_time <= reminder_time_end:
+                if habit.frequency == 'daily':
+                    print(f"Sending daily reminder")
+                    send_reminder_email(habit)
+                elif habit.frequency == 'weekly' and habit.reminder_weekly == now().weekday():
+                    print(f"Sending weekly reminder")
+                    send_reminder_email(habit)
+                elif habit.frequency == 'monthly' and habit.reminder_monthly == now().day:
+                    print(f"Sending monthly reminder")
+                    send_reminder_email(habit)
+            else:
+                print(f"Not sending reminder")
 
 def send_reminder_email(habit):
     subject = f"Reminder: {habit.name}"
