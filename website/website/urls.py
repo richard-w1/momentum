@@ -20,6 +20,8 @@ from . import views
 from django.contrib.auth import views as auth_views
 from .views import change_password
 from .views import send_habit_notifications
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home_redirect),
@@ -48,3 +50,7 @@ urlpatterns = [
     path('send-habit-notifications/', send_habit_notifications, name='send_habit_notifications'),
     path('level-up-notification/', views.level_up_notification, name='level_up_notification'),
 ]
+
+# profile pictures
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
