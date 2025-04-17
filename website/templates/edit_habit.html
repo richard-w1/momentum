@@ -4,9 +4,9 @@
     <form method="POST" class= "specialform">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="small-btn" type="submit">Save Changes</button>
+        <button class="btn btn-primary" type="submit">Save Changes</button>
     </form>
-<a href="{% url 'my_habits' %}" class="small-btn">Cancel</a>
+<a href="{% url 'my_habits' %}" class="btn btn-secondary">Cancel</a>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
