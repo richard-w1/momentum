@@ -44,7 +44,12 @@
             <!-- dropdown-->
             <div class="dropdown d-flex align-items-center">
                 <a href="{% url 'my_profile' %}" class="text-white text-decoration-none">
-                    <img src="{% static 'images/default-profile.jpg' %}" alt="Profile Picture" width="40" height="40" class="rounded-circle me-2">
+                    <img 
+                        src="{% if user.custom_user.profile_picture %}{{ user.custom_user.profile_picture.url }}{% else %}{% static 'images/default-profile.jpg' %}{% endif %}" 
+                        alt="Profile Picture" 
+                        width="40" 
+                        height="40" 
+                        class="rounded-circle me-2">
                 </a>
                 <a href="#" class="text-white text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <span>{{ user.username }}</span>
