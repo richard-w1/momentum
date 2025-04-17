@@ -1,12 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Edit Habit: {{ habit.name }}</h2>
-<specialform>
-    <form method="POST">
+    <form method="POST" class= "specialform">
         {% csrf_token %}
         {{ form.as_p }}
         <button class="small-btn" type="submit">Save Changes</button>
     </form>
-</specialform>
 <a href="{% url 'my_habits' %}" class="small-btn">Cancel</a>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const experienceField = document.querySelector("#id_experience");
+        const customExperienceField = document.querySelector("#id_custom_experience").closest("p");
+        const frequencyField = document.querySelector("#id_frequency");
+        const reminderWeeklyField = document.querySelector("#id_reminder_weekly").closest("p");
+        const reminderMonthlyField = document.querySelector("#id_reminder_monthly").closest("p");
+
+        // hide fields
+        customExperienceField.style.display = "none";
+        reminderWeeklyField.style.display = "none";
+        reminderMonthlyField.style.display = "none";
+
+        experienceField.addEventListener("change", function () {
+            if (experienceField.value === "-1") {
+                customExperienceField.style.display = "block";
+            } else {
+                customExperienceField.style.display = "none";
+            }
+        });
+
+        frequencyField.addEventListener("change", function () {
+            if (frequencyField.value === "weekly") {
+                reminderWeeklyField.style.display = "block";
+                reminderMonthlyField.style.display = "none";
+            } else if (frequencyField.value === "monthly") {
+                reminderWeeklyField.style.display = "none";
+                reminderMonthlyField.style.display = "block";
+            } else {
+                reminderWeeklyField.style.display = "none";
+                reminderMonthlyField.style.display = "none";
+            }
+        });
+
+        experienceField.dispatchEvent(new Event("change"));
+        frequencyField.dispatchEvent(new Event("change"));
+    });
+</script>
 {% endblock %}

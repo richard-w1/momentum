@@ -8,9 +8,10 @@ class HabitForm(forms.ModelForm):
     class Meta:
         model = Habit
         fields = ['name', 'frequency', 'experience', 'custom_experience', 'reminder_time', 'reminder_weekly', 'reminder_monthly']
-    
-        help_texts = {
-        'reminder_time': "HH:MM in 24 hr format",
+        labels = {
+        'reminder_time': 'What time of day to send you a reminder? (HH:MM 24 hr)',
+        'reminder_weekly': 'Which day of the week?',
+        'reminder_monthly': 'Which date of the month?',
     }
 
     def save(self, commit=True, user=None):
@@ -57,7 +58,7 @@ class EditUserProfileForm(UserChangeForm):
 class EditCustomUserProfileForm(forms.ModelForm):
     class Meta:
         model = custom_user
-        fields = ['birth_date', 'bio', 'rank', 'profile_picture']  # Ensure profile_picture is included
+        fields = ['birth_date', 'bio', 'rank', 'profile_picture']  # added profile_picture
 
     def __init__(self, *args, **kwargs):
         super(EditCustomUserProfileForm, self).__init__(*args, **kwargs)
