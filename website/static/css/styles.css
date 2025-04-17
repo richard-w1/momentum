@@ -173,7 +173,7 @@ h1 {
 /* Buttons */
 .btn {
     display: block;
-    width: 250px;
+    width: 200px;
     padding: 15px;
     margin: 15px auto;
     background: rgba(255, 255, 255, 0.1);
@@ -181,7 +181,7 @@ h1 {
     font-size: 1.2em;
     font-weight: 500;
     text-decoration: none;
-    border-radius: 50px;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
     transition: all 0.4s ease-in-out;
     border: 2px solid rgba(255, 255, 255, 0.5);
@@ -189,7 +189,7 @@ h1 {
 
 .btn:hover {
     background: rgba(0, 255, 255, 0.3);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.37);
     transform: scale(1.05);
 }
 
@@ -281,13 +281,14 @@ h1 {
     height: 30px;
     border-radius: 5px;
     margin-top: 10px;
+    overflow: hidden;
 }
 
 .progress-bar-fill {
-    background-color: green;
     height: 100%;
-    width: var(--progress);
-    border-radius: 5px;
+    background-color: #28a745;
+    width: var(--progress, 0%);
+    transition: width 0.5s ease-in-out;
 }
 
 .navbar {
@@ -315,6 +316,55 @@ h1 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.progress-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.progress-item {
+    flex: 1 1 calc(50% - 20px);
+    background-color: #5e666e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    background-color: #3a3f44;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.tableprogress {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #27292e;
+    color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tableprogress th, .tableprogress td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.tableprogress th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {
@@ -345,3 +395,4 @@ h1 {
         height: 35px;
     }
 }
+
