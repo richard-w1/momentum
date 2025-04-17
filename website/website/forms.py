@@ -70,3 +70,13 @@ class EditCustomUserProfileForm(forms.ModelForm):
                     available_ranks.append((rank_title, rank_title))
             
             self.fields['rank'].choices = available_ranks
+
+class SkipHabitForm(forms.ModelForm):
+    class Meta:
+        model = HabitSkip
+        fields = ['reason']
+        widgets = {
+            'reason': forms.Textarea(attrs={'rows': 3}),
+        }
+
+
