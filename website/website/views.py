@@ -134,7 +134,7 @@ def my_profile(request):
 def edit_profile(request):
     if request.method == 'POST':
         form = EditUserProfileForm(request.POST, instance=request.user)
-        custom_form= EditCustomUserProfileForm(request.POST, instance=request.user.custom_user)
+        custom_form = EditCustomUserProfileForm(request.POST, request.FILES, instance=request.user.custom_user)  # Add `request.FILES`
         if form.is_valid() and custom_form.is_valid():
             form.save()
             custom_form.save()
