@@ -2,10 +2,78 @@
 {% load static %}
 {% block content %}
 
-<html>
-    <body>
-        <h2>My Progress</h2>
-        <table>
+<h2>My Progress</h2>
+
+<p>Want an email notification of your habits for today?
+    <a href="{% url 'send_habit_notifications' %}">
+        <button class="btn">Send!</button>
+    </a>
+</p>
+
+<div class="progress-container">
+    <!-- user stats -->
+    <div class="progress-item card">
+        <h3>User Stats</h3>
+        <table class="tableprogress">
+            <thead>
+                <tr>
+                    <th>Stat</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Level</strong></td>
+                    <td>{{ user.custom_user.level }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Rank</strong></td>
+                    <td>{{ user.custom_user.rank }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Location</strong></td>
+                    <td>{{ user.custom_user.get_current_location }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Experience</strong></td>
+                    <td>{{ user.custom_user.total_exp }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Started Your Journey</strong></td>
+                    <td>{{ total_days_active }} days ago</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Habits</strong></td>
+                    <td>{{ total_habits }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Completed Habits</strong></td>
+                    <td>{{ completed_habits }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Missed Habits</strong></td>
+                    <td>{{ total_missed_habits }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Overall Completion Rate</strong></td>
+                    <td>{{ overall_completion_rate }}%</td>
+                </tr>
+                <tr>
+                    <td><strong>Longest Streak</strong></td>
+                    <td>{{ longest_streak }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Current Streak</strong></td>
+                    <td>{{ current_streak }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- leveling -->
+    <div class="progress-item card">
+        <h3>Leveling Chart</h3>
+        <table class="tableprogress">
             <thead>
                 <tr>
                     <th>Level</th>
@@ -70,63 +138,58 @@
                     <td>Starborn Survivor</td>
                 </tr>
                 <tr>
-                    <td>55</td>
+                    <td>55+</td>
                     <td>Deep Space...</td>
                     <td>Intergalactic Navigator</td>
                 </tr>
             </tbody>
         </table>
-        
-        <br>
-        
-        <p>Habit Progress Report</p>
+    </div>
+
+
+    <!--pie chart -->
+    <div class="progress-item card">
+        <h3>Habit Progress Report</h3>
         <select class="progress_report_frequency">
             <option>Daily</option>
             <option>Weekly</option>
             <option>Monthly</option>
         </select>
+        <canvas id="chart" width="300" height="400"></canvas>
+    </div>
 
-        <div>
-            <canvas id="chart" width="400" height="400"></canvas>
-        </div>
-        
+    <!-- right graph -->
+    <div class="progress-item card">
+        <h3>Graph Chart</h3>
+        <p>Placeholder!</p>
+    </div>
+
+
+    <!-- progress Bars -->
+    <div class="progress-item card">
+        <h3>Progress Bars</h3>
         <p>Today's Progress: {{ completed_habits }} / {{ total_habits }} ({{ daily_percentage }}%) habits completed!</p>
-        
-        <div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
+        <div class="progress-bar-container">
             <div class="progress-bar-fill" style="--progress: {{ daily_percentage|default:0 }}%;"></div>
         </div>
 
         <p>This week's progress:</p>
-        <div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
+        <div class="progress-bar-container">
             <div class="progress-bar-fill" style="--progress: {{ weekly_percentage|default:0 }}%;"></div>
         </div>
 
         <p>This month's progress:</p>
-        <div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
+        <div class="progress-bar-container">
             <div class="progress-bar-fill" style="--progress: {{ monthly_percentage|default:0 }}%;"></div>
         </div>
-        
-        <p>Want an email notification of your habits for today?
-            <a href="{% url 'send_habit_notifications' %}">
-                <button class="small-btn">Send!</button>
-            </a>
-        </p>
-        
-        <!-- Getting the Chart.js file through CDN here the file being 
-        .umd(universal module defination is important as is wont recognize it as a module other wise) -->
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'></script>
-        
-        <!-- Linking Jquery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </div>
+    
+    <!-- idk what to put here -->
+    <div class="progress-item card"></div>
+    </div>
 
-        <!-- Path to custom chart script -->
-        <script src="{% static 'js/stats.js' %}"></script>
-        
-        <p>TODO:</p>
-        <p>"Gamification" aspects, experience, levels</p>
-        <p>Maybe completed habits</p>
-        
-    </body>
-</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="{% static 'js/stats.js' %}"></script>
 
 {% endblock %}

@@ -6,7 +6,7 @@
         <h1>My Dashboard</h1>
 
         <div class="dashboard-sections">
-            <div class="section">
+            <div class="section card">
                 <h3>Today's Tasks</h3>
                 <div class="habit-container">
                     {% if daily_habits or weekly_habits or monthly_habits %}
@@ -50,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="section">
+            <div class="section card">
                 <h3>Today's Progress Summary</h3>
                 <div class="progress-summary">
                     <p>{{ completed_habits }} / {{ total_habits }} ({{ daily_percentage }}%) habits completed!</p>
@@ -61,7 +61,7 @@
                 </div>
             </div>
 
-            <div class="section">
+            <div class="section card">
                 <h3>Quick Statistics</h3>
                 <div class="stats-container">
                     <div class="stat-card">
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="section">
+            <div class="section card">
                 <h3>Motivation for Today</h3>
                     <div class="tip">
                         <p>{{ random_tip }}</p>

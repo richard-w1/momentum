@@ -233,15 +233,29 @@ def my_calendar(request):
 
 @login_required
 def my_progress(request):
-    habits = Habit.objects.filter(user=request.user)
+    user = request.user
+    habits = Habit.objects.filter(user=user)
     total_habits = habits.count()
-    completed_habits = habits.filter(completions__isnull=False).distinct().count()  # adjust if needed
-    daily_percentage = int((completed_habits / total_habits) * 100) if total_habits > 0 else 0
+    completed_habits = habits.filter(completions__isnull=False).distinct().count()
+    total_missed_habits = sum(habit.get_missed_occurrences() for habit in habits)
+
+    # stats
+    overall_completion_rate = (
+        (completed_habits / total_habits) * 100 if total_habits > 0 else 0
+    )
+    longest_streak = max((habit.get_max_streak() for habit in habits), default=0)
+    current_streak = max((habit.get_current_streak() for habit in habits), default=0)
+    total_days_active = (timezone.now().date() - user.date_joined.date()).days
 
     return render(request, 'my_progress.html', {
-        'daily_percentage': daily_percentage,
+        'daily_percentage': int((completed_habits / total_habits) * 100) if total_habits > 0 else 0,
         'completed_habits': completed_habits,
-        'total_habits': total_habits
+        'total_habits': total_habits,
+        'total_missed_habits': total_missed_habits,
+        'overall_completion_rate': round(overall_completion_rate, 2),
+        'longest_streak': longest_streak,
+        'current_streak': current_streak,
+        'total_days_active': total_days_active,
     })
 
 @login_required
