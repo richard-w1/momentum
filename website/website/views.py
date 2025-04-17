@@ -134,7 +134,7 @@ def my_profile(request):
 def edit_profile(request):
     if request.method == 'POST':
         form = EditUserProfileForm(request.POST, instance=request.user)
-        custom_form= EditCustomUserProfileForm(request.POST, instance=request.user.custom_user)
+        custom_form = EditCustomUserProfileForm(request.POST, request.FILES, instance=request.user.custom_user)  # Add `request.FILES`
         if form.is_valid() and custom_form.is_valid():
             form.save()
             custom_form.save()
@@ -327,7 +327,6 @@ def send_habit_notifications(request):
     return redirect('dashboard')
 
 def send_habit_reminders():
-    #convert to server timezone
     current_time = localtime().time()
     print(f"Current server time: {current_time}")
 
@@ -335,20 +334,21 @@ def send_habit_reminders():
 
     for habit in habits:
         if habit.reminder_time:
-            #1 minute time window
+            # 1 min window
             reminder_time_start = (datetime.combine(date.today(), habit.reminder_time) - timedelta(seconds=30)).time()
             reminder_time_end = (datetime.combine(date.today(), habit.reminder_time) + timedelta(seconds=30)).time()
 
             print(f"{habit.name} for user: {habit.user.username}, time window: {reminder_time_start} - {reminder_time_end}")
+            print(f"Reminder time: {habit.reminder_time}, Weekly: {habit.reminder_weekly}, Monthly: {habit.reminder_monthly}")
 
             if reminder_time_start <= current_time <= reminder_time_end:
                 if habit.frequency == 'daily':
                     print(f"Sending daily reminder")
                     send_reminder_email(habit)
-                elif habit.frequency == 'weekly' and habit.reminder_weekly == now().weekday():
+                elif habit.frequency == 'weekly' and habit.reminder_weekly == localtime().weekday():
                     print(f"Sending weekly reminder")
                     send_reminder_email(habit)
-                elif habit.frequency == 'monthly' and habit.reminder_monthly == now().day:
+                elif habit.frequency == 'monthly' and habit.reminder_monthly == localtime().day:
                     print(f"Sending monthly reminder")
                     send_reminder_email(habit)
             else:

@@ -8,9 +8,10 @@ class HabitForm(forms.ModelForm):
     class Meta:
         model = Habit
         fields = ['name', 'frequency', 'experience', 'custom_experience', 'reminder_time', 'reminder_weekly', 'reminder_monthly']
-    
-        help_texts = {
-        'reminder_time': "HH:MM in 24 hr format",
+        labels = {
+        'reminder_time': 'What time of day to send you a reminder? (HH:MM 24 hr)',
+        'reminder_weekly': 'Which day of the week?',
+        'reminder_monthly': 'Which date of the month?',
     }
 
     def save(self, commit=True, user=None):
