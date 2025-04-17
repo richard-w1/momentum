@@ -305,3 +305,14 @@ class HabitCompletion(models.Model):
         super().save(*args, **kwargs)
         self.habit.last_completed = self.date_completed
         self.habit.save()
+
+class HabitSkip(models.Model):
+    habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="skips")
+    date_skipped = models.DateField(default=date.today)
+    reason = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = ('habit', 'date_skipped')
+
+    def __str__(self):
+        return f"{self.habit.name} skipped on {self.date_skipped}"
