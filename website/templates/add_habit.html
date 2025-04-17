@@ -2,13 +2,47 @@
 {% block content %}
 <h2>Add a New Habit</h2>
 <div>
-    We suggest 200 xp for daily habits, and 1000 xp for weekly habits.
+    We suggest 200 xp for daily habits and 1000 xp for weekly/monthly habits!
 </div>
-<form method="POST">
+<form method="POST" class= "specialform" id="habit-form">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn">Add Habit</button>
 </form>
 
-<a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const experienceField = document.querySelector("#id_experience");
+        const customExperienceField = document.querySelector("#id_custom_experience").closest("p");
+        const frequencyField = document.querySelector("#id_frequency");
+        const reminderWeeklyField = document.querySelector("#id_reminder_weekly").closest("p");
+        const reminderMonthlyField = document.querySelector("#id_reminder_monthly").closest("p");
+
+        // hide fields
+        customExperienceField.style.display = "none";
+        reminderWeeklyField.style.display = "none";
+        reminderMonthlyField.style.display = "none";
+
+        experienceField.addEventListener("change", function () {
+            if (experienceField.value === "-1") {
+                customExperienceField.style.display = "block";
+            } else {
+                customExperienceField.style.display = "none";
+            }
+        });
+
+        frequencyField.addEventListener("change", function () {
+            if (frequencyField.value === "weekly") {
+                reminderWeeklyField.style.display = "block";
+                reminderMonthlyField.style.display = "none";
+            } else if (frequencyField.value === "monthly") {
+                reminderWeeklyField.style.display = "none";
+                reminderMonthlyField.style.display = "block";
+            } else {
+                reminderWeeklyField.style.display = "none";
+                reminderMonthlyField.style.display = "none";
+            }
+        });
+    });
+</script>
 {% endblock %}
