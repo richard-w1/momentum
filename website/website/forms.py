@@ -3,6 +3,7 @@ from .models import Habit
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from .models import custom_user
+from .models import HabitSkip
 
 class HabitForm(forms.ModelForm):
     class Meta:
