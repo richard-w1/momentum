@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Skip Habit: {{ habit.name }}</h2>
+<form method="post" class="specialform">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Skip</button>
+</form>
+<a href="{% url 'my_habits' %}" class="btn">Cancel</a>
+{% endblock %}
+
