@@ -449,4 +449,4 @@ def skip_habit(request, habit_id):
 
     return render(request, 'skip_habit.html', {'form': form, 'habit': habit})
 
-    
+ 
