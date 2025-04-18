@@ -10,7 +10,7 @@ class HabitForm(forms.ModelForm):
         model = Habit
         fields = ['name', 'frequency', 'experience', 'custom_experience', 'reminder_time', 'reminder_weekly', 'reminder_monthly']
         labels = {
-        'reminder_time': 'What time of day to send you a reminder? (HH:MM 24 hr)',
+        'reminder_time': 'What time of day should we send you an alert or reminder? (HH:MM 24 hr)',
         'reminder_weekly': 'Which day of the week?',
         'reminder_monthly': 'Which date of the month?',
     }
