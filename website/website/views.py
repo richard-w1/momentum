@@ -21,6 +21,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.timezone import now, localtime
 from .models import Habit
+from .forms import SkipHabitForm
 
 def home_redirect(request):
     return redirect('landing')
@@ -441,7 +442,7 @@ def skip_habit(request, habit_id):
         if form.is_valid():
             skip = form.save(commit=False)
             skip.habit = habit
-            skip.date_skipped = date.today()
+            skip.date_skipped = now().date()
             skip.save()
             return redirect('my_habits')
     else:
