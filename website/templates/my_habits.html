@@ -7,6 +7,9 @@
 <!-- Linking html with dropdown.js -->
 <script src="{% static 'js/dropdown.js' %}"></script>
 
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+
     <div class="habit-container">
         <h2>My Habits</h2>
         <div>
@@ -28,25 +31,39 @@
                             <td class="habit-details-labels">Rate</td>
 
                             <td class="habit-details-labels">
-                                {% if habit.frequency == 'daily' and not habit.is_completed_today %}
-                                    <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="small-btn done-btn">Done!</button>
-                                    </form>
-                                {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week %}
-                                    <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="small-btn done-btn">Done!</button>
-                                    </form>
-                                {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
-                                    <form action="{% url 'complete_habit' habit.id %}" method="POST" style="display:inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="small-btn done-btn">Done!</button>
-                                    </form>
-                                {% endif %}
-                            </td>
-                            <td><a href="{% url 'edit_habit' habit.id %}" class="small-btn edit-btn">Edit</a></td>
-                            <td><a href="{% url 'delete_habit' habit.id %}" class="small-btn delete-btn">Delete</a></td>
+                                <td class="habit-details-labels">
+                                    <div class="habit-button-container">
+                                        <div class="habit-action-row">
+                                            {% if habit.frequency == 'daily' and not habit.is_completed_today %}
+                                                <form action="{% url 'complete_habit' habit.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="small-btn done-btn">Done!</button>
+                                                </form>
+                                            {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week %}
+                                                <form action="{% url 'complete_habit' habit.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="small-btn done-btn">Done!</button>
+                                                </form>
+                                            {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
+                                                <form action="{% url 'complete_habit' habit.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="small-btn done-btn">Done!</button>
+                                                </form>
+                                            {% endif %}
+                                
+                                            <a href="{% url 'edit_habit' habit.id %}" class="small-btn edit-btn">Edit</a>
+                                            <a href="{% url 'delete_habit' habit.id %}" class="small-btn delete-btn">Delete</a>
+                                        </div>
+                                
+                                        <div class="skip-button-row">
+                                            <form action="{% url 'skip_habit' habit.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="reason" value="No reason provided">
+                                                <button type="submit" class="small-btn skip-btn">Skip</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
                         </tr>
                         
                         <tr>
