@@ -321,3 +321,4 @@ class HabitSkip(models.Model):
 
     def __str__(self):
         return f"{self.habit.name} skipped on {self.date_skipped}"
+ 
