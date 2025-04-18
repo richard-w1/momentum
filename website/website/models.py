@@ -293,6 +293,11 @@ class Habit(models.Model):
     
     def get_experience_value(self):
         return self.custom_experience if self.experience == -1 and self.custom_experience else self.experience
+    
+    def is_skipped_today(self):
+        today = timezone.now().date()
+        return self.skips.filter(date_skipped=today).exists()
+
 
 class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="completions")
