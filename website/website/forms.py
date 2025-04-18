@@ -77,6 +77,6 @@ class SkipHabitForm(forms.ModelForm):
     class Meta:
         model = HabitSkip
         fields = ['reason']
- 
+
 
 
