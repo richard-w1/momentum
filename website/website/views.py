@@ -426,6 +426,47 @@ def get_stats(request):
     return JsonResponse(statistics, safe=False)
 
 @login_required
+def weekly_stats(request):
+    #stats variable
+    weekly_stats  = {}
+
+    #getting todays date and the start date
+    today = timezone.now().date()
+    start_date = today - timedelta(6)
+
+    # getting all the habits of the user
+    user_habits = Habit.objects.filter(user=request.user)
+
+    # filtering all the dates in the habit_completion
+    # model and using the foreign key relation to get
+    # a list of habit completed in the last seven days
+    habits = HabitCompletion.objects.filter(
+        habit__in = user_habits,
+        date_completed__gte= start_date, 
+        date_completed__lte= today,
+    ).select_related('habit');
+
+    for habit in habits:
+        day = habit.date_completed.weekday()
+        match day:
+            case 0:
+                weekly_stats["Monday"] = weekly_stats.get("Monday", 0) + 1
+            case 1:
+                weekly_stats["Tuesday"] = weekly_stats.get("Tuesday", 0) + 1
+            case 2:
+                weekly_stats["Wednesday"] = weekly_stats.get("Wednesday", 0) + 1
+            case 3:
+                weekly_stats["Thursday"] = weekly_stats.get("Thursday", 0) + 1
+            case 4:
+                weekly_stats["Friday"] = weekly_stats.get("Friday", 0) + 1
+            case 5:
+                weekly_stats["Saturday"] = weekly_stats.get("Saturday", 0) + 1
+            case 6:
+                weekly_stats["Sunday"] = weekly_stats.get("Sunday", 0) + 1
+    
+    return JsonResponse(weekly_stats, safe=False)
+
+@login_required
 def level_up_notification(request):
     level_up_data = request.session.pop('level_up_data', None)
 
