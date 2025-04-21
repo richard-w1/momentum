@@ -21,6 +21,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.timezone import now, localtime
 from .models import Habit
+from .forms import SkipHabitForm
 
 def home_redirect(request):
     return redirect('landing')
@@ -431,3 +432,22 @@ def level_up_notification(request):
     if not level_up_data:
         return redirect('dashboard')
     return render(request, 'level_up_notification.html', {'level_up_data': level_up_data})
+
+@login_required
+def skip_habit(request, habit_id):
+    habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+
+    if request.method == 'POST':
+        form = SkipHabitForm(request.POST)
+        if form.is_valid():
+            skip = form.save(commit=False)
+            skip.habit = habit
+            skip.date_skipped = now().date()
+            skip.save()
+            return redirect('my_habits')
+    else:
+        form = SkipHabitForm()
+
+    return render(request, 'skip_habit.html', {'form': form, 'habit': habit})
+
+ 
