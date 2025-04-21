@@ -428,7 +428,16 @@ def get_stats(request):
 @login_required
 def weekly_stats(request):
     #stats variable
-    weekly_stats  = {}
+    # initializing to zero in case of no entry
+    weekly_stats  = {
+        'Monday' : 0,
+        'Tuesday' : 0,
+        'Wednesday' : 0,
+        'Thursday' : 0,
+        'Friday' : 0,
+        'Saturday' : 0,
+        'Sunday' : 0,
+    }
 
     #getting todays date and the start date
     today = timezone.now().date()
@@ -450,19 +459,19 @@ def weekly_stats(request):
         day = habit.date_completed.weekday()
         match day:
             case 0:
-                weekly_stats["Monday"] = weekly_stats.get("Monday", 0) + 1
+                weekly_stats["Monday"] += 1
             case 1:
-                weekly_stats["Tuesday"] = weekly_stats.get("Tuesday", 0) + 1
+                weekly_stats["Tuesday"] += 1
             case 2:
-                weekly_stats["Wednesday"] = weekly_stats.get("Wednesday", 0) + 1
+                weekly_stats["Wednesday"] += 1
             case 3:
-                weekly_stats["Thursday"] = weekly_stats.get("Thursday", 0) + 1
+                weekly_stats["Thursday"] += 1
             case 4:
-                weekly_stats["Friday"] = weekly_stats.get("Friday", 0) + 1
+                weekly_stats["Friday"] += 1
             case 5:
-                weekly_stats["Saturday"] = weekly_stats.get("Saturday", 0) + 1
+                weekly_stats["Saturday"] += 1
             case 6:
-                weekly_stats["Sunday"] = weekly_stats.get("Sunday", 0) + 1
+                weekly_stats["Sunday"] += 1
     
     return JsonResponse(weekly_stats, safe=False)
 

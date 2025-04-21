@@ -45,6 +45,7 @@ urlpatterns = [
     path('my_calendar/', views.my_calendar, name='my_calendar'),
     path('get_habits/', views.get_habits, name='get_habits'),
     path('get_stats/', views.get_stats, name='get_stats'),
+    path('get_weekly_stats/', views.weekly_stats, name='get_weekly_stats'),
     path('my_progress/', views.my_progress, name='my_progress'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('send-habit-notifications/', send_habit_notifications, name='send_habit_notifications'),
