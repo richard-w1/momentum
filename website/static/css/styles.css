@@ -60,35 +60,33 @@ main {
 
 .habit-item {
     background-color: #2a2f35;
-    padding: 8px;
+    padding: 10px;
     margin: 5px 0;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .habit-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 5px;
-    table-layout: fixed;
-    width: 900px;
+    table-layout: auto;
 }
 
 .habit-table td, .habit-table th {
-    padding: 2px;
-    text-align: left;
-    vertical-align: bottom;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #444;
+    font-size: 1rem;
+    word-wrap: break-word;
 }
 
 .habit-table th {
     background-color: #3a3f44;
     color: #ffffff;
     font-weight: bold;
-}
-
-.habit-name {
-    font-size: 18px;
-    font-weight: bold;
+    white-space: nowrap;
 }
 
 .habit-details-labels {
@@ -101,12 +99,17 @@ main {
     font-weight: bold;
     text-align: left;
     color: #ffffff;
-    width: 200px;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .habit-data {
-    text-align: top;
+    text-align: center;
     color: #d1d1d1;
+    font-size: 1rem;
+    white-space: nowrap;
 }
 
 .logo {
@@ -246,6 +249,45 @@ h1 {
 .delete-btn:hover {
     background-color: #6b1410;
 }
+.skip-btn {
+    background-color: #f9a825; /* Amber/Yellow */
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.skip-btn:hover {
+    background-color: #f57f17; /* Slightly darker on hover */
+}
+ 
+.skip-button-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.habit-action-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: baseline; 
+    margin-bottom: 8px;
+}
+
+.habit-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+
 
 /* Profile Dropdown */
 .dropdown-menu {
@@ -404,5 +446,17 @@ h1 {
         width: 35px;
         height: 35px;
     }
-}
 
+    .habit-table td, .habit-table th {
+        font-size: 0.9rem;
+        padding: 6px;
+    }
+
+    .habit-details-name {
+        white-space: normal;
+    }
+
+    .habit-data {
+        white-space: normal;
+    }
+}

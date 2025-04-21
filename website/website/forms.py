@@ -77,8 +77,7 @@ class SkipHabitForm(forms.ModelForm):
     class Meta:
         model = HabitSkip
         fields = ['reason']
-        widgets = {
-            'reason': forms.Textarea(attrs={'rows': 3}),
-        }
+        
+
 
 

@@ -49,9 +49,11 @@ urlpatterns = [
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('send-habit-notifications/', send_habit_notifications, name='send_habit_notifications'),
     path('level-up-notification/', views.level_up_notification, name='level_up_notification'),
+    path('my_habits/<int:habit_id>/skip/', views.skip_habit, name='skip_habit'),
 ]
 
 # profile pictures
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+ 
