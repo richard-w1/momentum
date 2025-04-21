@@ -1,5 +1,7 @@
 let currentChart = null
 
+// for daily weekly monthly progress charts
+
 // getting the data form the /get_stats/ which runs 
 // the get_stat view returning a json response
 fetch('/get_stats/', {
@@ -19,6 +21,7 @@ fetch('/get_stats/', {
                 currentChart.destroy();
             }
 
+            // calling the proper funtion based on the option selected
             if ($(this).val() == "Daily") {
                 make_daily_habit_graph(data)
             }else if ($(this).val() == "Weekly") {
@@ -116,5 +119,53 @@ function make_monthly_habit_graph(data){
         options: {
 
         }
+    });
+}
+
+// weekly habit report chart
+fetch('/get_weekly_stats/', {
+    headers:{
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
+    },
+})
+.then(response => {
+    return response.json() //Convert response to JSON
+})
+.then(data => {
+    $(document).ready(function() {
+        // calling the function once the document is ready
+        weekly_report_graph(data)
+    });
+})
+
+// creates and render the weekly report graph
+function weekly_report_graph(data){
+    const ctx = document.getElementById('weekly_chart');
+    new Chart(ctx, {
+        type: 'bar',
+        options: {
+            animation: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: false
+                },
+            }
+        },
+        data: {
+            labels: Object.keys(data),
+            datasets: [{
+            label: 'number of habits completed',
+            data: Object.values(data),
+            borderWidth: 1
+            }]
+        },
+        options: {
+
+        }
+        
     });
 }
