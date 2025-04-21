@@ -241,7 +241,7 @@ def my_progress(request):
 
     # stats
     overall_completion_rate = (
-        (completed_habits / total_habits) * 100 if total_habits > 0 else 0
+        (completed_habits / (completed_habits + total_missed_habits)) * 100 if total_habits > 0 else 0
     )
     longest_streak = max((habit.get_max_streak() for habit in habits), default=0)
     current_streak = max((habit.get_current_streak() for habit in habits), default=0)

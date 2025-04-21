@@ -47,23 +47,23 @@
                     <td>{{ total_habits }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Completed Habits</strong></td>
+                    <td><strong>Lifetime Completed Habits</strong></td>
                     <td>{{ completed_habits }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Missed Habits</strong></td>
+                    <td><strong>Lifetime Missed Habits</strong></td>
                     <td>{{ total_missed_habits }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Overall Completion Rate</strong></td>
+                    <td><strong>Lifetime Completion Rate</strong></td>
                     <td>{{ overall_completion_rate }}%</td>
                 </tr>
                 <tr>
-                    <td><strong>Longest Streak</strong></td>
+                    <td><strong>Highest Habit Streak</strong></td>
                     <td>{{ longest_streak }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Current Streak</strong></td>
+                    <td><strong>Current Highest Streak</strong></td>
                     <td>{{ current_streak }}</td>
                 </tr>
             </tbody>
@@ -183,7 +183,7 @@
             <div class="progress-bar-fill" style="--progress: {{ monthly_percentage|default:0 }}%;"></div>
         </div>
     </div>
-    
+
     <!-- idk what to put here -->
     <div class="progress-item card"></div>
     </div>
