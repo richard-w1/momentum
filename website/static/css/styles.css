@@ -252,29 +252,16 @@ h1 {
 .skip-btn {
     background-color: #f9a825; /* Amber/Yellow */
     color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    margin-left: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
 }
 
 .skip-btn:hover {
-    background-color: #f57f17; /* Slightly darker on hover */
-}
- 
-.skip-button-row {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+    background-color: #f57f17;
 }
 
 .habit-action-row {
     display: flex;
-    flex-direction: row;
     gap: 10px;
+    justify-content: center;
     align-items: baseline; 
     margin-bottom: 8px;
 }
@@ -282,12 +269,9 @@ h1 {
 .habit-button-container {
     display: flex;
     flex-direction: column;
+    gap: 5px;
     align-items: center;
 }
-
-
-
-
 
 /* Profile Dropdown */
 .dropdown-menu {

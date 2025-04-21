@@ -31,39 +31,43 @@
                             <td class="habit-details-labels">Rate</td>
 
                             <td class="habit-details-labels">
-                                <td class="habit-details-labels">
-                                    <div class="habit-button-container">
-                                        <div class="habit-action-row">
-                                            {% if habit.frequency == 'daily' and not habit.is_completed_today %}
-                                                <form action="{% url 'complete_habit' habit.id %}" method="POST">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="small-btn done-btn">Done!</button>
-                                                </form>
-                                            {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week %}
-                                                <form action="{% url 'complete_habit' habit.id %}" method="POST">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="small-btn done-btn">Done!</button>
-                                                </form>
-                                            {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
-                                                <form action="{% url 'complete_habit' habit.id %}" method="POST">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="small-btn done-btn">Done!</button>
-                                                </form>
-                                            {% endif %}
-                                
-                                            <a href="{% url 'edit_habit' habit.id %}" class="small-btn edit-btn">Edit</a>
-                                            <a href="{% url 'delete_habit' habit.id %}" class="small-btn delete-btn">Delete</a>
-                                        </div>
-                                
-                                        <div class="skip-button-row">
+                                <div class="habit-button-container">
+                                    <div class="habit-action-row">
+                                        {% if habit.frequency == 'daily' and not habit.is_completed_today %}
+                                            <form action="{% url 'complete_habit' habit.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="small-btn done-btn">Done!</button>
+                                            </form>
                                             <form action="{% url 'skip_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="reason" value="No reason provided">
                                                 <button type="submit" class="small-btn skip-btn">Skip</button>
                                             </form>
-                                        </div>
+                                        {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week %}
+                                            <form action="{% url 'complete_habit' habit.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="small-btn done-btn">Done!</button>
+                                            </form>
+                                            <form action="{% url 'skip_habit' habit.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="reason" value="No reason provided">
+                                                <button type="submit" class="small-btn skip-btn">Skip</button>
+                                            </form>
+                                        {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
+                                            <form action="{% url 'complete_habit' habit.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="small-btn done-btn">Done!</button>
+                                            </form>
+                                            <form action="{% url 'skip_habit' habit.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="reason" value="No reason provided">
+                                                <button type="submit" class="small-btn skip-btn">Skip</button>
+                                            </form>
+                                        {% endif %}
                                     </div>
-                                </td>
+
+                                </div>
+                            </td>
                         </tr>
                         
                         <tr>
@@ -84,6 +88,12 @@
                             <td class="habit-data">{{ habit.get_max_streak }}</td>
                             <td class="habit-data">{{ habit.get_missed_occurrences }}</td>
                             <td class="habit-data">{{ habit.get_completion_rate|floatformat:2 }}%</td>
+                            <td>
+                                <div class="habit-action-row">
+                                    <a href="{% url 'edit_habit' habit.id %}" class="small-btn edit-btn">Edit</a>
+                                    <a href="{% url 'delete_habit' habit.id %}" class="small-btn delete-btn">Delete</a>
+                                </div>
+                            </td>
 
                         </tr>
                     </table>
