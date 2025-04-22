@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <h1>Leaderboard</h1>
-
+<div class="leaderboard">
 <!-- logged in user -->
 <h3>Your Rank</h3>
 <div class='card'>
@@ -30,7 +30,7 @@
 
 
 <!-- Top 100 -->
-<h3>Top Players Overall</h3>
+<h3>All Time Top Players</h3>
 <div class='card'>
 <table id="global-leaderboard" class="display">
     <thead>
@@ -54,78 +54,89 @@
 </table>
 </div>
 
-<h3>Top Players Today</h3>
-<div class='card'>
-<table id="today-leaderboard" class="display">
-    <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Username</th>
-            <th>Habits Done</th>
-            <th>Experience Gained</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for player in top_today %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ player.username }}</td>
-            <td>{{ player.habits_done }}</td>
-            <td>{{ player.exp_gained }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
+<h3>Current Top Players</h3>
 
-<h3>Top Players This Week</h3>
-<div class='card'>
-<table id="week-leaderboard" class="display">
-    <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Username</th>
-            <th>Habits Done</th>
-            <th>Experience Gained</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for player in top_week %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ player.username }}</td>
-            <td>{{ player.habits_done }}</td>
-            <td>{{ player.exp_gained }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
+<div class="tabs">
+    <ul class="tab-nav">
+        <li><a href="#today-tab" class="active">Today</a></li>
+        <li><a href="#week-tab">This Week</a></li>
+        <li><a href="#month-tab">This Month</a></li>
+    </ul>
+    <div class='card'>
+        <!-- Today -->
+        <div id="today-tab" class="tab-pane active">
+            <table id="today-leaderboard" class="display">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Habits Done</th>
+                        <th>Experience Gained</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in top_today %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ player.username }}</td>
+                        <td>{{ player.habits_done }}</td>
+                        <td>{{ player.exp_gained }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-<h3>Top Players This Month</h3>
-<div class='card'>
-<table id="month-leaderboard" class="display">
-    <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Username</th>
-            <th>Habits Done</th>
-            <th>Experience Gained</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for player in top_month %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ player.username }}</td>
-            <td>{{ player.habits_done }}</td>
-            <td>{{ player.exp_gained }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
+        <!-- Week -->
+        <div id="week-tab" class="tab-pane">
+            <table id="week-leaderboard" class="display">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Habits Done</th>
+                        <th>Experience Gained</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in top_week %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ player.username }}</td>
+                        <td>{{ player.habits_done }}</td>
+                        <td>{{ player.exp_gained }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
+        <!-- Month -->
+        <div id="month-tab" class="tab-pane">
+            <table id="month-leaderboard" class="display">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Habits Done</th>
+                        <th>Experience Gained</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in top_month %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ player.username }}</td>
+                        <td>{{ player.habits_done }}</td>
+                        <td>{{ player.exp_gained }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
 <!-- Include DataTables.js -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -157,6 +168,23 @@
             paging: false,
             searching: false,
             info: false
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.tab-nav a');
+        const panes = document.querySelectorAll('.tab-pane');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                tabs.forEach(t => t.classList.remove('active'));
+                panes.forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                const target = document.querySelector(this.getAttribute('href'));
+                target.classList.add('active');
+            });
         });
     });
 </script>
