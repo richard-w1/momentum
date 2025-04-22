@@ -22,6 +22,8 @@ from django.core.mail import send_mail
 from django.utils.timezone import now, localtime
 from .models import Habit
 from .forms import SkipHabitForm
+from django.db.models import F, Window
+from django.db.models.functions import Rank
 
 def home_redirect(request):
     return redirect('landing')
@@ -261,7 +263,21 @@ def my_progress(request):
 
 @login_required
 def leaderboard(request):
-    return render(request, 'leaderboard.html')
+    # sort by total exp
+    all_users = custom_user.objects.annotate(
+        user_rank=Window(
+            expression=Rank(),
+            order_by=[F('total_exp').desc()]
+        )
+    )
+    self = all_users.filter(user=request.user).first()
+    top100 = all_users.order_by('user_rank')[:100]
+
+    context = {
+        'self': self,
+        'top100': top100,
+    }
+    return render(request, 'leaderboard.html', context)
 
 @login_required
 def get_habits(request):
@@ -500,4 +516,4 @@ def skip_habit(request, habit_id):
 
     return render(request, 'skip_habit.html', {'form': form, 'habit': habit})
 
- 
+

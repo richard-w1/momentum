@@ -1,7 +1,79 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h2>Leaderboard</h2>
-<p>Goes through the users table</p>
-<p>Grabs usernames</p>
-<p>Sorts decending, by levels/exp</p>
+<h1>Leaderboard</h1>
+
+<!-- logged in user -->
+<h3>Your Rank</h3>
+<div class='card'>
+<table id="user-leaderboard" class="display">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Level</th>
+            <th>Experience</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if self %}
+        <tr>
+            <td>{{ self.user_rank }}</td>
+            <td><strong>{{ self.user.username }}</strong> the {{ self.rank }}</td>
+            <td>{{ self.level }}</td>
+            <td>{{ self.total_exp }}</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+</div>
+
+
+<!-- Top 100 -->
+<h3>Top Players Overall</h3>
+<div class='card'>
+<table id="global-leaderboard" class="display">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Level</th>
+            <th>Experience</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in top100 %}
+        <tr>
+            <td>{{ user.user_rank }}</td>
+            <td><strong>{{ user.user.username }}</strong> the {{ user.rank }}</td>
+            <td>{{ user.level }}</td>
+            <td>{{ user.total_exp }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<h3>Top Players this Month</h3>
+<div>Sorted by habits done, exp gained</div>
+
+<!-- Include DataTables.js -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#user-leaderboard').DataTable({
+            paging: false,
+            searching: false,
+            info: false
+        });
+        $('#global-leaderboard').DataTable({
+            paging: true,
+            pageLength: 10,
+            searching: true,
+            info: true
+        });
+    });
+</script>
 {% endblock %}
