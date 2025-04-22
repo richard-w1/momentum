@@ -273,9 +273,44 @@ def leaderboard(request):
     self = all_users.filter(user=request.user).first()
     top100 = all_users.order_by('user_rank')[:100]
 
+    # get times
+    today = date.today()
+    start_of_week = today - timedelta(days=today.weekday())
+    start_of_month = today.replace(day=1)
+
+    # number of habits completed
+    completions_today = HabitCompletion.objects.filter(date_completed=today).select_related('habit', 'habit__user')
+    completions_this_week = HabitCompletion.objects.filter(date_completed__gte=start_of_week).select_related('habit', 'habit__user')
+    completions_this_month = HabitCompletion.objects.filter(date_completed__gte=start_of_month).select_related('habit', 'habit__user')
+
+    # get top 10 users by habits completed
+    def gettemptop10(completions):
+        stats = {}
+
+        for completion in completions:
+            user = completion.habit.user
+
+            if user not in stats:
+                stats[user] = {
+                    'username': user.username,
+                    'habits_done': 0,
+                    'exp_gained': 0,
+                }
+            stats[user]['habits_done'] += 1
+            stats[user]['exp_gained'] += completion.habit.get_experience_value()
+        return sorted(stats.values(), key=lambda x: (x['habits_done'], x['exp_gained']), reverse=True)[:10]
+    
+    
+    top_today = gettemptop10(completions_today)
+    top_week = gettemptop10(completions_this_week)
+    top_month = gettemptop10(completions_this_month)
+
     context = {
         'self': self,
         'top100': top100,
+        'top_today': top_today,
+        'top_week': top_week,
+        'top_month': top_month,
     }
     return render(request, 'leaderboard.html', context)
 

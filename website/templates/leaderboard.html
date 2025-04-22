@@ -54,8 +54,77 @@
 </table>
 </div>
 
-<h3>Top Players this Month</h3>
-<div>Sorted by habits done, exp gained</div>
+<h3>Top Players Today</h3>
+<div class='card'>
+<table id="today-leaderboard" class="display">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Habits Done</th>
+            <th>Experience Gained</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in top_today %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ player.username }}</td>
+            <td>{{ player.habits_done }}</td>
+            <td>{{ player.exp_gained }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<h3>Top Players This Week</h3>
+<div class='card'>
+<table id="week-leaderboard" class="display">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Habits Done</th>
+            <th>Experience Gained</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in top_week %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ player.username }}</td>
+            <td>{{ player.habits_done }}</td>
+            <td>{{ player.exp_gained }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<h3>Top Players This Month</h3>
+<div class='card'>
+<table id="month-leaderboard" class="display">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Habits Done</th>
+            <th>Experience Gained</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in top_month %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ player.username }}</td>
+            <td>{{ player.habits_done }}</td>
+            <td>{{ player.exp_gained }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
 
 <!-- Include DataTables.js -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
@@ -73,6 +142,21 @@
             pageLength: 10,
             searching: true,
             info: true
+        });
+        $('#today-leaderboard').DataTable({
+            paging: false,
+            searching: false,
+            info: false
+        });
+        $('#week-leaderboard').DataTable({
+            paging: false,
+            searching: false,
+            info: false
+        });
+        $('#month-leaderboard').DataTable({
+            paging: false,
+            searching: false,
+            info: false
         });
     });
 </script>
