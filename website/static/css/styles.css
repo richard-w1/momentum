@@ -403,6 +403,52 @@ h1 {
     font-weight: bold;
 }
 
+.tabs {
+    margin-top: 20px;
+}
+
+.tab-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 2px solid #444;
+}
+
+.tab-nav li {
+    margin-right: 10px;
+}
+
+.tab-nav a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #3a3f44;
+    border-radius: 5px 5px 0 0;
+    transition: background-color 0.3s ease;
+}
+
+.tab-nav a.active {
+    background-color: #2a2f35;
+    font-weight: bold;
+}
+
+.tab-nav a:hover {
+    background-color: #444;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+.leaderboard {
+    width: 700px;
+}
+
 @media (max-width: 768px) {
     h1 {
         font-size: 2em;
