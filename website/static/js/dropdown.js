@@ -10,3 +10,13 @@ $(document).ready(function() {
         $('.habit-item').toggle();
     });
 });
+
+$(document).ready(function() {
+    $(".is_important").click(function(eve){
+        // serches for the favourite star icon
+        var starIcon = $(this).find("i.favourite-star");
+        // toggling between the icons
+        starIcon.toggleClass("far fas");
+        starIcon.toggleClass("marked unmarked");
+    });
+});
