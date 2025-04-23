@@ -7,6 +7,8 @@
 <!-- Linking html with dropdown.js -->
 <script src="{% static 'js/dropdown.js' %}"></script>
 
+<!-- Importing the font awsome library for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
 
@@ -29,7 +31,7 @@
                             <td class="habit-details-labels">Max Streak</td>
                             <td class="habit-details-labels">Missed</td>
                             <td class="habit-details-labels">Rate</td>
-
+                            
                             <td class="habit-details-labels">
                                 <div class="habit-button-container">
                                     <div class="habit-action-row">
@@ -53,7 +55,7 @@
                                                 <input type="hidden" name="reason" value="No reason provided">
                                                 <button type="submit" class="small-btn skip-btn">Skip</button>
                                             </form>
-                                        {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
+                                            {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="small-btn done-btn">Done!</button>
@@ -63,12 +65,16 @@
                                                 <input type="hidden" name="reason" value="No reason provided">
                                                 <button type="submit" class="small-btn skip-btn">Skip</button>
                                             </form>
-                                        {% endif %}
+                                            {% endif %}
+                                        </div>         
                                     </div>
-
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="is_important">
+                                    <i class="far fa-star favourite-star unmarked"></i>
+                                    <span class="important_text">Mark as Important</span>
+                                </td>
+                                
+                            </tr>
                         
                         <tr>
                             <td class="habit-data">{{ habit.get_frequency_display }}</td>

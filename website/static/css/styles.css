@@ -490,3 +490,23 @@ h1 {
         white-space: normal;
     }
 }
+
+.is_important {
+    position: relative;
+}
+
+.is_important .important_text {
+    visibility: hidden;
+    padding: 0.25em 0.5em;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.25em;
+    top: 100%;
+    left: 100%;
+    position: absolute;
+}
+
+.is_important:hover .important_text {
+    visibility: visible;
+}
