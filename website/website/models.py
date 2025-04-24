@@ -173,6 +173,7 @@ class Habit(models.Model):
     max_streak = models.IntegerField(default=0)
     experience = models.IntegerField(choices=EXPERIENCE_CHOICES)
     custom_experience = models.PositiveIntegerField(null=True, blank=True)
+    important = models.BooleanField(default=False)
 
     reminder_time = models.TimeField(null=True, blank=True)
     reminder_weekly = models.IntegerField(null=True, blank=True, choices=weekly_choices)
