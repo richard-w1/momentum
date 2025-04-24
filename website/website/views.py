@@ -226,6 +226,14 @@ def delete_habit(request, habit_id):
     return render(request, "delete_habit.html", {"habit": habit})
 
 @login_required
+def is_important(request, habit_id):
+    habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+    if request.method == "POST":
+        habit.important = True if not habit.important else False
+        habit.save()
+    return redirect("my_habits")
+
+@login_required
 def my_habits(request):
     habits = Habit.objects.filter(user=request.user)
     return render(request, 'my_habits.html', {'habits': habits})
@@ -504,7 +512,7 @@ def weekly_stats(request):
         habit__in = user_habits,
         date_completed__gte= start_date, 
         date_completed__lte= today,
-    ).select_related('habit');
+    ).select_related('habit')
 
     for habit in habits:
         day = habit.date_completed.weekday()

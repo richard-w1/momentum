@@ -66,13 +66,31 @@
                                                 <button type="submit" class="small-btn skip-btn">Skip</button>
                                             </form>
                                             {% endif %}
-                                        </div>         
+                                        </div>
+                                        
                                     </div>
                                 </td>
+                                {% if not habit.important %}
                                 <td class="is_important">
-                                    <i class="far fa-star favourite-star unmarked"></i>
-                                    <span class="important_text">Mark as Important</span>
+                                    <form action="{% url 'important_habit' habit.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button class="star_button" type="submit">    
+                                            <i class="far fa-star favourite-star unmarked" ></i>
+                                        </button>
+                                        <span class="important_text">Mark as Important</span>
+                                    </form>
                                 </td>
+                                {% else %}
+                                <td class="is_important">
+                                    <form action="{% url 'important_habit' habit.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button class="star_button" type="submit">
+                                            <i class="fas fa-star favourite-star marked"></i>
+                                        </button>
+                                        <span class="important_text">Mark as Important</span>
+                                    </form>
+                                </td>
+                                {% endif %}
                                 
                             </tr>
                         
