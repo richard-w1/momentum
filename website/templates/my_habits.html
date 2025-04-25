@@ -117,19 +117,23 @@
                                 </div>
                             </td>
                             <td>
+                                {% if habit.label == '' %}
                                 <button class="small-btn pop-up-button">Add Tag</button>
                                 <div class="pop-up">
                                     <div class="content">
-                                        <form>
+                                        <form action="{% url 'add_tag' habit.id %}" method="POST">
                                             {% csrf_token %}
                                             <p style="font-size: 18px;" >Enter your tag:</p>
-                                            <input class="text-box" type="text">
+                                            <input class="text-box" type="text" name="label_input">
                                             <br>
                                             <button class="small-btn pop-up-button" type="submit">Submit</button>
                                             <p style="font-size: 14px;">(click anywhere outside the box to cancel)</p>
                                         </form>
                                     </div>
                                 </div>
+                                {% else %}
+                                    <button class="small-btn pop-up-button">{{ habit.label }}</button>
+                                {% endif %}
                             </td>
                         </tr>
                     </table>
