@@ -63,7 +63,8 @@ def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    all_habits = Habit.objects.filter(user=request.user)
+    #sorting the Query List in the order of importance
+    all_habits = Habit.objects.filter(user=request.user).order_by('-important')
 
     daily_habits = [habit for habit in all_habits if habit.frequency == 'daily']
     weekly_habits = [habit for habit in all_habits if habit.frequency == 'weekly']
