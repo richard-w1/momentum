@@ -91,9 +91,7 @@
                                     </form>
                                 </td>
                                 {% endif %}
-                                
-                            </tr>
-                        
+                            </tr>  
                         <tr>
                             <td class="habit-data">{{ habit.get_frequency_display }}</td>
                             <td class="habit-data">
@@ -118,7 +116,21 @@
                                     <a href="{% url 'delete_habit' habit.id %}" class="small-btn delete-btn">Delete</a>
                                 </div>
                             </td>
-
+                            <td>
+                                <button class="small-btn pop-up-button">Add Tag</button>
+                                <div class="pop-up">
+                                    <div class="content">
+                                        <form>
+                                            {% csrf_token %}
+                                            <p style="font-size: 18px;" >Enter your tag:</p>
+                                            <input class="text-box" type="text">
+                                            <br>
+                                            <button class="small-btn pop-up-button" type="submit">Submit</button>
+                                            <p style="font-size: 14px;">(click anywhere outside the box to cancel)</p>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </table>
                 </li>
