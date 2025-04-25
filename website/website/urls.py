@@ -40,6 +40,7 @@ urlpatterns = [
     path("my_habits/<int:habit_id>/delete/", views.delete_habit, name="delete_habit"),
     path("my_habits/<int:habit_id>/complete/", views.complete_habit, name="complete_habit"),
     path("my_habits/<int:habit_id>/important/", views.is_important, name="important_habit"),
+    path("my_habits/<int:habit_id>/add_tag/", views.add_tag, name="add_tag"),
     path('my_profile/', views.my_profile, name='my_profile'),
     path('my_profile/edit', views.edit_profile, name='edit_profile'),
     path('change-password/', change_password, name='change_password'),

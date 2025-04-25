@@ -234,6 +234,15 @@ def is_important(request, habit_id):
     return redirect("my_habits")
 
 @login_required
+def add_tag(request, habit_id):
+    habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+    if request.method == "POST":
+        data = request.POST
+        habit.label = data.get("label_input")
+        habit.save()
+    return redirect("my_habits")
+
+@login_required
 def my_habits(request):
     habits = Habit.objects.filter(user=request.user)
     return render(request, 'my_habits.html', {'habits': habits})
