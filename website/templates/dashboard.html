@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<!-- Importing the font awsome library for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
     <div class="dashboard">
         <h2>Welcome, {{ user.username }}</h2>
         <h1>Dashboard</h1>
@@ -17,6 +21,9 @@
                                         <div class="habit-details">
                                             <strong class="habit-name">{{ habit.name }}</strong>
                                             <span class="habit-frequency">({{ habit.get_frequency_display }})</span>
+                                            {% if habit.important %}
+                                                <i class="fas fa-star favourite-star marked"></i>
+                                            {% endif %}
                                         </div>
                                     </li>
                                 {% endif %}
