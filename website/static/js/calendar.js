@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', function() {
             //getting all the completed dates for the event
             var completed_dates = event.extendedProps.completed_dates;
             console.log("Event completed date: ", completed_dates)
+
+            //getting all the skipped dates for the event
+            var skipped_dates = event.extendedProps.skipped_dates;
+            console.log("Event skipped date: ", skipped_dates)
             
             //getting the start date of the event ignoreing the time
             var eventDate = event.start.toISOString().split('T')[0];
@@ -20,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if(completed_dates && completed_dates.includes(eventDate)){
                 info.el.style.backgroundColor = 'green';
+            }else if(skipped_dates && skipped_dates.includes(eventDate)){
+                info.el.style.backgroundColor = 'orange';
             }else if(eventDate >= today){
                 info.el.style.backgroundColor = 'light blue';
             }else{
