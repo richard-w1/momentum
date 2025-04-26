@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from datetime import date, timedelta
 from django.utils import timezone
 from datetime import date, timedelta, time
+from django.contrib import messages
 
 #creating a custom model for users
 class custom_user(models.Model):
@@ -363,8 +364,3 @@ class Achievement(models.Model):
     {"name": "Galactic Observer", "description": "View the leaderboards."},
     {"name": "Progress Tracker", "description": "View your progress."},
 ]
-    
-    def unlock_achievement(user, name, description):
-        if not Achievement.objects.filter(user=user, name=name).exists():
-            Achievement.objects.create(user=user, name=name, description=description, date_unlocked=timezone.now())
-    
