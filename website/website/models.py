@@ -341,3 +341,30 @@ class HabitSkip(models.Model):
 
     def __str__(self):
         return f"{self.habit.name} skipped on {self.date_skipped}"
+
+class Achievement(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    date_unlocked = models.DateField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="achievements")
+
+    def __str__(self):
+        return f"{self.name} - {self.user.username}"
+    
+    ACHIEVEMENTS = [
+    {"name": "New Recruit", "description": "Joined on {date}."},
+    {"name": "First Launch", "description": "Complete your first habit."},
+    {"name": "Orbit Achiever", "description": "Complete 10 habits."},
+    {"name": "Mission Master", "description": "Complete 100 habits."},
+    {"name": "Trailblaizer", "description": "Reach a streak of 5."},
+    {"name": "Streak of 10", "description": "Reach a streak of 10."},
+    {"name": "Master of Momentum", "description": "Reach a streak of 100."},
+    {"name": "Bio Uploaded", "description": "Edit your profile for the first time."},
+    {"name": "Galactic Observer", "description": "View the leaderboards."},
+    {"name": "Progress Tracker", "description": "View your progress."},
+]
+    
+    def unlock_achievement(user, name, description):
+        if not Achievement.objects.filter(user=user, name=name).exists():
+            Achievement.objects.create(user=user, name=name, description=description, date_unlocked=timezone.now())
+    

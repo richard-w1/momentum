@@ -20,7 +20,7 @@ from .models import Habit, HabitCompletion, custom_user
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.timezone import now, localtime
-from .models import Habit
+from .models import Habit, Achievement
 from .forms import SkipHabitForm
 from django.db.models import F, Window
 from django.db.models.functions import Rank
@@ -132,7 +132,8 @@ def dashboard(request):
 
 @login_required
 def my_profile(request):
-    return render(request, 'my_profile.html')
+    achievements = Achievement.objects.filter(user=request.user)
+    return render(request, 'my_profile.html', {'achievements': achievements})
 
 @login_required
 def edit_profile(request):
