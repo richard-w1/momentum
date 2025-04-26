@@ -371,3 +371,14 @@ class Achievement(models.Model):
     {"name": "Galactic Observer", "description": "View the leaderboards."},
     {"name": "Progress Tracker", "description": "View your progress."},
 ]
+    
+class Friend(models.Model):
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships_sent')
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships_received')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('from_user', 'to_user')
+
+    def __str__(self):
+        return f"{self.from_user.username} is friends with {self.to_user.username}"

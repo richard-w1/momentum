@@ -23,6 +23,9 @@ from django.utils.timezone import now, localtime
 from .forms import SkipHabitForm
 from django.db.models import F, Window
 from django.db.models.functions import Rank
+from django.contrib.auth.models import User
+from .models import Friend
+
 
 def home_redirect(request):
     return redirect('landing')
@@ -658,3 +661,22 @@ def unlock_achievement(user, name, description, request=None):
         )
         if request:
             messages.success(request, f"🎉 Achievement Unlocked: {name} - {description}")
+
+@login_required
+def add_friend(request, user_id):
+    to_user = get_object_or_404(User, id=user_id)
+    if to_user != request.user:
+        Friend.objects.get_or_create(from_user=request.user, to_user=to_user)
+    return redirect('friends_list')
+
+@login_required
+def delete_friend(request, user_id):
+    to_user = get_object_or_404(User, id=user_id)
+    Friend.objects.filter(from_user=request.user, to_user=to_user).delete()
+    return redirect('friends_list')
+
+@login_required
+def friends_list(request):
+    # All friends this user has added
+    friends = Friend.objects.filter(from_user=request.user)
+    return render(request, 'friends_list.html', {'friends': friends})

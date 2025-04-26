@@ -53,6 +53,9 @@ urlpatterns = [
     path('send-habit-notifications/', send_habit_notifications, name='send_habit_notifications'),
     path('level-up-notification/', views.level_up_notification, name='level_up_notification'),
     path('my_habits/<int:habit_id>/skip/', views.skip_habit, name='skip_habit'),
+    path('friends/', views.friends_list, name='friends_list'),
+    path('add_friend/<int:user_id>/', views.add_friend, name='add_friend'),
+    path('remove_friend/<int:user_id>/', views.delete_friend, name='delete_friend'),
 ]
 
 # profile pictures
