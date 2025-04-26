@@ -96,7 +96,7 @@
                                     <div class="habit-action-row">
                                         {% if habit.is_completed_today or habit.is_completed_this_week or habit.is_completed_this_month %}
                                             <span style="color: #40a711">Completed!</span>
-                                        {% elif habit.is_skipped_today or habit.is_skipped_this_week or habit.month %}
+                                        {% elif habit.is_skipped_today or habit.is_skipped_this_week or habit.is_skipped_this_month %}
                                             <span style="color: #f9a825">Skipped!</span>
                                         {% elif habit.frequency == 'daily' %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
@@ -108,7 +108,7 @@
                                                 <input type="hidden" name="reason" value="No reason provided">
                                                 <button type="submit" class="small-btn skip-btn">Skip</button>
                                             </form>
-                                        {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week and not habit.is_skipped_today %}
+                                        {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week and not habit.is_skipped_this_week %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="small-btn done-btn">Done!</button>
@@ -118,7 +118,7 @@
                                                 <input type="hidden" name="reason" value="No reason provided">
                                                 <button type="submit" class="small-btn skip-btn">Skip</button>
                                             </form>
-                                        {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month and not habit.is_skipped_today %}
+                                        {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month and not habit.is_skipped_this_month %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="small-btn done-btn">Done!</button>
