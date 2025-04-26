@@ -133,6 +133,7 @@ def dashboard(request):
 
 @login_required
 def my_profile(request):
+    unlock_achievement(request.user, "Self Scan", "👨‍🚀 View your own profile.", request)
     user = request.user
     achievements = Achievement.objects.filter(user=user)
     return render(request, 'my_profile.html', {'achievements': achievements})
@@ -208,22 +209,22 @@ def complete_habit(request, habit_id):
 
     # achievements
     completions = HabitCompletion.objects.filter(habit__user=request.user).count()
-    if completions == 1:
+    if completions >= 1:
         unlock_achievement(request.user, "First Launch", "🚀 Complete your first habit.", request)
-    elif completions == 5:
+    if completions >= 5:
         unlock_achievement(request.user, "Mission Control", "🛰️ Complete 5 habits.", request)
-    elif completions == 10:
+    if completions >= 10:
         unlock_achievement(request.user, "Achieve Orbit", "🌌 Complete 10 habits.", request)
-    elif completions == 50:
+    if completions >= 50:
         unlock_achievement(request.user, "Out of this World", "🌠 Complete 50 habits.", request)
 
     # Unlock streak achievements
     streak = habit.get_current_streak()
-    if streak == 5:
+    if streak >= 5:
         unlock_achievement(request.user, "Hot Streak", "🔥 Reach a streak of 5.", request)
-    elif streak == 10:
+    elif streak >= 10:
         unlock_achievement(request.user, "On Fire", "🔥🔥 Reach a streak of 10.", request)
-    elif streak == 50:
+    elif streak >= 50:
         unlock_achievement(request.user, "Master of Momentum", "🔥🔥🔥 Reach a streak of 50.", request)
 
     profile = habit.user.custom_user
