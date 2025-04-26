@@ -16,11 +16,10 @@ from django.utils.html import strip_tags
 from .forms import (
     CustomUserCreationForm, EditCustomUserProfileForm, EditUserProfileForm, HabitForm
 )
-from .models import Habit, HabitCompletion, custom_user
+from .models import Habit, HabitCompletion, custom_user, Achievement
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.timezone import now, localtime
-from .models import Habit, Achievement
 from .forms import SkipHabitForm
 from django.db.models import F, Window
 from django.db.models.functions import Rank
@@ -43,6 +42,7 @@ def login(request):
                 return redirect('dashboard')
             else:
                 form.add_error(None, 'Invalid username or password')
+    else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
@@ -52,6 +52,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
+            unlock_achievement(user, "New Recruit", f"Joined on {timezone.now().date()}.", request)
             return redirect('dashboard')
     else:
         form = CustomUserCreationForm()
@@ -132,7 +133,8 @@ def dashboard(request):
 
 @login_required
 def my_profile(request):
-    achievements = Achievement.objects.filter(user=request.user)
+    user = request.user
+    achievements = Achievement.objects.filter(user=user)
     return render(request, 'my_profile.html', {'achievements': achievements})
 
 @login_required
@@ -199,6 +201,15 @@ def complete_habit(request, habit_id):
     elif habit.frequency == 'monthly' and habit.is_completed_this_month():
         return redirect("my_habits")
     HabitCompletion.objects.create(habit=habit, date_completed=today)
+
+    # Unlock achievements
+    completions = HabitCompletion.objects.filter(habit__user=request.user).count()
+    if completions == 1:
+        unlock_achievement(request.user, "First Habit Completed", "Complete your first habit.", request)
+    elif completions == 10:
+        unlock_achievement(request.user, "10 Habits Completed", "Complete 10 habits.", request)
+    elif completions == 100:
+        unlock_achievement(request.user, "100 Habits Completed", "Complete 100 habits.", request)
 
     profile = habit.user.custom_user
     old_level = profile.level
@@ -609,4 +620,13 @@ def skip_habit(request, habit_id):
 
     return render(request, 'skip_habit.html', {'form': form, 'habit': habit})
 
-
+def unlock_achievement(user, name, description, request=None):
+    if not Achievement.objects.filter(user=user, name=name).exists():
+        Achievement.objects.create(
+            user=user,
+            name=name,
+            description=description,
+            date_unlocked=timezone.now()
+        )
+        if request:
+            messages.success(request, f"🎉 Achievement Unlocked: {name} - {description}")
