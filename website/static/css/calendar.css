@@ -1,9 +1,46 @@
-#calendar{
-    background-color: #657C9A;
-    display: flex;
-    justify-content: center;
-    padding: 25px 75px;
+#calendar {
+    background-color: #0a1128; 
+    border-radius: 8px;
+    padding: 25px;
+    font-family: Arial;
     width: 150vh;
     height: 90vh;
+    margin: 0 auto;
+}
+
+.fc-header-toolbar {
+    background-color: #152347;
+    padding: 10px;
     border-radius: 8px;
+}
+
+.fc-button {
+    background-color: #1a3a75 !important;
+}
+
+.fc-col-header-cell {
+    background-color: #101d3e !important;
+}
+
+.fc-col-header-cell-cushion {
+    color: #8eacbb;
+    text-decoration: none;
+}
+
+.fc-day {
+    border-color: #222b4c !important;
+}
+
+.fc-day-today {
+    background-color: #172552 !important;
+}
+
+.fc-daygrid-day-number {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.fc-event {
+    border-radius: 6px ;
+    border: none;
 }
