@@ -420,13 +420,17 @@ def get_habits(request):
     for habit in habits:
         #getting the completed_dates list
         completed_dates = habit.completions.values_list('date_completed', flat=True)
+        #getting the skipped_dates list
+        skipped_dates = habit.skips.values_list('date_skipped', flat=True)
         #converting the date into ISO format
         completed_dates_iso = [date.isoformat() for date in completed_dates]
+        skipped_dates_iso = [date.isoformat() for date in skipped_dates]
 
         habit_property = {
             'title': habit.name,
             'allDay': True,
             'completed_dates' : completed_dates_iso,
+            'skipped_dates' : skipped_dates_iso,
         }
         if(habit.frequency != 'monthly'):
             habit_property['startRecur'] = habit.created_at.isoformat()
@@ -535,34 +539,43 @@ def get_stats(request):
     daily_habits_done = 0
     weekly_habits_done = 0
     monthly_habits_done = 0
+    daily_habits_skipped = 0
+    weekly_habits_skipped = 0
+    monthly_habits_skipped = 0
 
     statistics = {}
     for habit in habits:
         if habit.frequency == 'daily':
             daily_habit += 1 
             daily_habits_done += 1 if habit.is_completed_today() else 0
+            daily_habits_skipped += 1 if habit.is_skipped_today() else 0
         
         elif habit.frequency == 'weekly':
             weekly_habit += 1
             weekly_habits_done += 1 if habit.is_completed_this_week() else 0
+            weekly_habits_skipped += 1 if habit.is_skipped_this_week else 0
         else:
             monthly_habit += 1
             monthly_habits_done += 1 if habit.is_completed_this_month() else 0
+            monthly_habits_skipped += 1 if habit.is_skipped_this_month() else 0
 
 
     daily_habit_stat = {
         'daily_habits_done': daily_habits_done,
-        'daily_habits_missed': daily_habit - daily_habits_done
+        'daily_habits_skipped' : daily_habits_skipped,
+        'daily_habits_missed': daily_habit - daily_habits_done - daily_habits_skipped
     }
 
     weekly_habit_stat = {
         'weekly_habits_done': weekly_habits_done,
-        'weekly_habits_missed': weekly_habit - weekly_habits_done
+        'weekly_habits_skipped' : weekly_habits_skipped,
+        'weekly_habits_missed': weekly_habit - weekly_habits_done - weekly_habits_skipped
     }
 
     monthly_habit_stat = {
         'monthly_habits_done' : monthly_habits_done,
-        'monthly_habits_missed' : monthly_habit -  monthly_habits_done,
+        'monthly_habits_skipped' : monthly_habits_skipped,
+        'monthly_habits_missed' : monthly_habit -  monthly_habits_done - monthly_habits_skipped
     }
 
     statistics = {
