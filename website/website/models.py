@@ -300,6 +300,24 @@ class Habit(models.Model):
         today = timezone.now().date()
         return self.skips.filter(date_skipped=today).exists()
 
+    def is_skipped_this_week(self):
+        today = timezone.now().date()
+        start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        return self.skips.filter(
+            date_skipped__gte=start_of_week,
+            date_skipped__lte=end_of_week
+        ).exists()
+
+    def is_skipped_this_month(self):
+        today = timezone.now().date()
+        start_of_month = today.replace(day=1)
+        end_of_month = (today.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+        return self.skips.filter(
+            date_skipped__gte=start_of_month,
+            date_skipped__lte=end_of_month
+        ).exists()
+
 
 class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="completions")
@@ -323,4 +341,3 @@ class HabitSkip(models.Model):
 
     def __str__(self):
         return f"{self.habit.name} skipped on {self.date_skipped}"
- 

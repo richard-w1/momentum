@@ -269,14 +269,14 @@ def my_habits(request):
             habits = habits.filter(
                 id__in=[
                     habit.id for habit in habits
-                    if habit.is_skipped_today()
+                    if habit.is_skipped_today() or habit.is_skipped_this_week() or habit.is_skipped_this_month()
                 ]
             )
         elif status_filter == 'incompleted':
             habits = habits.filter(
                 id__in=[
                     habit.id for habit in habits
-                    if not habit.is_completed_today() and not habit.is_skipped_today()
+                    if not habit.is_completed_today() and not habit.is_skipped_today() and not habit.is_completed_this_week() and not habit.is_skipped_this_week() and not habit.is_completed_this_month() and not habit.is_skipped_this_month()
                 ]
             )
 
