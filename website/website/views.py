@@ -52,7 +52,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            unlock_achievement(user, "New Recruit", f"Joined on {timezone.now().date()}.", request)
+            unlock_achievement(user, "New Recruit", f"🌍 Joined on {timezone.now().date()}.", request)
             return redirect('dashboard')
     else:
         form = CustomUserCreationForm()
@@ -146,6 +146,10 @@ def edit_profile(request):
             form.save()
             custom_form.save()
             return redirect('my_profile')
+        
+        # achievement
+        unlock_achievement(request.user, "Bio Uploaded", "📄 Edit your profile for the first time.", request)
+
     else:
         form = EditUserProfileForm(instance=request.user)
         custom_form = EditCustomUserProfileForm(instance=request.user.custom_user)
@@ -202,14 +206,25 @@ def complete_habit(request, habit_id):
         return redirect("my_habits")
     HabitCompletion.objects.create(habit=habit, date_completed=today)
 
-    # Unlock achievements
+    # achievements
     completions = HabitCompletion.objects.filter(habit__user=request.user).count()
     if completions == 1:
-        unlock_achievement(request.user, "First Habit Completed", "Complete your first habit.", request)
+        unlock_achievement(request.user, "First Launch", "🚀 Complete your first habit.", request)
+    elif completions == 5:
+        unlock_achievement(request.user, "Mission Control", "🛰️ Complete 5 habits.", request)
     elif completions == 10:
-        unlock_achievement(request.user, "10 Habits Completed", "Complete 10 habits.", request)
-    elif completions == 100:
-        unlock_achievement(request.user, "100 Habits Completed", "Complete 100 habits.", request)
+        unlock_achievement(request.user, "Achieve Orbit", "🌌 Complete 10 habits.", request)
+    elif completions == 50:
+        unlock_achievement(request.user, "Out of this World", "🌠 Complete 50 habits.", request)
+
+    # Unlock streak achievements
+    streak = habit.get_current_streak()
+    if streak == 5:
+        unlock_achievement(request.user, "Hot Streak", "🔥 Reach a streak of 5.", request)
+    elif streak == 10:
+        unlock_achievement(request.user, "On Fire", "🔥🔥 Reach a streak of 10.", request)
+    elif streak == 50:
+        unlock_achievement(request.user, "Master of Momentum", "🔥🔥🔥 Reach a streak of 50.", request)
 
     profile = habit.user.custom_user
     old_level = profile.level
@@ -257,6 +272,13 @@ def add_tag(request, habit_id):
 
 @login_required
 def my_habits(request):
+    # achievements
+    habit_count = Habit.objects.filter(user=request.user).count()
+    if habit_count >= 1:
+        unlock_achievement(request.user, "Habit Creator", "🛠️ Create your first habit.", request)
+    if habit_count >= 5:
+        unlock_achievement(request.user, "Habit Builder", "🏗️ Create 5 habits.", request)
+
     frequency_filter = request.GET.get('frequency', 'all')
     status_filter = request.GET.get('status', 'all')
     tag_filter = request.GET.get('tag', 'all')
@@ -305,6 +327,8 @@ def my_calendar(request):
 
 @login_required
 def my_progress(request):
+    unlock_achievement(request.user, "Progress Tracker", "📊 View your progress.", request)
+
     user = request.user
     habits = Habit.objects.filter(user=user)
     total_habits = habits.count()
@@ -332,6 +356,9 @@ def my_progress(request):
 
 @login_required
 def leaderboard(request):
+
+    unlock_achievement(request.user, "Galactic Observer", "🏆 View the leaderboards.", request)
+
     # sort by total exp
     all_users = custom_user.objects.annotate(
         user_rank=Window(

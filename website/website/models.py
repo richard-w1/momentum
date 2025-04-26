@@ -353,13 +353,20 @@ class Achievement(models.Model):
         return f"{self.name} - {self.user.username}"
     
     ACHIEVEMENTS = [
-    {"name": "New Recruit", "description": "Joined on {date}."},
+    {"name": "New Recruit", "description": "🌍 Joined on {date}."},
+
+    {"name": "Habit Creator", "description": "Create your first habit."},
+    {"name": "Habit Builder", "description": "Create 5 habits."},
+
     {"name": "First Launch", "description": "Complete your first habit."},
-    {"name": "Orbit Achiever", "description": "Complete 10 habits."},
-    {"name": "Mission Master", "description": "Complete 100 habits."},
-    {"name": "Trailblaizer", "description": "Reach a streak of 5."},
-    {"name": "Streak of 10", "description": "Reach a streak of 10."},
-    {"name": "Master of Momentum", "description": "Reach a streak of 100."},
+    {"name": "Mission Control", "description": "Complete 5 habits."},
+    {"name": "Acheive Orbit", "description": "Complete 10 habits."},
+    {"name": "Out of this World", "description": "Complete 50 habits."},
+
+    {"name": "Hot Streak", "description": "Reach a streak of 5."},
+    {"name": "On Fire", "description": "Reach a streak of 10."},
+    {"name": "Master of Momentum", "description": "Reach a streak of 50."},
+
     {"name": "Bio Uploaded", "description": "Edit your profile for the first time."},
     {"name": "Galactic Observer", "description": "View the leaderboards."},
     {"name": "Progress Tracker", "description": "View your progress."},
