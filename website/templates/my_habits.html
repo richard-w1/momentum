@@ -11,11 +11,61 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
+<script>
+    function sortHabits() {
+        const sortBy = document.getElementById('sort-habits').value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort', sortBy);
+        window.location.href = url.toString();
+    }
+
+    function applyFilters() {
+        const frequency = document.getElementById('filter-frequency').value;
+        const status = document.getElementById('filter-status').value;
+        const tag = document.getElementById('filter-tag').value;
+
+        const url = new URL(window.location.href);
+
+        url.searchParams.set('frequency', frequency);
+        url.searchParams.set('status', status);
+        url.searchParams.set('tag', tag);
+
+        window.location.href = url.toString();
+    }
+</script>
 
     <div class="habit-container">
         <h1>My Habits</h1>
         <div>
             <a href="{% url 'add_habit' %}" class="btn">Add a New Habit</a>
+        </div>
+        <div class="habit-filters mb-3">
+            <!-- Frequency -->
+            <label for="filter-frequency" class="form-label fw-bold me-2">Frequency:</label>
+            <select id="filter-frequency" class="form-select d-inline-block w-auto" onchange="applyFilters()">
+                <option value="all" {% if request.GET.frequency == 'all' or not request.GET.frequency %}selected{% endif %}>All</option>
+                <option value="daily" {% if request.GET.frequency == 'daily' %}selected{% endif %}>Daily</option>
+                <option value="weekly" {% if request.GET.frequency == 'weekly' %}selected{% endif %}>Weekly</option>
+                <option value="monthly" {% if request.GET.frequency == 'monthly' %}selected{% endif %}>Monthly</option>
+            </select>
+
+            <!-- Completion -->
+            <label for="filter-status" class="form-label fw-bold ms-3 me-2">Status:</label>
+            <select id="filter-status" class="form-select d-inline-block w-auto" onchange="applyFilters()">
+                <option value="all" {% if request.GET.status == 'all' or not request.GET.status %}selected{% endif %}>All</option>
+                <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
+                <option value="skipped" {% if request.GET.status == 'skipped' %}selected{% endif %}>Skipped</option>
+                <option value="incompleted" {% if request.GET.status == 'incompleted' %}selected{% endif %}>Incompleted</option>
+            </select>
+
+            <!-- Tag -->
+            <label for="filter-tag" class="form-label fw-bold ms-3 me-2">Tag:</label>
+            <select id="filter-tag" class="form-select d-inline-block w-auto" onchange="applyFilters()">
+                <option value="all" {% if request.GET.tag == 'all' or not request.GET.tag %}selected{% endif %}>All Tags</option>
+                {% for tag in tags %}
+                    <option value="{{ tag }}" {% if request.GET.tag == tag %}selected{% endif %}>{{ tag }}</option>
+                {% endfor %}
+            </select>
         </div>
         {% if habits %}
             <ul class="habit-list">
@@ -23,19 +73,32 @@
             {% for habit in habits %}
                 <li class="habit-item card">
                     <table class="habit-table">
+                        <colgroup>
+                            <col style="width: 150px;">
+                            <col style="width: 100px;">
+                            <col style="width: 100px;">
+                            <col style="width: 100px;">
+                            <col style="width: 100px;">
+                            <col style="width: 100px;">
+                            <col style="width: 100px;">
+                            <col style="width: 100px;">
+                        </colgroup>
                         <tr>
                             <td class="habit-details-name">{{ habit.name }}</td>
-                            <td class="habit-details-labels">Alert</td>
+                            <td class="habit-details-labels">Reminder</td>
                             <td class="habit-details-labels">EXP</td>
-                            <td class="habit-details-labels">Current Streak</td>
-                            <td class="habit-details-labels">Max Streak</td>
+                            <td class="habit-details-labels">Current/Max Streak</td>
                             <td class="habit-details-labels">Missed</td>
                             <td class="habit-details-labels">Rate</td>
                             
                             <td class="habit-details-labels">
                                 <div class="habit-button-container">
                                     <div class="habit-action-row">
-                                        {% if habit.frequency == 'daily' and not habit.is_completed_today %}
+                                        {% if habit.is_completed_today or habit.is_completed_this_week or habit.is_completed_this_month %}
+                                            <span style="color: #40a711">Completed!</span>
+                                        {% elif habit.is_skipped_today or habit.is_skipped_this_week or habit.month %}
+                                            <span style="color: #f9a825">Skipped!</span>
+                                        {% elif habit.frequency == 'daily' %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="small-btn done-btn">Done!</button>
@@ -45,7 +108,7 @@
                                                 <input type="hidden" name="reason" value="No reason provided">
                                                 <button type="submit" class="small-btn skip-btn">Skip</button>
                                             </form>
-                                        {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week %}
+                                        {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week and not habit.is_skipped_today %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="small-btn done-btn">Done!</button>
@@ -55,7 +118,7 @@
                                                 <input type="hidden" name="reason" value="No reason provided">
                                                 <button type="submit" class="small-btn skip-btn">Skip</button>
                                             </form>
-                                            {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month %}
+                                        {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month and not habit.is_skipped_today %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="small-btn done-btn">Done!</button>
@@ -65,11 +128,10 @@
                                                 <input type="hidden" name="reason" value="No reason provided">
                                                 <button type="submit" class="small-btn skip-btn">Skip</button>
                                             </form>
-                                            {% endif %}
-                                        </div>
-                                        
+                                        {% endif %}
                                     </div>
-                                </td>
+                                </div>
+                            </td>
                                 {% if not habit.important %}
                                 <td class="is_important">
                                     <form action="{% url 'important_habit' habit.id %}" method="POST">
@@ -106,8 +168,7 @@
                                 {% endif %}
                             </td>
                             <td class="habit-data">{{ habit.experience }}</td>
-                            <td class="habit-data">{{ habit.get_current_streak }}</td>
-                            <td class="habit-data">{{ habit.get_max_streak }}</td>
+                            <td class="habit-data">{{ habit.get_current_streak }} / {{ habit.get_max_streak }}</td>
                             <td class="habit-data">{{ habit.get_missed_occurrences }}</td>
                             <td class="habit-data">{{ habit.get_completion_rate|floatformat:2 }}%</td>
                             <td>

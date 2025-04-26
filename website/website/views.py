@@ -245,8 +245,47 @@ def add_tag(request, habit_id):
 
 @login_required
 def my_habits(request):
-    habits = Habit.objects.filter(user=request.user)
-    return render(request, 'my_habits.html', {'habits': habits})
+    frequency_filter = request.GET.get('frequency', 'all')
+    status_filter = request.GET.get('status', 'all')
+    tag_filter = request.GET.get('tag', 'all')
+
+    # show important first
+    habits = Habit.objects.filter(user=request.user).order_by('-important', 'name')
+
+    # frequency
+    if frequency_filter != 'all':
+        habits = habits.filter(frequency=frequency_filter)
+
+    # completion
+    if status_filter != 'all':
+        if status_filter == 'completed':
+            habits = habits.filter(
+                id__in=[
+                    habit.id for habit in habits
+                    if habit.is_completed_today() or habit.is_completed_this_week() or habit.is_completed_this_month()
+                ]
+            )
+        elif status_filter == 'skipped':
+            habits = habits.filter(
+                id__in=[
+                    habit.id for habit in habits
+                    if habit.is_skipped_today()
+                ]
+            )
+        elif status_filter == 'incompleted':
+            habits = habits.filter(
+                id__in=[
+                    habit.id for habit in habits
+                    if not habit.is_completed_today() and not habit.is_skipped_today()
+                ]
+            )
+
+    # tag
+    if tag_filter != 'all':
+        habits = habits.filter(label=tag_filter)
+    tags = Habit.objects.filter(user=request.user).values_list('label', flat=True).distinct()
+
+    return render(request, 'my_habits.html', {'habits': habits, 'tags': tags})
 
 @login_required
 def my_calendar(request):
