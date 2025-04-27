@@ -59,7 +59,7 @@ urlpatterns = [
     path('friend-request/accept/<int:friend_id>/', views.accept_friend_request, name='accept_friend_request'),
     path('friend-request/decline/<int:friend_id>/', views.decline_friend_request, name='decline_friend_request'),
     path('profile/<int:user_id>/', views.user_profile, name='user_profile'),
-
+    path('summary/<str:username>/', views.profile_summary, name='profile_summary'),
 
 ]
 
