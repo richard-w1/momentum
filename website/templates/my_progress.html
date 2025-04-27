@@ -149,7 +149,7 @@
 
     <!--pie chart -->
     <div class="progress-item card">
-        <h3>Habit Progress Report</h3>
+        <h3>Progress Report</h3>
         <select class="progress_report_frequency">
             <option>Daily</option>
             <option>Weekly</option>
@@ -160,32 +160,8 @@
 
     <!-- bar graph -->
     <div class="progress-item card">
-        <h3>last 7 days at a glance</h3>
+        <h3>Last 7 days at a Glance</h3>
         <canvas id="weekly_chart" width="300" height="400"></canvas>
-    </div>
-
-
-    <!-- progress Bars -->
-    <div class="progress-item card">
-        <h3>Progress Bars</h3>
-        <p>Today's Progress: {{ completed_habits }} / {{ total_habits }} ({{ daily_percentage }}%) habits completed!</p>
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" style="--progress: {{ daily_percentage|default:0 }}%;"></div>
-        </div>
-
-        <p>This week's progress:</p>
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" style="--progress: {{ weekly_percentage|default:0 }}%;"></div>
-        </div>
-
-        <p>This month's progress:</p>
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" style="--progress: {{ monthly_percentage|default:0 }}%;"></div>
-        </div>
-    </div>
-
-    <!-- idk what to put here -->
-    <div class="progress-item card"></div>
     </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
