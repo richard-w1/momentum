@@ -772,3 +772,19 @@ def user_profile(request, user_id):
         'user_profile': user_profile,
         'is_friend': is_friend,
     })
+
+def profile_summary(request, username):
+    user = get_object_or_404(User, username=username)
+    habits = Habit.objects.filter(user=user)
+    achievements = Achievement.objects.filter(user=user)
+
+    total_habits = habits.count()
+    total_completions = HabitCompletion.objects.filter(habit__user=user).count()
+
+    context = {
+        'username': user.username,
+        'total_habits': total_habits,
+        'total_completions': total_completions,
+        'achievements': achievements,
+    }
+    return render(request, 'profile_summary.html', context)
