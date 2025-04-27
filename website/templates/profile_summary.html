@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="text-4xl font-bold mb-4">🚀 {{ username }}'s Habit Summary</h1>
+
+    <div class="mt-6 mb-8">
+        <p class="text-2xl mb-2">Habits Created: <strong>{{ total_habits }}</strong></p>
+        <p class="text-2xl mb-2">Habits Completed: <strong>{{ total_completions }}</strong></p>
+    </div>
+
+    <h2 class="text-3xl font-semibold mt-10 mb-5">🏆 Achievements</h2>
+
+    {% if achievements %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+            {% for achievement in achievements %}
+                <div class="bg-gray-800 rounded-xl shadow-md p-6">
+                    <h3 class="text-xl font-semibold mb-2">{{ achievement.name }}</h3>
+                    <p class="text-sm text-gray-300">{{ achievement.description }}</p>
+                    {% if achievement.date_unlocked %}
+                        <p class="mt-2 text-xs text-gray-500">Unlocked on {{ achievement.date_unlocked }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-lg text-gray-400">No achievements unlocked yet. Keep going!</p>
+    {% endif %}
+</div>
+{% endblock %}
