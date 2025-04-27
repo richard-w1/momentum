@@ -9,18 +9,18 @@ from django.contrib import messages
 class custom_user(models.Model):
     #level required, rank, location, exp required for each level up
     rank_milestones = [
-        (1, "Earthling", "Earth", 1000),
-        (5, "Skyward Wanderer", "Atmosphere", 2000),
-        (10, "Lunar Explorer", "Moon", 3000),
-        (15, "Martian Scout", "Mars", 4000),
-        (20, "Storm Rider", "Jupiter", 5000),
-        (25, "Ring Voyager", "Saturn", 6000),
-        (30, "Ice Drifter", "Uranus", 7000),
-        (35, "Deep Diver", "Neptune", 8000),
-        (40, "Galactic Traveler", "Milky Way", 9000),
-        (45, "Singularity Seeker", "Black Hole", 10000),
-        (50, "Starborn Survivor", "Nebula", 11000),
-        (55, "Intergalactic Navigator", "Deep Space...", 12000),
+        (1, "Earthling", "🌍 Earth", 1000),
+        (5, "Skyward Wanderer", "☁︎ Atmosphere", 2000),
+        (10, "Lunar Explorer", "🌒 Moon", 3000),
+        (15, "Martian Scout", "🔴 Mars", 4000),
+        (20, "Storm Rider", "🌩️ Jupiter", 5000),
+        (25, "Ring Voyager", "🪐 Saturn", 6000),
+        (30, "Ice Drifter", "❄️ Uranus", 7000),
+        (35, "Deep Diver", "💫 Neptune", 8000),
+        (40, "Galactic Traveler", "🌠 Milky Way", 9000),
+        (45, "Singularity Seeker", "🌀 Black Hole", 10000),
+        (50, "Starborn Survivor", "🌟 Nebula", 11000),
+        (55, "Intergalactic Navigator", "🛸 Deep Space...", 12000),
     ]
 
     RANK_CHOICES = [(milestone[1], milestone[1]) for milestone in rank_milestones]

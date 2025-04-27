@@ -26,6 +26,17 @@
           <h2 class="mb-1">{{ user.username }} the {{ user.custom_user.rank }}</h2>
           
           <div class="text-start mt-4">
+
+            <div class="mb-3">
+              <label class="text-secondary">Level</label>
+              <p>{{ user.custom_user.level }}</p>
+            </div>
+            
+            <div class="mb-3">
+              <label class="text-secondary">Current Location</label>
+              <p>{{ user.custom_user.get_current_location }}</p>
+            </div>
+
             <div class="mb-3">
               <label class="text-secondary">Name</label>
               <p>{{ user.first_name }} {{ user.last_name }}</p>

@@ -64,8 +64,11 @@ def signup(request):
 
 @login_required
 def dashboard(request):
+    
     if not request.user.is_authenticated:
         return redirect('login')
+    
+    unlock_achievement(request.user, "Mission Control", "🛰️ View your dashboard.", request)
 
     #sorting the Query List in the order of importance
     all_habits = Habit.objects.filter(user=request.user).order_by('-important')
@@ -110,12 +113,31 @@ def dashboard(request):
         "\"If you start with a big behavior that's hard to do, the design is unstable. However, a habit that is easy to do can weather a storm like flexible sprouts.\" - BJ Fogg"
     ]
     random_tip = random.choice(tips)
+
+    # progress
     
-    # progress card
     habits = Habit.objects.filter(user=request.user)
     total_habits = habits.count()
-    completed_habits = habits.filter(completions__isnull=False).distinct().count()  # adjust if needed
-    daily_percentage = int((completed_habits / total_habits) * 100) if total_habits > 0 else 0
+
+    completed_habits = 0
+
+    # List to store habit status for display (completed or incomplete)
+    habit_status = []
+
+    for habit in habits:
+        if habit.frequency == 'daily' and habit.is_completed_today():
+            habit_status.append(f"{habit.name} complete")
+            completed_habits += 1
+        elif habit.frequency == 'weekly' and habit.is_completed_this_week():
+            habit_status.append(f"{habit.name} complete")
+            completed_habits += 1
+        elif habit.frequency == 'monthly' and habit.is_completed_this_month():
+            habit_status.append(f"{habit.name} complete")
+            completed_habits += 1
+        else:
+            habit_status.append(f"{habit.name} incomplete")
+
+    daily_percentage = (completed_habits / total_habits) * 100 if total_habits > 0 else 0
 
     context = {
         'habit_count': all_habits.count(),
@@ -215,7 +237,7 @@ def complete_habit(request, habit_id):
     if completions >= 1:
         unlock_achievement(request.user, "First Launch", "🚀 Complete your first habit.", request)
     if completions >= 5:
-        unlock_achievement(request.user, "Mission Control", "🛰️ Complete 5 habits.", request)
+        unlock_achievement(request.user, "Breaking the Atmosphere", "🛰️ Complete 5 habits.", request)
     if completions >= 10:
         unlock_achievement(request.user, "Achieve Orbit", "🌌 Complete 10 habits.", request)
     if completions >= 50:
@@ -326,7 +348,8 @@ def my_habits(request):
     return render(request, 'my_habits.html', {'habits': habits, 'tags': tags})
 
 @login_required
-def my_calendar(request):
+def my_calendar(request):  
+    unlock_achievement(request.user, "Time Traveler", "🗓️ View your calendar.", request)
     return render(request, 'my_calendar.html')
 
 @login_required
@@ -361,7 +384,7 @@ def my_progress(request):
 @login_required
 def leaderboard(request):
 
-    unlock_achievement(request.user, "Galactic Observer", "🏆 View the leaderboards.", request)
+    unlock_achievement(request.user, "Galactic Observer", "🎖️ View the leaderboards.", request)
 
     # sort by total exp
     all_users = custom_user.objects.annotate(
@@ -531,11 +554,15 @@ def send_reminder_email(habit):
 
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list)
 
+from django.http import JsonResponse
+from datetime import timedelta
+from django.utils import timezone
+from .models import Habit, HabitCompletion
+from django.contrib.auth.decorators import login_required
+
 @login_required
 def get_stats(request):
-    habits = Habit.objects.filter(user = request.user)
-
-    # general stats variable
+    habits = Habit.objects.filter(user=request.user)
     daily_habit = 0
     weekly_habit = 0
     monthly_habit = 0
@@ -545,49 +572,47 @@ def get_stats(request):
     daily_habits_skipped = 0
     weekly_habits_skipped = 0
     monthly_habits_skipped = 0
-
-    statistics = {}
     for habit in habits:
         if habit.frequency == 'daily':
-            daily_habit += 1 
+            daily_habit += 1
             daily_habits_done += 1 if habit.is_completed_today() else 0
             daily_habits_skipped += 1 if habit.is_skipped_today() else 0
-        
         elif habit.frequency == 'weekly':
             weekly_habit += 1
             weekly_habits_done += 1 if habit.is_completed_this_week() else 0
-            weekly_habits_skipped += 1 if habit.is_skipped_this_week else 0
-        else:
+            weekly_habits_skipped += 1 if habit.is_skipped_this_week() else 0
+        elif habit.frequency == 'monthly':
             monthly_habit += 1
             monthly_habits_done += 1 if habit.is_completed_this_month() else 0
             monthly_habits_skipped += 1 if habit.is_skipped_this_month() else 0
 
-
+    # calculate missed habits
     daily_habit_stat = {
         'daily_habits_done': daily_habits_done,
-        'daily_habits_skipped' : daily_habits_skipped,
+        'daily_habits_skipped': daily_habits_skipped,
         'daily_habits_missed': daily_habit - daily_habits_done - daily_habits_skipped
     }
 
     weekly_habit_stat = {
         'weekly_habits_done': weekly_habits_done,
-        'weekly_habits_skipped' : weekly_habits_skipped,
+        'weekly_habits_skipped': weekly_habits_skipped,
         'weekly_habits_missed': weekly_habit - weekly_habits_done - weekly_habits_skipped
     }
 
     monthly_habit_stat = {
-        'monthly_habits_done' : monthly_habits_done,
-        'monthly_habits_skipped' : monthly_habits_skipped,
-        'monthly_habits_missed' : monthly_habit -  monthly_habits_done - monthly_habits_skipped
+        'monthly_habits_done': monthly_habits_done,
+        'monthly_habits_skipped': monthly_habits_skipped,
+        'monthly_habits_missed': monthly_habit - monthly_habits_done - monthly_habits_skipped
     }
 
     statistics = {
         'daily_habit_stat': daily_habit_stat,
-        'weekly_habit_stat':weekly_habit_stat,
+        'weekly_habit_stat': weekly_habit_stat,
         'monthly_habit_stat': monthly_habit_stat,
     }
 
     return JsonResponse(statistics, safe=False)
+
 
 @login_required
 def weekly_stats(request):
@@ -706,6 +731,7 @@ def delete_friend(request, user_id):
 
 @login_required
 def friends_list(request):
+    unlock_achievement(request.user, "Friend Finder", "👫 View your friends list.", request)
     query = request.GET.get('q', '')
     
     all_users = []

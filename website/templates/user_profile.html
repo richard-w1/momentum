@@ -28,6 +28,16 @@
           <div class="text-start mt-4">
             {% if is_friend %}
               <div class="mb-3">
+                <label class="text-secondary">Level</label>
+                <p>{{ user_profile.custom_user.level }}</p>
+              </div>
+              
+              <div class="mb-3">
+                <label class="text-secondary">Current Location</label>
+                <p>{{ user_profile.custom_user.get_current_location }}</p>
+              </div>
+              
+              <div class="mb-3">
                 <label class="text-secondary">Name</label>
                 <p>{{ user_profile.first_name }} {{ user_profile.last_name }}</p>
               </div>
