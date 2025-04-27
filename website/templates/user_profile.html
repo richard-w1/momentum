@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <h1>{{ user_profile.username }}'s Profile</h1>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <!-- Info -->
+    <div class="col-lg-4">
+      <div class="card text-light mb-4">
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
+          <h5 class="m-0">Info</h5>
+        </div>
+        <div class="card-body text-center py-4">
+          <!-- Profile Picture -->
+          <div class="mb-4">
+            {% if user_profile.custom_user.profile_picture %}
+              <img src="{{ user_profile.custom_user.profile_picture.url }}" alt="{{ user_profile.username }}" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+            {% else %}
+              <div class="profile-placeholder rounded-circle mx-auto" style="width: 150px; height: 150px; background-color: #5f697e; display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 3rem; color: #c8d0e0;">{{ user_profile.username|first|upper }}</span>
+              </div>
+            {% endif %}
+          </div>
+          
+          <h2 class="mb-1">{{ user_profile.username }} the {{ user_profile.custom_user.rank }}</h2>
+
+          <div class="text-start mt-4">
+            <h6 class="text-secondary">Info is private!</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="col-lg-8">
+      <div class="card text-light">
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
+          <h5 class="m-0">Achievements</h5>
+        </div>
+        <div class="card-body">
+          <div class="text-center py-5">
+            <h6 class="text-secondary">Achievements are private!</h6>
+            <p class="small text-secondary"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

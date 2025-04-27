@@ -56,6 +56,11 @@ urlpatterns = [
     path('friends/', views.friends_list, name='friends_list'),
     path('add_friend/<int:user_id>/', views.add_friend, name='add_friend'),
     path('remove_friend/<int:user_id>/', views.delete_friend, name='delete_friend'),
+    path('friend-request/accept/<int:friend_id>/', views.accept_friend_request, name='accept_friend_request'),
+    path('friend-request/decline/<int:friend_id>/', views.decline_friend_request, name='decline_friend_request'),
+    path('profile/<int:user_id>/', views.user_profile, name='user_profile'),
+
+
 ]
 
 # profile pictures
