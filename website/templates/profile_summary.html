@@ -1,31 +1,57 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-<div class="text-center mt-5">
-    <h1 class="text-4xl font-bold mb-4">🚀 {{ username }}'s Habit Summary</h1>
 
-    <div class="mt-6 mb-8">
-        <p class="text-2xl mb-2">Habits Created: <strong>{{ total_habits }}</strong></p>
-        <p class="text-2xl mb-2">Habits Completed: <strong>{{ total_completions }}</strong></p>
+<div class="container-fluid py-4 text-center">
+  <h1 class="mb-4">
+    🚀 {{ username|upper }}'S HABIT SUMMARY
+  </h1>
+
+  <div class="mb-4">
+    <p>Habits Created: {{ habits_created }}</p>
+    <p>Habits Completed: {{ habits_completed }}</p>
+  </div>
+
+  <div class="card text-light mx-auto" style="max-width: 1000px;">
+    <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
+      <h5 class="m-0">🏆 Achievements</h5>
     </div>
 
-    <h2 class="text-3xl font-semibold mt-10 mb-5">🏆 Achievements</h2>
+    <div class="card-body">
+      {% if achievements %}
+        <div class="row g-4">
+          {% for achievement in achievements %}
+            <div class="col-md-6 col-lg-4">
+              <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05); height: 100%;">
+                <h5 class="text-light">{{ achievement.name }}</h5>
 
-    {% if achievements %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
-            {% for achievement in achievements %}
-                <div class="bg-gray-800 rounded-xl shadow-md p-6">
-                    <h3 class="text-xl font-semibold mb-2">{{ achievement.name }}</h3>
-                    <p class="text-sm text-gray-300">{{ achievement.description }}</p>
-                    {% if achievement.date_unlocked %}
-                        <p class="mt-2 text-xs text-gray-500">Unlocked on {{ achievement.date_unlocked }}</p>
-                    {% endif %}
-                </div>
-            {% endfor %}
+                {% if achievement.name == "Mission Control" %}
+                  <a href="{% url 'dashboard' %}" class="text-secondary small">🚀 View your dashboard</a>
+                {% elif achievement.name == "Friend Finder" %}
+                  <a href="{% url 'friends_list' %}" class="text-secondary small">👥 View your friends list</a>
+                {% elif achievement.name == "Progress Tracker" %}
+                  <a href="{% url 'my_progress' %}" class="text-secondary small">📊 View your progress</a>
+                {% elif achievement.name == "Time Traveler" %}
+                  <a href="{% url 'my_calendar' %}" class="text-secondary small">📅 View your calendar</a>
+                {% elif achievement.name == "Galactic Observer" %}
+                  <a href="{% url 'leaderboard' %}" class="text-secondary small">🏅 View the leaderboards</a>
+                {% elif achievement.name == "Self Scan" %}
+                  <a href="{% url 'my_profile' %}" class="text-secondary small">🧠 View your own profile</a>
+                {% endif %}
+
+                <p class="text-light small mt-2">Unlocked on {{ achievement.date_unlocked|date:"F d, Y" }}</p>
+              </div>
+            </div>
+          {% endfor %}
         </div>
-    {% else %}
-        <p class="text-lg text-gray-400">No achievements unlocked yet. Keep going!</p>
-    {% endif %}
+      {% else %}
+        <div class="text-center py-5">
+          <h6 class="text-secondary">No achievements yet</h6>
+          <p class="small text-secondary">Complete habits to unlock achievements!</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
+
 {% endblock %}
