@@ -679,8 +679,24 @@ def unlock_achievement(user, name, description, request=None):
 def add_friend(request, user_id):
     to_user = get_object_or_404(User, id=user_id)
     if to_user != request.user:
-        Friend.objects.get_or_create(from_user=request.user, to_user=to_user)
+        #invite
+        Friend.objects.get_or_create(from_user=request.user, to_user=to_user, defaults={'status': 'pending'})
     return redirect('friends_list')
+
+@login_required
+def accept_friend_request(request, friend_id):
+    friend_request = get_object_or_404(Friend, id=friend_id, to_user=request.user, status='pending')
+    friend_request.status = 'accepted'
+    friend_request.save()
+    return redirect('friends_list')
+
+@login_required
+def decline_friend_request(request, friend_id):
+    friend_request = get_object_or_404(Friend, id=friend_id, to_user=request.user, status='pending')
+    friend_request.status = 'declined'
+    friend_request.save()
+    return redirect('friends_list')
+
 
 @login_required
 def delete_friend(request, user_id):
@@ -690,6 +706,29 @@ def delete_friend(request, user_id):
 
 @login_required
 def friends_list(request):
-    # All friends this user has added
-    friends = Friend.objects.filter(from_user=request.user)
-    return render(request, 'friends_list.html', {'friends': friends})
+    query = request.GET.get('q', '')
+    
+    all_users = []
+    if query:
+        all_users = User.objects.filter(username=query).exclude(id=request.user.id)
+    else:
+        all_users = User.objects.exclude(id=request.user.id)
+
+    # accepted friends
+    friends = Friend.objects.filter(from_user=request.user, status='accepted').select_related('to_user')
+    
+    # friends requests
+    friend_requests = Friend.objects.filter(to_user=request.user, status='pending').select_related('from_user')
+
+    return render(request, 'friends_list.html', {
+        'all_users': all_users,
+        'friends': friends,
+        'friend_requests': friend_requests,
+        'query': query,
+    })
+
+
+@login_required
+def user_profile(request, user_id):
+    user_profile = get_object_or_404(User, id=user_id)
+    return render(request, 'user_profile.html', {'user_profile': user_profile})
