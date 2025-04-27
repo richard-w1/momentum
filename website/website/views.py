@@ -731,4 +731,18 @@ def friends_list(request):
 @login_required
 def user_profile(request, user_id):
     user_profile = get_object_or_404(User, id=user_id)
-    return render(request, 'user_profile.html', {'user_profile': user_profile})
+    # check if friend
+    is_friend = False
+    if user_profile == request.user:
+        is_friend = True
+    else:
+        is_friend = Friend.objects.filter(
+            from_user=request.user,
+            to_user=user_profile,
+            status='accepted'
+        ).exists()
+
+    return render(request, 'user_profile.html', {
+        'user_profile': user_profile,
+        'is_friend': is_friend,
+    })

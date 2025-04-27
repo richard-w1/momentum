@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-  <h1>{{ user_profile.username }}'s Profile</h1>
+<h1>{{ user_profile.username }}'s Profile</h1>
 
 <div class="container-fluid py-4">
   <div class="row">
@@ -22,12 +22,34 @@
               </div>
             {% endif %}
           </div>
-          
+
           <h2 class="mb-1">{{ user_profile.username }} the {{ user_profile.custom_user.rank }}</h2>
 
           <div class="text-start mt-4">
-            <h6 class="text-secondary">Info is private!</h6>
+            {% if is_friend %}
+              <div class="mb-3">
+                <label class="text-secondary">Name</label>
+                <p>{{ user_profile.first_name }} {{ user_profile.last_name }}</p>
+              </div>
+              <div class="mb-3">
+                <label class="text-secondary">Email</label>
+                <p>{{ user_profile.email }}</p>
+              </div>
+              <div class="mb-3">
+                <label class="text-secondary">Date of Birth</label>
+                <p>{{ user_profile.custom_user.birth_date|default:"Not provided" }}</p>
+              </div>
+              <div class="mb-3">
+                <label class="text-secondary">Bio</label>
+                <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05);">
+                  <p class="mb-0">{{ user_profile.custom_user.bio|default:"No bio provided."|linebreaks }}</p>
+                </div>
+              </div>
+            {% else %}
+              <h6 class="text-secondary">Info is private!</h6>
+            {% endif %}
           </div>
+
         </div>
       </div>
     </div>
@@ -40,8 +62,34 @@
         </div>
         <div class="card-body">
           <div class="text-center py-5">
-            <h6 class="text-secondary">Achievements are private!</h6>
-            <p class="small text-secondary"></p>
+            {% if is_friend %}
+              {% if achievements %}
+                <div class="row g-3">
+                  {% for achievement in achievements %}
+                    <div class="col-md-6 mb-3">
+                      <div class="achievement-card p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05); border-left: 3px solid #4e73df;">
+                        <div class="d-flex">
+                          <div class="achievement-icon me-3">
+                            <div class="trophy-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: rgba(78, 115, 223, 0.2);">
+                              <span>🏆</span>
+                            </div>
+                          </div>
+                          <div>
+                            <h6 class="mb-1 text-light">{{ achievement.name }}</h6>
+                            <p class="mb-1 text-light">{{ achievement.description }}</p>
+                            <small class="mb-1 text-light">{{ achievement.date_unlocked|date:"M d, Y" }}</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <h6 class="text-secondary">No achievements yet.</h6>
+              {% endif %}
+            {% else %}
+              <h6 class="text-secondary">Achievements are private!</h6>
+            {% endif %}
           </div>
         </div>
       </div>
