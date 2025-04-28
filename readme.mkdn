@@ -2,9 +2,9 @@
 
 This is a Django web application.
 
-The server is live at http://54.236.52.63/.
+It is accessible at https://momentum.galeallc.com/ or http://54.236.52.63/. (Do not use any sensitive information or reused passwords/credentials.)
 
-## Setup
+## How to host locally
 
 ### 1. Clone the repository and make sure Python is installed.
 ### 2. Setup virtual enviroment and install dependencies.
