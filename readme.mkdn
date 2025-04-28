@@ -2,6 +2,8 @@
 
 This is a Django web application.
 
+The server is live at http://54.236.52.63/.
+
 ## Setup
 
 ### 1. Clone the repository and make sure Python is installed.
