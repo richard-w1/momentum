@@ -327,6 +327,8 @@ class Habit(models.Model):
         return self.skips.filter(date_skipped=today).exists()
 
     def is_skipped_this_week(self):
+        if self.frequency != 'weekly':
+            return False
         today = timezone.now().date()
         start_of_week = today - timedelta(days=today.weekday())
         end_of_week = start_of_week + timedelta(days=6)
@@ -336,6 +338,8 @@ class Habit(models.Model):
         ).exists()
 
     def is_skipped_this_month(self):
+        if self.frequency != 'monthly':
+            return False
         today = timezone.now().date()
         start_of_month = today.replace(day=1)
         end_of_month = (today.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
