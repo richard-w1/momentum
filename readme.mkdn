@@ -1,10 +1,12 @@
 # 🌌 Momentum: A Space-Themed Habit Tracker
 
+![preview](https://github.com/richard-w1/momentum-habit-tracker/blob/main/website/static/images/preview.png)
+
 **Momentum** is a Django-based web app that turns habit tracking into an interstellar adventure.  
 Access it here: [https://momentum.galeallc.com](https://momentum.galeallc.com)
 
 ## 🚀 Features
-
+![preview](https://github.com/richard-w1/momentum-habit-tracker/blob/main/website/static/images/ahabit.png)
 - ✅ Add and manage daily, weekly, monthly habits  
 - 🧠 Gain exp by completing habits
 - ⬆️ Level up and discover the universe!
@@ -15,7 +17,6 @@ Access it here: [https://momentum.galeallc.com](https://momentum.galeallc.com)
 - 🔍 Sort and filter your habits for easy tracking  
 - ⏰ Set personalized habit reminders  
 - 📈 View detailed progress tracking  
-
 
 - 🏆 Compete on a global leaderboard  
 - 🎖️ Earn achievements for consistency and milestones  
