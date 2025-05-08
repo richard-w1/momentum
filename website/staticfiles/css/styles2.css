@@ -1,0 +1,366 @@
+/* General Styles */
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #0d1b2a, #1b263b, #415a77);
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(173, 216, 230, 0.8), 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+h1, h2, h3, p {
+    color: #ffffff;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #00ffff;
+}
+
+.specialform {
+    display: block;
+    justify-content: center;
+    margin: 0 auto;
+    text-align: left;
+    width: 100%;
+    width: 300px;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Navbar */
+.navbar {
+    padding: 15px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-brand {
+    font-size: 1.5em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.navbar-nav .btn {
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    background: url("{% static 'images/stars.jpg' %}") no-repeat center center;
+    background-size: cover; /* Ensure the image covers the entire section */
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ffffff; /* Ensure text is readable */
+    padding: 20px;
+    z-index: 1; /* Ensure the hero section is above other elements */
+}
+
+.hero h1 {
+    font-size: 3em;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7); /* Add shadow for better readability */
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7); /* Add shadow for better readability */
+}
+
+.cta-buttons .btn {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease-in-out;
+}
+
+.cta-buttons .btn:hover {
+    background: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+/* Feature Grid */
+.feature-grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 50px 20px;
+    background: rgba(13, 27, 42, 0.9);
+}
+
+.feature {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    height: auto;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.feature-grid2 {
+    display: flex;
+    justify-content: center; /* Center the items horizontally */
+    align-items: center; /* Center the items vertically */
+    gap: 20px; /* Reduce the gap between items */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    padding: 20px;
+    background: rgba(13, 27, 42, 0.9);
+}
+
+.feature2 {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: auto; /* Set a fixed width for consistency */
+    height: auto;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature2 img {
+    max-width: auto;
+    margin-bottom: 15px;
+}
+
+.feature2 h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.feature2 p {
+    font-size: 1em;
+    color: #ffffff;
+}
+
+.feature2:hover {
+    transform: translateY(-5px); /* Add a subtle hover effect */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+}
+
+.feature img {
+    max-width: 100px;
+    margin-bottom: 15px;
+}
+
+.feature h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.feature p {
+    font-size: 1em;
+    color: #ffffff;
+}
+
+.feature-grid2 {
+    display: flex;
+    flex-direction: row; /* Stack items vertically */
+    gap: 40px; /* Add spacing between items */
+    padding: 20px;
+    background: rgba(13, 27, 42, 0.9);
+}
+
+.feature-grid3 {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center the items vertically */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    padding: 20px;
+    background: rgba(13, 27, 42, 0.9);
+    gap: 40px; /* Add spacing between items */
+    background: rgba(13, 27, 42, 0.9);
+}
+
+.feature3 {
+    display: flex;
+    align-items: center; /* Align image and text vertically */
+    gap: 20px; /* Add spacing between image and text */
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 800px;
+}
+
+.feature3:nth-child(even) {
+    flex-direction: row-reverse; /* Reverse layout for alternating sections */
+}
+
+
+.highlight-text {
+    flex: 1; /* Allow text to take up remaining space */
+    text-align: left;
+}
+
+.highlight-text h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.highlight-text p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #ffffff;
+}
+
+.feature3:hover {
+    transform: translateY(-5px); /* Add a subtle hover effect */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+}
+
+/* About Section */
+.about-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 50px 20px;
+    background: rgba(13, 27, 42, 0.9);
+    color: #ffffff;
+}
+
+.about-content {
+    max-width: 600px;
+    text-align: left;
+}
+
+.about-content h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.about-content p {
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+.about-image img {
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Project Section */
+.project-section {
+    text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #1b263b, #415a77);
+    color: #ffffff;
+}
+
+.project-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.project-section p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Additional Features */
+.additional-features {
+    text-align: center;
+    padding: 50px 20px;
+    background: rgba(13, 27, 42, 0.9);
+    color: #ffffff;
+}
+
+.additional-features h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+}
+
+.feature-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    justify-items: center;
+}
+
+.feature-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+}
+
+.feature-item i {
+    font-size: 3em;
+    color: #00ffff;
+    margin-bottom: 15px;
+}
+
+.feature-item h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.feature-item p {
+    font-size: 1em;
+    color: #ffffff;
+}
+
+/* Footer */
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    background: #0d1b2a;
+    color: #ffffff;
+    font-size: 0.9em;
+}

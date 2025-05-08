@@ -60,6 +60,8 @@ urlpatterns = [
     path('friend-request/decline/<int:friend_id>/', views.decline_friend_request, name='decline_friend_request'),
     path('profile/<int:user_id>/', views.user_profile, name='user_profile'),
     path('daily-spin/', views.daily_spin, name='daily_spin'),
+    path('about/', views.about, name='about'),
+    path('features/', views.features, name='features'),
 ]
 
 # profile pictures

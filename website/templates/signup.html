@@ -7,21 +7,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
 </head>
 <body>
-    <h1>Sign Up</h1>
-    <div>
-        <form method="post" class="specialform">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn">Sign Up</button>
-        </form>
-    </specialform>
-    <p>
-        Already have an account? 
-    </p>
-    <a href="{% url 'login' %}" class="btn">Log in</a>
+    <div class="specialform-container">
+        <div class="specialform">
+            <h1>Sign Up</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn primary"><i class="fas fa-user-plus"></i> Sign Up</button>
+            </form>
+            <p>Already have an account?</p>
+            <a href="{% url 'login' %}" class="btn primary"><i class="fas fa-sign-in-alt"></i> Log in</a>
+        </div>
+    </div>
 </body>
 </html>
 {% endblock %}
