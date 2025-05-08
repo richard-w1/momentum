@@ -1,53 +1,22 @@
-# Habit Tracker Web App
+# 🌌 Momentum: A Space-Themed Habit Tracker
 
-This is a Django web application.
+**Momentum** is a Django-based web app that turns habit tracking into an interstellar adventure.  
+Access it here: [https://momentum.galeallc.com](https://momentum.galeallc.com)
 
-It is accessible at https://momentum.galeallc.com/ or http://54.236.52.63/. (Do not use any sensitive information or reused passwords/credentials.)
+## 🚀 Features
 
-## How to host locally
+- ✅ Add and manage daily, weekly, monthly habits  
+- 🧠 Gain exp by completing habits
+- ⬆️ Level up and discover the universe!
 
-### 1. Clone the repository and make sure Python is installed.
-### 2. Setup virtual enviroment and install dependencies.
-In the project folder:
 
-**Windows**
-```bash
-python -m venv venv
-.\venv\Scripts\activate
-````
+- ⏭️ Skip habits when needed, without breaking progress  
+- 🏷️ Add custom tags to organize habits  
+- 🔍 Sort and filter your habits for easy tracking  
+- ⏰ Set personalized habit reminders  
+- 📈 View detailed progress tracking  
 
-**Mac and Linux**
-```bash
-source venv/bin/activate
-```
 
-This will activate the virtual enviroment.
-
-```bash
-pip install -r requirements.txt
-````
-
-This will install dependencies.
-
-### 3. Run server
-
-```bash
-cd website
-```
-
-This changes the directory from the project to webiste.
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-This ensures that all the applications are migrated into the project.
-
-```bash
-python manage.py runserver
-```
-
-Navigate to http://127.0.0.1:8000/ in a browser.
-
-Press 'Ctrl + c' in termial to stop the server.
+- 🏆 Compete on a global leaderboard  
+- 🎖️ Earn achievements for consistency and milestones  
+- 🌐 Share your profile and progress with others  
