@@ -1,42 +1,61 @@
+{% extends 'base2.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
-</head>
-<body>
-            <h2>Welcome to Momentum</h2>
-            <h1>Launch Your Productivity Into Space</h1>
-            <p>Complete habits, earn levels, explore the cosmos!</p>
-            <p>From Earth to the stars, every habit gets you closer to the next frontier.</p>
-            <div class="cta-buttons">
-                <a href="/login" class="btn">Login</a>
-                <a href="/signup" class="btn primary">Join & Start Your Mission</a>
-            </div>
-    
-        <h2>Your Journey Awaits</h2>
-        <div class="feature-grid">
-            <div class="feature">
-                <img src="{% static 'images/earth.png' %}" width="100">
-                <h3>Start from Earth</h3>
-                <p>Begin your productivity mission with small steps that build momentum.</p>
-            </div>
-            <div class="feature">
-                <img src="{% static 'images/moon.png' %}" width="100">
-                <h3>Reach the Moon</h3>
-                <p>Stay consistent as you progress further.</p>
-            </div>
-            <div class="feature">
-                <img src="{% static 'images/galaxy.png' %}" width="100">
-                <h3>Explore the Universe</h3>
-                <p>Master your habits and venture into deep space.</p>
+{% block content %}
+<section class="hero" style="background: url('{% static 'images/stars.jpg' %}') no-repeat center center; background-size: cover; width: 100%;">
+    <h1>Launch Your Productivity Into Space</h1>
+        <p>Complete habits, earn levels, explore the cosmos!</p>
+        <p>From Earth to the stars, every habit gets you closer to the next frontier.</p>
+        <div class="cta-buttons">
+            <a href="/login" class="btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="/signup" class="btn primary"><i class="fas fa-user-plus"></i> Join & Start Your Mission</a>
+        </div>
+    </section>
+
+    <section class="feature-grid3">
+        <div class="feature3">
+            <img src="{% static 'images/habits.png' %}" width="500">
+            <div class="highlight-text">
+                <h2><i class="fas fa-tasks"></i> Habit Management</h2>
+                <p>Create, edit, and track your habits with ease. Stay organized and build consistency with a structured routine tailored to your goals.</p>
             </div>
         </div>
 
-    <footer>
-        <p>&copy; 2025 Momentum</p>
+        <div class="feature3">
+            <img src="{% static 'images/progress.png' %}" width="500">
+            <div class="highlight-text">
+                <h2><i class="fas fa-chart-line"></i> Visualize Your Progress</h2>
+                <p>Monitor your habit streaks and experience growth with detailed progress charts that keep you motivated and focused.</p>
+            </div>
+        </div>
+
+        <div class="feature3">
+            <img src="{% static 'images/profile.png' %}" width="500">
+            <div class="highlight-text">
+                <h2><i class="fas fa-user-astronaut"></i> Mission Profile</h2>
+                <p>Track your level, rank, achievements, and completed milestones. Show off your interstellar growth on a shareable public profile.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="feature-grid">
+        <div class="feature">
+            <img src="{% static 'images/earth.png' %}" width="100">
+            <h3><i class="fas fa-globe"></i> Start from Earth</h3>
+            <p>Begin your productivity mission with small steps that build momentum.</p>
+        </div>
+        <div class="feature">
+            <img src="{% static 'images/moon.png' %}" width="100">
+            <h3><i class="fas fa-moon"></i> Reach the Moon</h3>
+            <p>Stay consistent as you progress further.</p>
+        </div>
+        <div class="feature">
+            <img src="{% static 'images/galaxy.png' %}" width="100">
+            <h3><i class="fas fa-galaxy"></i> Explore the Universe</h3>
+            <p>Master your habits and venture into deep space.</p>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 Momentum. All rights reserved.</p>
     </footer>
-</body>
-</html>
+{% endblock %}

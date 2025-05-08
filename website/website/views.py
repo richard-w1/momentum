@@ -149,7 +149,13 @@ def dashboard(request):
             (habit.frequency == 'monthly' and habit.is_completed_this_month())
         )
     )
-    daily_percentage = (completed_habits / total_habits) * 100 if total_habits > 0 else 0
+
+    completed_habits = habits.filter(completions__isnull=False).distinct().count()
+
+    if total_habits > 0:
+        daily_percentage = (completed_habits / total_habits) * 100 
+    else:
+        daily_percentage = 0
 
     context = {
         'habit_count': all_habits.count(),
@@ -186,9 +192,12 @@ def my_profile(request):
     total_missed_habits = sum(habit.get_missed_occurrences() for habit in habits)
 
     # stats
-    overall_completion_rate = (
-        (completed_habits / (completed_habits + total_missed_habits)) * 100 if total_habits > 0 else 0
-    )
+    if total_habits > 0:
+        overall_completion_rate = (
+            (completed_habits / (completed_habits + total_missed_habits)) * 100
+        )
+    else: 
+        overall_completion_rate = 0
     longest_streak = max((habit.get_max_streak() for habit in habits), default=0)
     current_streak = max((habit.get_current_streak() for habit in habits), default=0)
     total_days_active = (timezone.now().date() - user.date_joined.date()).days
@@ -521,9 +530,6 @@ def get_habits(request):
         
     return JsonResponse(habit_list, safe=False)
 
-
-#momentumhabitapp@gmail.com
-#momentum123
 @login_required
 def send_habit_notifications(request):
     user = request.user
@@ -871,3 +877,9 @@ def daily_spin(request):
     user.save()
 
     return JsonResponse({'message': f'You won {reward} Exp!', 'reward': reward})
+
+def about(request):
+    return render(request, 'about.html')
+
+def features(request):
+    return render(request, 'features.html')

@@ -1,0 +1,21 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+<section class="hero"  style="background: url('{% static 'images/stars.jpg' %}') no-repeat center center; background-size: cover; width: 100%;">
+    <h1>About Momentum</h1>
+    <p>Momentum is your ultimate habit tracker, designed to help you achieve your goals and explore your potential.</p>
+    <p>Our mission is to make habit building fun, engaging, and rewarding.</p>
+</section>
+
+<section class="about-section">
+    <div class="about-content">
+        <h2>Why Choose Momentum?</h2>
+        <p>Momentum combines habit tracking with gamification, turning your daily routines into an interstellar adventure. With features like Habit Analytics, Mission Profiles, and Acheivements, we make productivity exciting and rewarding.</p>
+    </div>
+</section>
+
+<section class="project-section">
+    <h2>Our Project</h2>
+    <p>This project was developed as part of an undergraduate software engineering class to demonstrate skills in web development. Momentum is a fully functional habit tracker that integrates gamification to engage users. This application was built with Django 5, SQLite, and Bootstrap. Deployed with Amazon EC2.</p>
+</section>
+{% endblock %}

@@ -10,15 +10,19 @@
     <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
 </head>
 <body>
-    <h1>Log In</h1>
-    <specialform>
-        <form method="post" class="specialform">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn">Log In</button>
-        </form>
-    </specialform>
-    <a href="{% url 'signup' %}" class="btn">Don't have an account? Sign up</a>
+    <div class="specialform-container">
+        <div class="specialform">
+            <h1>Log In</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn primary"><i class="fas fa-sign-in-alt"></i> Log In</button>
+            </form>
+            <p>Don't have an account?</p>
+            <p>Join us and start your productivity journey!</p>
+            <a href="{% url 'signup' %}" class="btn primary"><i class="fas fa-user-plus"></i>  Sign up</a>
+        </div>
+    </div>
 </body>
 </html>
 {% endblock %}
