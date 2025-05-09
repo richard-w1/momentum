@@ -1,23 +1,163 @@
-# 🌌 Momentum: A Space-Themed Habit Tracker
+**Momentum** is a Django-based web app that turns habit tracking into an interstellar adventure.  
+Access it here: [https://momentum.galeallc.com](https://momentum.galeallc.com)
+ 
+
+# Welcome to Momentum - Habit Tracker
 
 ![preview](https://github.com/richard-w1/momentum-habit-tracker/blob/main/website/static/images/preview.png)
 
-**Momentum** is a Django-based web app that turns habit tracking into an interstellar adventure.  
-Access it here: [https://momentum.galeallc.com](https://momentum.galeallc.com)
+---
 
-## 🚀 Features
+## Overview
+
+Momentum is a gamified habit tracker designed to help users build and maintain productive habits while exploring the cosmos. With features like habit tracking, progress visualization, leaderboards, and achievements, Momentum makes habit-building fun, engaging, and rewarding.
+
+---
+
+## App and Team Information
+
+- **App Name**: Momentum - Habit Tracker  
+- **Full Stack Development Team**:  
+  - [Richard Wang](https://momentum.galeallc.com)
+  - [Sarthak Shrestha](https://github.com/SarthakStha)
+- **
+
+---
+
+## About This Document
+
+This document provides an overview of the Momentum Habit Tracker project, including setup instructions, technical specifications, and deployment steps. It is intended to help developers and contributors understand the project and set up their development environment.
+
+**Note**:  
+- Any new dependencies or changes affecting the project must be documented here.  
+- Ensure this file is updated regularly to assist new developers in setting up the project without external help.
+
+---
+
+## Tools and Hardware Requirements
+
+### Software Requirements
+1. Python 3.10+
+2. Django 5.1+ with REST framwork
+3. PostgreSQL or SQLite3
+4. Gunicorn
+5. Pillow
+
+---
+
+## Project Technical Specifications
+
+- **Backend**: Django (Python)  
+- **Frontend**: HTML, CSS (Bootstrap 5), JavaScript (Chart.js, FullCalendar.js, DataTables.js)  
+- **Database**: SQLite
+- **Authentication**: Django authentication   
+- **Deployment**: AWS EC2, Gunicorn (WSGI), and Nginx as a reverse proxy
+- **Domain & SSL**: Custom domain with SSL certificate issued by AWS Certificate Manager and configured via Route 53 and Nginx
+
+---
+
+## Features
+
+### 1. **Comprehensive Habit Tracking**
+   - Create, edit, and delete habits, options for varying frequencies.
+   - Track streaks and completion rates. 
+   - Set up email reminder times.
+   - Mark habits as completed, skipped, or missed.
+   - Filter habits by frequency, custom tags, completion status.
+
 ![preview](https://github.com/richard-w1/momentum-habit-tracker/blob/main/website/static/images/ahabit.png)
-- ✅ Add and manage daily, weekly, monthly habits  
-- 🧠 Gain exp by completing habits
-- ⬆️ Level up and discover the universe!
+
+### 2. **Progress Visualization**
+   - View progress charts (daily, weekly, monthly) and weekly trends.
+   - Monitor streaks, completion rates, and missed habits.
+
+### 3. **Achievements**
+   - Unlock achievements for milestones like streaks, completions, and profile updates.
+   - View unlocked achievements on the profile page.
+
+![preview](https://github.com/richard-w1/momentum-habit-tracker/blob/main/website/static/images/acheivements.png)
+
+### 4. **Leaderboards**
+   - Compete with friends and global users across all time, and limited time charts.
+   - View rankings based on experience points and habits completed.
+
+### 5. **Friends System**
+   - Add friends, accept/decline friend requests.
+   - View friends' profiles and progress.
+
+### 6. **Calendar Integration**
+   - Visualize habits on a calendar.
+
+### 7. **Daily Login Bonus**
+   - Daily incentive to sign in, and maintain a 7 day login streak.
+   - Spin a wheel daily to earn experience points.
+
+### 8. **Profile Management**
+   - Update profile details, including bio and profile picture.
+   - View and share your stats to social media.
+
+### 9. **Notifications**
+   - Receive email reminders for incomplete habits.
+   - View login streak rewards and level-up notifications.
+
+---
 
 
-- ⏭️ Skip habits when needed, without breaking progress  
-- 🏷️ Add custom tags to organize habits  
-- 🔍 Sort and filter your habits for easy tracking  
-- ⏰ Set personalized habit reminders  
-- 📈 View detailed progress tracking  
+## Local Setup
 
-- 🏆 Compete on a global leaderboard  
-- 🎖️ Earn achievements for consistency and milestones  
-- 🌐 Share your profile and progress with others  
+### Set Up a Virtual Environment
+```bash
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Set Up the Database
+```bash
+python manage.py makemigrations
+python manage.py migrate
+
+```
+### Run the Development Server
+```bash
+python manage.py runserver
+```
+
+### Access the Application
+Open your browser and navigate to http://127.0.0.1:8000.
+
+
+## Deployment
+### Prepare the Environment
+Set up an AWS EC2 instance with Ubuntu.
+
+Install Python, PostgreSQL, and Nginx.
+
+### Configure the Database
+Create a PostgreSQL database and user.
+
+Update the DATABASES setting in settings.py.
+
+### Collect Static Files
+```bash
+python manage.py collectstatic
+```
+
+### Set Up Gunicorn
+```bash
+gunicorn --bind 0.0.0.0:8000 website.wsgi
+```
+
+### Configure Nginx
+Set up an Nginx server block to proxy requests to Gunicorn.
+
+### Deploy
+Restart Gunicorn and Nginx.
+
+Access the application via the server's public IP or domain.
+
+Thank you for using our project!
