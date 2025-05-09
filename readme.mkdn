@@ -13,14 +13,9 @@ Access it here: [https://momentum.galeallc.com](https://momentum.galeallc.com)
 Momentum is a gamified habit tracker designed to help users build and maintain productive habits while exploring the cosmos. With features like habit tracking, progress visualization, leaderboards, and achievements, Momentum makes habit-building fun, engaging, and rewarding.
 
 ---
-
-## App and Team Information
-
-- **App Name**: Momentum - Habit Tracker  
-- **Full Stack Development Team**:  
+- **Full Stack Development Team (Jan - April 2025)** 
   - [Richard Wang](https://momentum.galeallc.com)
   - [Sarthak Shrestha](https://github.com/SarthakStha)
-- **
 
 ---
 
@@ -52,7 +47,7 @@ This document provides an overview of the Momentum Habit Tracker project, includ
 - **Database**: SQLite
 - **Authentication**: Django authentication   
 - **Deployment**: AWS EC2, Gunicorn (WSGI), and Nginx as a reverse proxy
-- **Domain & SSL**: Custom domain with SSL certificate issued by AWS Certificate Manager and configured via Route 53 and Nginx
+- **Domain & SSL**: Custom domain with SSL certificate issued by AWS Certificate Manager and configured via Route 53 and Nginx with automatic HTTP-to-HTTPS redirection.
 
 ---
 
