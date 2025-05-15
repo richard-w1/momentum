@@ -4,6 +4,7 @@ from datetime import date, timedelta
 from django.utils import timezone
 from datetime import date, timedelta, time
 from django.contrib import messages
+import random
 
 #creating a custom model for users
 class custom_user(models.Model):
@@ -36,6 +37,11 @@ class custom_user(models.Model):
     total_exp = models.PositiveIntegerField(default=0)
     level = models.PositiveIntegerField(default=1)
     rank = models.CharField(max_length=100, choices=RANK_CHOICES, default="Earthling")
+
+    # login streak
+    current_streak = models.PositiveIntegerField(default=0)
+    last_login_date = models.DateField(null=True, blank=True)
+    streak_rewards_claimed = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username} custom_user'
