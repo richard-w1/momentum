@@ -26,7 +26,6 @@ from django.db.models.functions import Rank
 from django.contrib.auth.models import User
 from .models import Friend
 
-
 def home_redirect(request):
     return redirect('landing')
 
@@ -41,7 +40,7 @@ def login(request):
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                auth_login(request, user)
+                auth_login(request, user)                
                 return redirect('dashboard')
             else:
                 form.add_error(None, 'Invalid username or password')
@@ -64,32 +63,35 @@ def signup(request):
 
 @login_required
 def dashboard(request):
-    
     if not request.user.is_authenticated:
         return redirect('login')
     
+    # login streak
+    custom_user_profile = request.user.custom_user
+    today = timezone.now().date()
+
+    if custom_user_profile.last_login_date == today - timedelta(days=1):
+        custom_user_profile.current_streak += 1
+    elif custom_user_profile.last_login_date != today:
+        # Reset
+        custom_user_profile.current_streak = 1
+
+    custom_user_profile.last_login_date = today
+    custom_user_profile.save()
+
     unlock_achievement(request.user, "Mission Control", "🛰️ View your dashboard.", request)
 
-    #sorting the Query List in the order of importance
     all_habits = Habit.objects.filter(user=request.user).order_by('-important')
 
     daily_habits = [habit for habit in all_habits if habit.frequency == 'daily']
     weekly_habits = [habit for habit in all_habits if habit.frequency == 'weekly']
     monthly_habits = [habit for habit in all_habits if habit.frequency == 'monthly']
 
-    # stats
     today = date.today()
     completed_today = HabitCompletion.objects.filter(
         habit__user=request.user, date_completed=today).count()
-    top_streaks = sorted(
-        list(all_habits), key=lambda x: x.get_current_streak(), reverse=True)[:3]
-    top_max_streaks = sorted(
-        list(all_habits), key=lambda x: x.get_max_streak(), reverse=True)[:3]
-    top_completion_rates = sorted(
-        list(all_habits), key=lambda x: x.get_completion_rate(), reverse=True)[:3]
-    missed_habits = [habit for habit in all_habits if habit.get_missed_occurrences() > 0]
     total_completions = HabitCompletion.objects.filter(habit__user=request.user).count()
-    
+
     tips = [
         "\"The secret of getting ahead is getting started.\" - Mark Twain",
         "\"We become what we repeatedly do.\" - Sean Covey",
@@ -118,25 +120,13 @@ def dashboard(request):
     
     habits = Habit.objects.filter(user=request.user)
     total_habits = habits.count()
-
-    completed_habits = 0
-
-    # List to store habit status for display (completed or incomplete)
-    habit_status = []
-
-    for habit in habits:
-        if habit.frequency == 'daily' and habit.is_completed_today():
-            habit_status.append(f"{habit.name} complete")
-            completed_habits += 1
-        elif habit.frequency == 'weekly' and habit.is_completed_this_week():
-            habit_status.append(f"{habit.name} complete")
-            completed_habits += 1
-        elif habit.frequency == 'monthly' and habit.is_completed_this_month():
-            habit_status.append(f"{habit.name} complete")
-            completed_habits += 1
-        else:
-            habit_status.append(f"{habit.name} incomplete")
-
+    completed_habits = sum(
+        1 for habit in habits if (
+            (habit.frequency == 'daily' and habit.is_completed_today()) or
+            (habit.frequency == 'weekly' and habit.is_completed_this_week()) or
+            (habit.frequency == 'monthly' and habit.is_completed_this_month())
+        )
+    )
     daily_percentage = (completed_habits / total_habits) * 100 if total_habits > 0 else 0
 
     context = {
@@ -146,13 +136,12 @@ def dashboard(request):
         'monthly_habits': monthly_habits,
         'completed_today': completed_today,
         'total_completions': total_completions,
-        'top_streaks': top_streaks,
-        'top_completion_rates': top_completion_rates,
-        'missed_habits': missed_habits,
         'random_tip': random_tip,
         'daily_percentage': daily_percentage,
         'completed_habits': completed_habits,
-        'total_habits': total_habits
+        'total_habits': total_habits,
+        'streak_days': range(1, 8), 
+        'today': today,
     }
     return render(request, 'dashboard.html', context)
 
@@ -757,10 +746,14 @@ def friends_list(request):
 @login_required
 def user_profile(request, user_id):
     user_profile = get_object_or_404(User, id=user_id)
-    # check if friend
+    
     is_friend = False
-    if user_profile == request.user:
-        is_friend = True
+
+    # if its the logged in user, redirect to my profile
+    if user_id == request.user.id:
+        return redirect('my_profile')
+    
+    # check if friend
     else:
         is_friend = Friend.objects.filter(
             from_user=request.user,

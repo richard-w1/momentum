@@ -44,7 +44,7 @@ main {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 20px;
-    max-width: 800px;
+    max-width: 1000px;
 }
 
 .section {
@@ -581,3 +581,29 @@ h1 {
     transform: translateY(-2px);
     background-color: rgba(255, 255, 255, 0.08) !important;
   }
+
+    .login-streak-container {
+        display: flex;
+        gap: 10px;
+    }
+
+    .login-streak-box {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+        text-align: center;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .day-label {
+        font-size: 12px;
+        font-weight: normal;
+    }
+
+    .xp-reward {
+        font-size: 16px;
+    }
