@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h1>{{ user_profile.username }}'s Profile</h1>
+<h1><i class="fas fa-user me-2"></i>{{ user_profile.username }}'s Profile</h1>
 
 <div class="container-fluid py-4">
   <div class="row">
@@ -9,7 +9,7 @@
     <div class="col-lg-4">
       <div class="card text-light mb-4">
         <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
-          <h5 class="m-0">Info</h5>
+          <h5 class="m-0"><i class="fas fa-info-circle me-2"></i>Info</h5>
         </div>
         <div class="card-body text-center py-4">
           <!-- Profile Picture -->
@@ -18,7 +18,7 @@
               <img src="{{ user_profile.custom_user.profile_picture.url }}" alt="{{ user_profile.username }}" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
             {% else %}
               <div class="profile-placeholder rounded-circle mx-auto" style="width: 150px; height: 150px; background-color: #5f697e; display: flex; align-items: center; justify-content: center;">
-                <span style="font-size: 3rem; color: #c8d0e0;">{{ user_profile.username|first|upper }}</span>
+                <span style="font-size: 3rem; color: #c8d0e0;"><i class="fas fa-user"></i></span>
               </div>
             {% endif %}
           </div>
@@ -27,31 +27,31 @@
 
           <div class="text-start mt-4">
             {% if is_private and not is_friend %}
-              <h6 class="text-secondary">This profile is private. Add as a friend to view more details.</h6>
+              <h6 class="text-secondary"><i class="fas fa-lock me-2"></i>This profile is private. Add as a friend to view more details.</h6>
             {% else %}
               <!-- info -->
               <div class="mb-3">
-                <label class="text-secondary">Level</label>
+                <label class="text-secondary"><i class="fas fa-level-up-alt me-2"></i>Level</label>
                 <p>{{ user_profile.custom_user.level }}</p>
               </div>
               <div class="mb-3">
-                <label class="text-secondary">Current Location</label>
+                <label class="text-secondary"><i class="fas fa-map-marker-alt me-2"></i>Current Location</label>
                 <p>{{ user_profile.custom_user.get_current_location }}</p>
               </div>
               <div class="mb-3">
-                <label class="text-secondary">Name</label>
+                <label class="text-secondary"><i class="fas fa-id-card me-2"></i>Name</label>
                 <p>{{ name }}</p>
               </div>
               <div class="mb-3">
-                <label class="text-secondary">Email</label>
+                <label class="text-secondary"><i class="fas fa-envelope me-2"></i>Email</label>
                 <p>{{ email }}</p>
               </div>
               <div class="mb-3">
-                <label class="text-secondary">Date of Birth</label>
+                <label class="text-secondary"><i class="fas fa-birthday-cake me-2"></i>Date of Birth</label>
                 <p>{{ birth_date|default:"Not provided" }}</p>
               </div>
               <div class="mb-3">
-                <label class="text-secondary">Bio</label>
+                <label class="text-secondary"><i class="fas fa-info-circle me-2"></i>Bio</label>
                 <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05);">
                   <p class="mb-0">{{ bio|default:"No bio provided."|linebreaks }}</p>
                 </div>
@@ -66,12 +66,12 @@
     <div class="col-lg-8">
       <div class="card text-light mb-4">
         <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
-          <h5 class="m-0">Stats</h5>
+          <h5 class="m-0"><i class="fas fa-chart-bar me-2"></i>Stats</h5>
         </div>
         <div class="card-body py-2">
           {% if is_private and not is_friend %}
           <div class="text-center py-5">
-            <h6 class="text-secondary">Stats are private!</h6>
+            <h6 class="text-secondary"><i class="fas fa-lock me-2"></i>Stats are private!</h6>
             <p class="small text-secondary">Add as a friend to view their stats!</p>
           </div>
           {% else %}
@@ -123,12 +123,12 @@
       <!-- achievements -->
       <div class="card text-light">
         <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
-          <h5 class="m-0">Achievements</h5>
+          <h5 class="m-0"><i class="fas fa-trophy me-2"></i>Achievements</h5>
         </div>
         <div class="card-body">
           {% if is_private and not is_friend %}
           <div class="text-center py-5">
-            <h6 class="text-secondary">Achievements are private!</h6>
+            <h6 class="text-secondary"><i class="fas fa-lock me-2"></i>Achievements are private!</h6>
             <p class="small text-secondary">Add as a friend to view achievements!</p>
           </div>
           {% else %}
@@ -140,13 +140,13 @@
                       <div class="d-flex">
                         <div class="achievement-icon me-3">
                           <div class="trophy-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: rgba(78, 115, 223, 0.2);">
-                            <span>🏆</span>
+                            <span><i class="fas fa-trophy"></i></span>
                           </div>
                         </div>
                         <div>
                           <h6 class="mb-1 text-light">{{ achievement.name }}</h6>
                           <p class="mb-1 text-light">{{ achievement.description }}</p>
-                          <small class="mb-1 text-light">{{ achievement.date_unlocked|date:"M d, Y" }}</small>
+                          <small class="mb-1 text-light"><i class="fas fa-calendar-alt me-1"></i>{{ achievement.date_unlocked|date:"M d, Y" }}</small>
                         </div>
                       </div>
                     </div>
@@ -157,7 +157,7 @@
               <div class="text-center py-5">
                 <div class="mb-3">
                   <div class="empty-icon mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background-color: rgba(255, 255, 255, 0.05);">
-                    <span style="font-size: 2rem; color: #adb5bd;">🏆</span>
+                    <span style="font-size: 2rem; color: #adb5bd;"><i class="fas fa-trophy"></i></span>
                   </div>
                 </div>
                 <h6 class="text-secondary">No achievements yet</h6>
