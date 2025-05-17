@@ -45,15 +45,16 @@ function make_daily_habit_graph(data){
     currentChart = new Chart(ctx, {
         type: 'pie',
         options: {
-            animation: false,
+            responsive: true,
             plugins: {
-                legend: {
-                    display: false
-                },
+                legend: { display: false },
                 tooltip: {
-                    enabled: false
+                    enabled: true,
+                    backgroundColor: '#222',
+                    titleColor: '#fff',
+                    bodyColor: '#ccc',
                 },
-            }
+            },
         },
         data: {
             labels: Object.keys(data["daily_habit_stat"]),
@@ -74,15 +75,16 @@ function make_weekly_habit_graph(data){
     currentChart = new Chart(ctx, {
         type: 'pie',
         options: {
-            animation: false,
+            responsive: true,
             plugins: {
-                legend: {
-                    display: false
-                },
+                legend: { display: false },
                 tooltip: {
-                    enabled: false
+                    enabled: true,
+                    backgroundColor: '#222',
+                    titleColor: '#fff',
+                    bodyColor: '#ccc',
                 },
-            }
+            },
         },
         data: {
             labels: Object.keys(data["weekly_habit_stat"]),
@@ -104,15 +106,16 @@ function make_monthly_habit_graph(data){
     currentChart = new Chart(ctx, {
         type: 'pie',
         options: {
-            animation: false,
+            responsive: true,
             plugins: {
-                legend: {
-                    display: false
-                },
+                legend: { display: false },
                 tooltip: {
-                    enabled: false
+                    enabled: true,
+                    backgroundColor: '#222',
+                    titleColor: '#fff',
+                    bodyColor: '#ccc',
                 },
-            }
+            },
         },
         data: {
             labels: Object.keys(data["monthly_habit_stat"]),
@@ -147,30 +150,48 @@ fetch('/get_weekly_stats/', {
 
 // creates and render the weekly report graph
 function weekly_report_graph(data){
-    const ctx = document.getElementById('weekly_chart');
+    const ctx = document.getElementById('weekly_chart').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
-        options: {
-            animation: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    enabled: false
-                },
-            }
-        },
         data: {
             labels: Object.keys(data),
             datasets: [{
-            label: 'number of habits completed',
-            data: Object.values(data),
-            borderWidth: 1
+                label: 'Habits Completed',
+                data: Object.values(data),
+                backgroundColor: 'rgba(138, 43, 226, 0.8)',
+                borderColor: 'rgba(255, 255, 255, 0.8)',
+                borderWidth: 1,
+                borderRadius: 7,
             }]
         },
         options: {
-
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#222',
+                    titleColor: '#fff',
+                    bodyColor: '#ccc',
+                },
+            },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: {
+                        color: '#aaa',
+                        font: { size: 14 }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: {
+                        color: '#aaa',
+                        font: { size: 14 }
+                    }
+                }
+            }
         }
         
     });
