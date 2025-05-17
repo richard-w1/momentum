@@ -26,83 +26,150 @@
           <h2 class="mb-1">{{ user_profile.username }} the {{ user_profile.custom_user.rank }}</h2>
 
           <div class="text-start mt-4">
-            {% if is_friend %}
+            {% if is_private and not is_friend %}
+              <h6 class="text-secondary">This profile is private. Add as a friend to view more details.</h6>
+            {% else %}
+              <!-- info -->
               <div class="mb-3">
                 <label class="text-secondary">Level</label>
                 <p>{{ user_profile.custom_user.level }}</p>
               </div>
-              
               <div class="mb-3">
                 <label class="text-secondary">Current Location</label>
                 <p>{{ user_profile.custom_user.get_current_location }}</p>
               </div>
-              
               <div class="mb-3">
                 <label class="text-secondary">Name</label>
-                <p>{{ user_profile.first_name }} {{ user_profile.last_name }}</p>
+                <p>{{ name }}</p>
               </div>
               <div class="mb-3">
                 <label class="text-secondary">Email</label>
-                <p>{{ user_profile.email }}</p>
+                <p>{{ email }}</p>
               </div>
               <div class="mb-3">
                 <label class="text-secondary">Date of Birth</label>
-                <p>{{ user_profile.custom_user.birth_date|default:"Not provided" }}</p>
+                <p>{{ birth_date|default:"Not provided" }}</p>
               </div>
               <div class="mb-3">
                 <label class="text-secondary">Bio</label>
                 <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05);">
-                  <p class="mb-0">{{ user_profile.custom_user.bio|default:"No bio provided."|linebreaks }}</p>
+                  <p class="mb-0">{{ bio|default:"No bio provided."|linebreaks }}</p>
                 </div>
               </div>
-            {% else %}
-              <h6 class="text-secondary">Info is private!</h6>
             {% endif %}
           </div>
-
         </div>
       </div>
     </div>
 
-    <!-- Achievements -->
+    <!-- right side -->
     <div class="col-lg-8">
+      <div class="card text-light mb-4">
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
+          <h5 class="m-0">Stats</h5>
+        </div>
+        <div class="card-body py-2">
+          {% if is_private and not is_friend %}
+          <div class="text-center py-5">
+            <h6 class="text-secondary">Stats are private!</h6>
+            <p class="small text-secondary">Add as a friend to view their stats!</p>
+          </div>
+          {% else %}
+          <div class="row g-2">
+            <!-- stats -->
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-level-up-alt me-1"></i>Level</h6>
+                <p class="h5 mb-0">{{ user_profile.custom_user.level }}</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-star me-1"></i>Total Exp</h6>
+                <p class="h5 mb-0">{{ user_profile.custom_user.total_exp }}</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-list-ul me-1"></i>Total Habits</h6>
+                <p class="h5 mb-0">{{ total_habits }}</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-check-circle me-1"></i>Completed</h6>
+                <p class="h5 mb-0">{{ total_completions }}</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-fire me-1"></i>Longest Streak</h6>
+                <p class="h5 mb-0">{{ longest_streak }}d</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-calendar-alt me-1"></i>Days Active</h6>
+                <p class="h5 mb-0">{{ total_days_active }}d</p>
+              </div>
+            </div>
+          </div>
+
+
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- achievements -->
       <div class="card text-light">
         <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
           <h5 class="m-0">Achievements</h5>
         </div>
         <div class="card-body">
+          {% if is_private and not is_friend %}
           <div class="text-center py-5">
-            {% if is_friend %}
-              {% if achievements %}
-                <div class="row g-3">
-                  {% for achievement in achievements %}
-                    <div class="col-md-6 mb-3">
-                      <div class="achievement-card p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05); border-left: 3px solid #4e73df;">
-                        <div class="d-flex">
-                          <div class="achievement-icon me-3">
-                            <div class="trophy-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: rgba(78, 115, 223, 0.2);">
-                              <span>🏆</span>
-                            </div>
+            <h6 class="text-secondary">Achievements are private!</h6>
+            <p class="small text-secondary">Add as a friend to view achievements!</p>
+          </div>
+          {% else %}
+            {% if achievements %}
+              <div class="row g-3">
+                {% for achievement in achievements %}
+                  <div class="col-md-6 mb-3">
+                    <div class="achievement-card p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05); border-left: 3px solid #4e73df;">
+                      <div class="d-flex">
+                        <div class="achievement-icon me-3">
+                          <div class="trophy-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: rgba(78, 115, 223, 0.2);">
+                            <span>🏆</span>
                           </div>
-                          <div>
-                            <h6 class="mb-1 text-light">{{ achievement.name }}</h6>
-                            <p class="mb-1 text-light">{{ achievement.description }}</p>
-                            <small class="mb-1 text-light">{{ achievement.date_unlocked|date:"M d, Y" }}</small>
-                          </div>
+                        </div>
+                        <div>
+                          <h6 class="mb-1 text-light">{{ achievement.name }}</h6>
+                          <p class="mb-1 text-light">{{ achievement.description }}</p>
+                          <small class="mb-1 text-light">{{ achievement.date_unlocked|date:"M d, Y" }}</small>
                         </div>
                       </div>
                     </div>
-                  {% endfor %}
-                </div>
-              {% else %}
-                <h6 class="text-secondary">No achievements yet.</h6>
-              {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
             {% else %}
-              <h6 class="text-secondary">Achievements are private!</h6>
+              <div class="text-center py-5">
+                <div class="mb-3">
+                  <div class="empty-icon mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background-color: rgba(255, 255, 255, 0.05);">
+                    <span style="font-size: 2rem; color: #adb5bd;">🏆</span>
+                  </div>
+                </div>
+                <h6 class="text-secondary">No achievements yet</h6>
+                <p class="small text-secondary">Complete habits to earn achievements!</p>
+              </div>
             {% endif %}
-          </div>
+
+
+          {% endif %}
         </div>
       </div>
+
     </div>
   </div>
 </div>

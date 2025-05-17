@@ -5,15 +5,25 @@
 <h1><i class="fas fa-user-friends me-2"></i>Friends</h1>
 <div class="mt-5">
 
+    <!-- Friends -->
     <ul class="card">
         <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
             <h5 class="m-0 text-light"><i class="fas fa-user-friends me-2"></i>Your Friends</h5>
         </div>
         {% for friend in friends %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span><i class="fas fa-user me-2"></i>{{ friend.to_user.username }}</span>
+                <div class="d-flex align-items-center">
+                    {% if friend.to_user.custom_user.profile_picture %}
+                        <img src="{{ friend.to_user.custom_user.profile_picture.url }}" alt="{{ friend.to_user.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                    {% else %}
+                        <div class="profile-placeholder rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px; background-color: #5f697e;">
+                            <span style="font-size: 1.2rem; color: #c8d0e0;">{{ friend.to_user.username|first|upper }}</span>
+                        </div>
+                    {% endif %}
+                    <span>{{ friend.to_user.username }}</span>
+                </div>
                 <div>
-                    <a href="{% url 'user_profile' friend.to_user.id %}" class="small-btn btn-info"><i class="fas fa-eye me-2"></i>View Profile</a>
+                    <a href="{% url 'user_profile' friend.to_user.id %}" class="small-btn btn-info"><i class="fas fa-eye me-2"></i>View</a>
                     <a href="{% url 'delete_friend' friend.to_user.id %}" class="small-btn btn-danger"><i class="fas fa-trash me-2"></i>Remove</a>
                 </div>
             </li>
@@ -22,6 +32,7 @@
         {% endfor %}
     </ul>
 
+    <!-- Requests -->
     {% if friend_requests %}
     <ul class="card">
         <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
@@ -29,9 +40,18 @@
         </div>
         {% for request in friend_requests %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span><i class="fas fa-user me-2"></i>{{ request.from_user.username }}</span>
+                <div class="d-flex align-items-center">
+                    {% if request.from_user.custom_user.profile_picture %}
+                        <img src="{{ request.from_user.custom_user.profile_picture.url }}" alt="{{ request.from_user.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                    {% else %}
+                        <div class="profile-placeholder rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px; background-color: #5f697e;">
+                            <span style="font-size: 1.2rem; color: #c8d0e0;">{{ request.from_user.username|first|upper }}</span>
+                        </div>
+                    {% endif %}
+                    <span>{{ request.from_user.username }}</span>
+                </div>
                 <div>
-                    <a href="{% url 'accept_friend_request' request.id %}" class="small-btn btn-success "><i class="fas fa-check me-2"></i>Accept</a>
+                    <a href="{% url 'accept_friend_request' request.id %}" class="small-btn btn-success"><i class="fas fa-check me-2"></i>Accept</a>
                     <a href="{% url 'decline_friend_request' request.id %}" class="small-btn btn-warning"><i class="fas fa-times me-2"></i>Decline</a>
                 </div>
             </li>
@@ -39,6 +59,7 @@
     </ul>
     {% endif %}
 
+    <!-- Search -->
     <h5><i class="fas fa-search me-2"></i>Search Users</h5>
     <form method="GET" action="{% url 'friends_list' %}">
         <div class="input-group">
@@ -49,6 +70,7 @@
         </div>
     </form>
 
+    <!-- All -->
     <h2></h2>
     <ul class="card">
         <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
@@ -56,7 +78,16 @@
         </div>
         {% for user in all_users %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span><i class="fas fa-user me-2"></i>{{ user.username }}</span>
+                <div class="d-flex align-items-center">
+                    {% if user.custom_user.profile_picture %}
+                        <img src="{{ user.custom_user.profile_picture.url }}" alt="{{ user.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                    {% else %}
+                        <div class="profile-placeholder rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px; background-color: #5f697e;">
+                            <span style="font-size: 1.2rem; color: #c8d0e0;">{{ user.username|first|upper }}</span>
+                        </div>
+                    {% endif %}
+                    <span>{{ user.username }}</span>
+                </div>
                 <div>
                     <a href="{% url 'user_profile' user.id %}" class="small-btn btn-info"><i class="fas fa-eye me-2"></i>View</a>
                     <a href="{% url 'add_friend' user.id %}" class="small-btn btn-primary"><i class="fas fa-user-plus me-2"></i>Add</a>

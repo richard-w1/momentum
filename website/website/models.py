@@ -32,6 +32,8 @@ class custom_user(models.Model):
     bio = models.CharField(max_length=100, null=True, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
 
+    # True = Private
+    privacy_mode = models.BooleanField(default=True)
     
     #leveling
     total_exp = models.PositiveIntegerField(default=0)

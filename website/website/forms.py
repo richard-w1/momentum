@@ -59,7 +59,7 @@ class EditUserProfileForm(UserChangeForm):
 class EditCustomUserProfileForm(forms.ModelForm):
     class Meta:
         model = custom_user
-        fields = ['birth_date', 'bio', 'rank', 'profile_picture']  # added profile_picture
+        fields = ['birth_date', 'bio', 'rank', 'profile_picture', 'privacy_mode']
 
     def __init__(self, *args, **kwargs):
         super(EditCustomUserProfileForm, self).__init__(*args, **kwargs)
@@ -77,7 +77,3 @@ class SkipHabitForm(forms.ModelForm):
     class Meta:
         model = HabitSkip
         fields = ['reason']
-        
-
-
-
