@@ -2,83 +2,87 @@
 {% load static %}
 {% block content %}
 
-<h1>My Progress</h1>
+<h1><i class="fas fa-chart-line me-2"></i>My Progress</h1>
 
 <p>Want an email notification of your habits for today?
     <a href="{% url 'send_habit_notifications' %}">
-        <button class="btn">Send!</button>
+        <button class="btn btn-primary"><i class="fas fa-envelope me-2"></i>Send!</button>
     </a>
 </p>
 
 <div class="progress-container">
-    <!-- user stats -->
+    <!-- User Stats -->
     <div class="progress-item card">
-        <h3>User Stats</h3>
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+            <h5 class="m-0 text-light"><i class="fas fa-user me-2"></i>User Stats</h5>
+        </div>
         <table class="tableprogress">
             <thead>
                 <tr>
-                    <th>Stat</th>
-                    <th>Value</th>
+                    <th><i class="fas fa-info-circle me-2"></i>Stat</th>
+                    <th><i class="fas fa-chart-bar me-2"></i>Value</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Level</strong></td>
+                    <td><strong><i class="fas fa-level-up-alt me-2"></i>Level</strong></td>
                     <td>{{ user.custom_user.level }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Rank</strong></td>
+                    <td><strong><i class="fas fa-trophy me-2"></i>Rank</strong></td>
                     <td>{{ user.custom_user.rank }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Location</strong></td>
+                    <td><strong><i class="fas fa-map-marker-alt me-2"></i>Location</strong></td>
                     <td>{{ user.custom_user.get_current_location }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Total Experience</strong></td>
+                    <td><strong><i class="fas fa-star me-2"></i>Total Experience</strong></td>
                     <td>{{ user.custom_user.total_exp }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Started Your Journey</strong></td>
+                    <td><strong><i class="fas fa-calendar-alt me-2"></i>Started Your Journey</strong></td>
                     <td>{{ total_days_active }} days ago</td>
                 </tr>
                 <tr>
-                    <td><strong>Total Habits</strong></td>
+                    <td><strong><i class="fas fa-list-ul me-2"></i>Total Habits</strong></td>
                     <td>{{ total_habits }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Lifetime Completed Habits</strong></td>
+                    <td><strong><i class="fas fa-check-circle me-2"></i>Lifetime Completed Habits</strong></td>
                     <td>{{ completed_habits }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Lifetime Missed Habits</strong></td>
+                    <td><strong><i class="fas fa-times-circle me-2"></i>Lifetime Missed Habits</strong></td>
                     <td>{{ total_missed_habits }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Lifetime Completion Rate</strong></td>
+                    <td><strong><i class="fas fa-percentage me-2"></i>Lifetime Completion Rate</strong></td>
                     <td>{{ overall_completion_rate }}%</td>
                 </tr>
                 <tr>
-                    <td><strong>Highest Habit Streak</strong></td>
+                    <td><strong><i class="fas fa-fire me-2"></i>Highest Habit Streak</strong></td>
                     <td>{{ longest_streak }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Current Highest Streak</strong></td>
+                    <td><strong><i class="fas fa-bolt me-2"></i>Current Highest Streak</strong></td>
                     <td>{{ current_streak }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- leveling -->
+    <!-- Leveling -->
     <div class="progress-item card">
-        <h3>Leveling Chart</h3>
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+            <h5 class="m-0 text-light"><i class="fas fa-layer-group me-2"></i>Leveling Chart</h5>
+        </div>
         <table class="tableprogress">
             <thead>
                 <tr>
-                    <th>Level</th>
-                    <th>Location</th>
-                    <th>Rank</th>
+                    <th><i class="fas fa-level-up-alt me-2"></i>Level</th>
+                    <th><i class="fas fa-globe me-2"></i>Location</th>
+                    <th><i class="fas fa-medal me-2"></i>Rank</th>
                 </tr>
             </thead>
             <tbody>
@@ -146,23 +150,37 @@
         </table>
     </div>
 
-
-    <!--pie chart -->
+    <!-- Pie Chart -->
     <div class="progress-item card">
-        <h3>Progress Report</h3>
-        <select class="progress_report_frequency">
-            <option>Daily</option>
-            <option>Weekly</option>
-            <option>Monthly</option>
-        </select>
-        <canvas id="chart" width="300" height="400"></canvas>
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+            <h5 class="m-0 text-light"><i class="fas fa-chart-pie me-2"></i>Progress Report</h5>
+        </div>
+        <div class="card-body">
+            <ul class="tab-nav" id="progress-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#daily" data-frequency="daily"><i class="fas fa-calendar-day me-2"></i>Daily</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#weekly" data-frequency="weekly"><i class="fas fa-calendar-week me-2"></i>Weekly</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#monthly" data-frequency="monthly"><i class="fas fa-calendar-alt me-2"></i>Monthly</a>
+                </li>
+            </ul>
+            <div class="tab-content mt-3">
+                <canvas id="chart" width="300" height="400"></canvas>
+            </div>
+        </div>
     </div>
 
-    <!-- bar graph -->
+    <!-- Bar Graph -->
     <div class="progress-item card">
-        <h3>Last 7 days at a Glance</h3>
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+            <h5 class="m-0 text-light"><i class="fas fa-chart-bar me-2"></i>Last 7 Days</h5>
+        </div>
         <canvas id="weekly_chart" width="300" height="400"></canvas>
     </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

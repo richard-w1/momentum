@@ -35,9 +35,9 @@
 </script>
 
     <div class="habit-container">
-        <h1>My Habits</h1>
+        <h1><i class="fas fa-list-check me-2"></i>My Habits</h1>
         <div>
-            <a href="{% url 'add_habit' %}" class="btn">Add a New Habit</a>
+            <a href="{% url 'add_habit' %}" class="btn"><i class="fas fa-plus me-2"></i>New Habit</a>
         </div>
         <div class="habit-filters mb-3">
             <!-- Frequency -->
@@ -69,9 +69,11 @@
         </div>
         {% if habits %}
             <ul class="habit-list">
-                <li class="dropdown-menu">All Habits </li>
             {% for habit in habits %}
                 <li class="habit-item card">
+                    <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+                        <h5 class="m-0 text-light"><i class="fas fa-tasks me-2"></i>{{ habit.name }}</h5>
+                    </div>
                     <table class="habit-table">
                         <colgroup>
                             <col style="width: 150px;">
@@ -84,7 +86,7 @@
                             <col style="width: 100px;">
                         </colgroup>
                         <tr>
-                            <td class="habit-details-name">{{ habit.name }}</td>
+                            <td class="habit-details-name">Frequency</td>
                             <td class="habit-details-labels">Reminder</td>
                             <td class="habit-details-labels">EXP</td>
                             <td class="habit-details-labels">Current/Max Streak</td>
@@ -101,32 +103,32 @@
                                         {% elif habit.frequency == 'daily' %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
-                                                <button type="submit" class="small-btn done-btn">Done!</button>
+                                                <button type="submit" class="small-btn done-btn"><i class="fas fa-check me-2"></i>Done!</button>
                                             </form>
                                             <form action="{% url 'skip_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="reason" value="No reason provided">
-                                                <button type="submit" class="small-btn skip-btn">Skip</button>
+                                                <button type="submit" class="small-btn skip-btn"><i class="fas fa-forward me-2"></i>Skip</button>
                                             </form>
                                         {% elif habit.frequency == 'weekly' and not habit.is_completed_this_week and not habit.is_skipped_this_week %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
-                                                <button type="submit" class="small-btn done-btn">Done!</button>
+                                                <button type="submit" class="small-btn done-btn"><i class="fas fa-check me-2"></i>Done!</button>
                                             </form>
                                             <form action="{% url 'skip_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="reason" value="No reason provided">
-                                                <button type="submit" class="small-btn skip-btn">Skip</button>
+                                                <button type="submit" class="small-btn skip-btn"><i class="fas fa-forward me-2"></i>Skip</button>
                                             </form>
                                         {% elif habit.frequency == 'monthly' and not habit.is_completed_this_month and not habit.is_skipped_this_month %}
                                             <form action="{% url 'complete_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
-                                                <button type="submit" class="small-btn done-btn">Done!</button>
+                                                <button type="submit" class="small-btn done-btn"><i class="fas fa-check me-2"></i>Done!</button>
                                             </form>
                                             <form action="{% url 'skip_habit' habit.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="reason" value="No reason provided">
-                                                <button type="submit" class="small-btn skip-btn">Skip</button>
+                                                <button type="submit" class="small-btn skip-btn"><i class="fas fa-forward me-2"></i>Skip</button>
                                             </form>
                                         {% endif %}
                                     </div>
@@ -173,13 +175,13 @@
                             <td class="habit-data">{{ habit.get_completion_rate|floatformat:2 }}%</td>
                             <td>
                                 <div class="habit-action-row">
-                                    <a href="{% url 'edit_habit' habit.id %}" class="small-btn edit-btn">Edit</a>
-                                    <a href="{% url 'delete_habit' habit.id %}" class="small-btn delete-btn">Delete</a>
+                                    <a href="{% url 'edit_habit' habit.id %}" class="small-btn edit-btn"><i class="fas fa-edit me-2"></i>Edit</a>
+                                    <a href="{% url 'delete_habit' habit.id %}" class="small-btn delete-btn"><i class="fas fa-trash me-2"></i>Delete</a>
                                 </div>
                             </td>
                             <td>
                                 {% if habit.label == '' %}
-                                <button class="small-btn pop-up-button">Add Tag</button>
+                                <button class="small-btn pop-up-button"><i class="fas fa-tag me-2"></i>Add Tag</button>
                                 <div class="pop-up">
                                     <div class="content">
                                         <form action="{% url 'add_tag' habit.id %}" method="POST">
@@ -196,7 +198,7 @@
                                 <form action="{% url 'add_tag' habit.id %}" method="POST">
                                     {% csrf_token %}
                                         <input class="text-box" name="label_input" value = "" type="hidden">
-                                        <button class="small-btn pop-up-button" type="submit">{{ habit.label }} <i class="fa fa-close"></i></button>
+                                        <button class="small-btn pop-up-button" type="submit">{{ habit.label }} <i class="fas fa-times"></i></button>
                                     </form>
                                 {% endif %}
                             </td>

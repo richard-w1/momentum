@@ -2,16 +2,21 @@
 
 {% block content %}
 
-<!-- Importing the font awsome library for icons -->
+<!-- Importing the font awesome library for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 
-    <div class="dashboard">
-        <h2>Welcome, {{ user.username }}</h2>
-        <h1>Dashboard</h1>
+<div class="dashboard">
+    <h1><i class="fas fa-home me-2"></i>Dashboard</h1>
+    <h2>Welcome, {{ user.username }}</h2>
 
-        <div class="dashboard-sections">
-            <div class="section card">
-                <h3>Today's Tasks</h3>
+
+    <div class="dashboard-sections">
+        <!-- Today's Tasks -->
+        <div class="section card mb-4">
+            <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+                <h5 class="m-0 text-light"><i class="fas fa-tasks me-2"></i>Today's Tasks</h5>
+            </div>
+            <div class="card-body">
                 <div class="habit-container">
                     {% if daily_habits or weekly_habits or monthly_habits %}
                         <ul class="habit-list">
@@ -28,7 +33,6 @@
                                     </li>
                                 {% endif %}
                             {% endfor %}
-
                             {% for habit in weekly_habits %}
                                 {% if not habit.is_completed_this_week %}
                                     <li class="habit-item not-completed">
@@ -39,7 +43,6 @@
                                     </li>
                                 {% endif %}
                             {% endfor %}
-
                             {% for habit in monthly_habits %}
                                 {% if not habit.is_completed_this_month %}
                                     <li class="habit-item not-completed">
@@ -52,24 +55,33 @@
                             {% endfor %}
                         </ul>
                     {% else %}
-                        <p>No tasks! Horray!</p>
+                        <p>No tasks! Hooray!</p>
                     {% endif %}
                 </div>
             </div>
+        </div>
 
-            <div class="section card">
-                <h3>Today's Progress Summary</h3>
+        <!-- Today's Progress Summary -->
+        <div class="section card mb-4">
+            <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+                <h5 class="m-0 text-light"><i class="fas fa-chart-bar me-2"></i>Today's Progress Summary</h5>
+            </div>
+            <div class="card-body">
                 <div class="progress-summary">
                     <p>{{ completed_habits }} / {{ total_habits }} ({{ daily_percentage }}%) habits completed!</p>
-
                     <div class="progress-bar-container" style="background-color: #ddd; width: 100%; height: 30px; border-radius: 5px; margin-top: 10px;">
                         <div class="progress-bar-fill" style="--progress: {{ daily_percentage|default:0 }}%;"></div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="section card">
-                <h3>Quick Statistics</h3>
+        <!-- Quick Statistics -->
+        <div class="section card mb-4">
+            <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+                <h5 class="m-0 text-light"><i class="fas fa-chart-pie me-2"></i>Quick Statistics</h5>
+            </div>
+            <div class="card-body">
                 <div class="stats-container">
                     <div class="stat-card">
                         <span class="stat-number">{{ habit_count }}</span>
@@ -81,149 +93,80 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="section card">
-                <h3>Motivation for Today</h3>
-                    <div class="tip">
-                        <p>{{ random_tip }}</p>
-                    </div>
+        <!-- Motivation for Today -->
+        <div class="section card mb-4">
+            <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+                <h5 class="m-0 text-light"><i class="fas fa-lightbulb me-2"></i>Motivation for Today</h5>
             </div>
+            <div class="card-body">
+                <div class="tip">
+                    <p>{{ random_tip }}</p>
+                </div>
+            </div>
+        </div>
 
-<!-- Daily Login -->
-<div class="section card p-4">
-    <h3 class="text-center text-primary">Login Reward Streak</h3>
-    <p class="text-center">Log in each day to maintain your momentum!</p>
-    <div class="login-streak-container d-flex justify-content-center gap-3 flex-wrap">
-        {% for day_number in streak_days %}
-            <div class="login-streak-box text-center p-3 rounded 
-                {% if day_number <= user.custom_user.current_streak %}bg-success text-white{% else %}bg-secondary text-white{% endif %}">
-                <div class="day-label fw-bold">Day {{ day_number }}</div>
-                <div class="xp-reward mt-2">
-                    {% if day_number == 7 %}
-                        <span class="badge bg-warning text-dark">1000 Exp</span>
+        <!-- Daily Login -->
+        <div class="section card mb-4">
+            <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+                <h5 class="m-0 text-light"><i class="fas fa-calendar-check me-2"></i>Login Reward Streak</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-center">Log in each day to maintain your momentum!</p>
+                <div class="login-streak-container d-flex justify-content-center gap-3 flex-wrap">
+                    {% for day_number in streak_days %}
+                        <div class="login-streak-box text-center p-3 rounded 
+                            {% if day_number <= user.custom_user.current_streak %}bg-success text-white{% else %}bg-secondary text-white{% endif %}">
+                            <div class="day-label fw-bold">Day {{ day_number }}</div>
+                            <div class="xp-reward mt-2">
+                                {% if day_number == 7 %}
+                                    <span class="badge bg-warning text-dark">1000 Exp</span>
+                                {% else %}
+                                    <span class="badge bg-info text-dark">100 Exp</span>
+                                {% endif %}
+                            </div>
+                            {% if day_number <= user.custom_user.current_streak %}
+                                <div class="mt-2">
+                                    <i class="fas fa-check-circle text-white"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Spin -->
+        <div class="section card mb-4">
+            <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+                <h5 class="m-0 text-light"><i class="fas fa-sync-alt me-2"></i>Daily Spin</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-center">Spin the wheel to win Exp!</p>
+                <div class="text-center">
+                    {% if has_spun_today %}
+                        <h4 class="text-success">🎉 You won {{ last_spin_reward }} Exp today!</h4>
                     {% else %}
-                        <span class="badge bg-info text-dark">100 E</span>
+                        <div id="spin-wheel" class="spin-wheel">
+                            <div class="wheel-inner">
+                                <span>50</span>
+                                <span>100</span>
+                                <span>200</span>
+                                <span>50</span>
+                                <span>100</span>
+                                <span>50</span>
+                            </div>
+                        </div>
+                        <button id="spin-button" class="btn btn-primary mt-3">Spin the Wheel</button>
                     {% endif %}
                 </div>
-                {% if day_number <= user.custom_user.current_streak %}
-                    <div class="mt-2">
-                        <i class="fas fa-check-circle text-white"></i>
-                    </div>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
-</div>
-
-<!-- Daily spin -->
-<div class="section card p-4">
-    <h3 class="text-center text-primary">Daily Spin</h3>
-    <p class="text-center">Spin the wheel to win Exp!</p>
-    <div class="text-center">
-        {% if has_spun_today %}
-            <h4 class="text-success">🎉 You won {{ last_spin_reward }} Exp today!</h4>
-        {% else %}
-            <div id="spin-wheel" class="spin-wheel">
-                <div class="wheel-inner">
-                    <span>50</span>
-                    <span>100</span>
-                    <span>200</span>
-                    <span>50</span>
-                    <span>100</span>
-                    <span>50</span>
+                <div id="spin-result" class="text-center mt-3" style="display: none;">
+                    <h4 class="text-success"></h4>
                 </div>
             </div>
-            <button id="spin-button" class="btn btn-primary mt-3">Spin the Wheel</button>
-        {% endif %}
-    </div>
-    <div id="spin-result" class="text-center mt-3" style="display: none;">
-        <h4 class="text-success"></h4>
+        </div>
     </div>
 </div>
 
-<style>
-    .spin-wheel {
-        width: 200px;
-        height: 200px;
-        border: 5px solid #007bff;
-        border-radius: 50%;
-        margin: 0 auto;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .wheel-inner {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        transform: rotate(0deg);
-        transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
-    }
-
-    .wheel-inner span {
-        display: block;
-        position: absolute;
-        width: 50%;
-        height: 50%;
-        background: #f8f9fa;
-        color: #007bff;
-        font-weight: bold;
-        text-align: center;
-        line-height: 100px;
-        transform-origin: 100% 100%;
-        border: 1px solid #707070;
-    }
-
-    .wheel-inner span:nth-child(1) { transform: rotate(0deg); }
-    .wheel-inner span:nth-child(2) { transform: rotate(60deg); }
-    .wheel-inner span:nth-child(3) { transform: rotate(120deg); }
-    .wheel-inner span:nth-child(4) { transform: rotate(180deg); }
-    .wheel-inner span:nth-child(5) { transform: rotate(240deg); }
-    .wheel-inner span:nth-child(6) { transform: rotate(300deg); }
-</style>
-
-<script>
-    document.getElementById('spin-button').addEventListener('click', function () {
-        const spinWheel = document.querySelector('.wheel-inner');
-        const spinResult = document.getElementById('spin-result');
-        const spinButton = document.getElementById('spin-button');
-        spinButton.disabled = true;
-        const rewards = [50, 100, 200];
-        const randomIndex = Math.floor(Math.random() * rewards.length);
-        const segmentAngle = 60;
-        const randomAngle = randomIndex * segmentAngle;
-        const spins = 5;
-        const totalRotation = spins * 360 + randomAngle;
-        spinWheel.style.transform = `rotate(${totalRotation}deg)`;
-    
-
-        setTimeout(() => {
-            fetch("{% url 'daily_spin' %}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                spinButton.disabled = false;
-    
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    spinResult.style.display = 'block';
-                    spinResult.querySelector('h4').textContent = `🎉 You won ${data.reward} EXP!`;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                spinButton.disabled = false;
-            });
-        }, 3000);
-    });
-    </script>
-
-        </div>
-    </div>
 {% endblock %}

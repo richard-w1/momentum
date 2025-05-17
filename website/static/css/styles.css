@@ -379,10 +379,74 @@ h1 {
     background-color: #3a3f44;
     color: #ffffff;
     padding: 20px;
+    padding-top: 8px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Friends List Specific Card */
+.friends-card {
+    background-color: #2a2f35; /* Darker background for friends list */
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.friends-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.friends-card-header {
+    background-color: #1d2227; /* Slightly darker header */
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 8px 8px 0 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.friends-card ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 15px;
+    padding: 0;
+    list-style: none;
+}
+
+.friends-card ul li {
+    background-color: #3a3f44;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.friends-card ul li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.friends-card .btn {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.friends-card .btn:hover {
+    transform: scale(1.05);
 }
 
 .tableprogress {
@@ -576,34 +640,34 @@ h1 {
 
 .achievement-card {
     transition: transform 0.2s, background-color 0.2s;
-  }
+}
   .achievement-card:hover {
     transform: translateY(-2px);
     background-color: rgba(255, 255, 255, 0.08) !important;
-  }
+}
 
-    .login-streak-container {
-        display: flex;
-        gap: 10px;
-    }
+.login-streak-container {
+    display: flex;
+    gap: 10px;
+}
 
-    .login-streak-box {
-        width: 100px;
-        height: 100px;
-        border-radius: 5px;
-        text-align: center;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        font-weight: bold;
-        font-size: 14px;
-    }
-    .day-label {
-        font-size: 12px;
-        font-weight: normal;
-    }
+.login-streak-box {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 14px;
+}
+.day-label {
+    font-size: 12px;
+    font-weight: normal;
+}
 
-    .xp-reward {
-        font-size: 16px;
-    }
+.xp-reward {
+    font-size: 16px;
+}

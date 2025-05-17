@@ -1,61 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<h1><i class="fas fa-user-friends me-2"></i>Friends</h1>
 <div class="mt-5">
 
-<h2>Your Friends</h2>
-<ul class="card">
-    {% for friend in friends %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ friend.to_user.username }}
-            <a href="{% url 'user_profile' friend.to_user.id %}" class="small-btn btn-info btn-sm ml-2">View Profile</a>
+    <ul class="card">
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+            <h5 class="m-0 text-light"><i class="fas fa-user-friends me-2"></i>Your Friends</h5>
+        </div>
+        {% for friend in friends %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-user me-2"></i>{{ friend.to_user.username }}</span>
+                <div>
+                    <a href="{% url 'user_profile' friend.to_user.id %}" class="small-btn btn-info"><i class="fas fa-eye me-2"></i>View Profile</a>
+                    <a href="{% url 'delete_friend' friend.to_user.id %}" class="small-btn btn-danger"><i class="fas fa-trash me-2"></i>Remove</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item"><i class="fas fa-exclamation-circle me-2"></i>You have no friends added yet.</li>
+        {% endfor %}
+    </ul>
 
-            <a href="{% url 'delete_friend' friend.to_user.id %}" class="small-btn btn-danger btn-sm">Remove</a>
-        </li>
-    {% empty %}
-        <li class="list-group-item">You have no friends added yet.</li>
-    {% endfor %}
-</ul>
+    {% if friend_requests %}
+    <ul class="card">
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+            <h5 class="m-0 text-light"><i class="fas fa-user-plus me-2"></i>Friend Requests</h5>
+        </div>
+        {% for request in friend_requests %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-user me-2"></i>{{ request.from_user.username }}</span>
+                <div>
+                    <a href="{% url 'accept_friend_request' request.id %}" class="small-btn btn-success "><i class="fas fa-check me-2"></i>Accept</a>
+                    <a href="{% url 'decline_friend_request' request.id %}" class="small-btn btn-warning"><i class="fas fa-times me-2"></i>Decline</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
-{% if friend_requests %}
-<h3>Friend Requests</h3>
-<ul class="card">
-    {% for request in friend_requests %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ request.from_user.username }}
-            <div>
-                <a href="{% url 'accept_friend_request' request.id %}" class="small-btn">Accept</a>
-                <a href="{% url 'decline_friend_request' request.id %}" class="small-btn">Decline</a>
-            </div>
-        </li>
-    {% endfor %}
-</ul>
-{% endif %}
-
-
-    <h2>Search Users</h2>
-    <form method="GET" action="{% url 'friends_list' %}" class=" card mb-4">
+    <h5><i class="fas fa-search me-2"></i>Search Users</h5>
+    <form method="GET" action="{% url 'friends_list' %}">
         <div class="input-group">
             <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search by username">
             <div class="input-group-append">
-                <button class="small-btn btn-outline-primary" type="submit">Search</button>
+                <button class="small-btn btn-outline-primary" type="submit"><i class="fas fa-search me-2"></i>Search</button>
             </div>
         </div>
     </form>
 
-    <h2>All Users</h2>
-    <ul class=" card ">
+    <h2></h2>
+    <ul class="card">
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+            <h5 class="m-0 text-light"><i class="fas fa-users me-2"></i>All Users</h5>
+        </div>
         {% for user in all_users %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ user.username }}
-                <a href="{% url 'user_profile' user.id %}" class="small-btn btn-info btn-sm ml-2">View Profile</a>
-                <a href="{% url 'add_friend' user.id %}" class="small-btn btn-primary btn-sm">Add Friend</a>
+                <span><i class="fas fa-user me-2"></i>{{ user.username }}</span>
+                <div>
+                    <a href="{% url 'user_profile' user.id %}" class="small-btn btn-info"><i class="fas fa-eye me-2"></i>View</a>
+                    <a href="{% url 'add_friend' user.id %}" class="small-btn btn-primary"><i class="fas fa-user-plus me-2"></i>Add</a>
+                </div>
             </li>
         {% empty %}
-            <li class="list-group-item">No users found.</li>
+            <li class="list-group-item"><i class="fas fa-exclamation-circle me-2"></i>No users found.</li>
         {% endfor %}
     </ul>
-
-
 </div>
 {% endblock %}
