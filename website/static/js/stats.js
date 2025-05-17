@@ -1,4 +1,4 @@
-let currentChart = null
+let currentChart = null;
 
 // for daily weekly monthly progress charts
 
@@ -11,28 +11,34 @@ fetch('/get_stats/', {
     },
 })
 .then(response => {
-    return response.json() //Convert response to JSON
+    return response.json()
 })
 .then(data => {
     $(document).ready(function() {
-        $(".progress_report_frequency").change(function () {
-            
+        // tab switching
+        $("#progress-tabs .nav-link").click(function (e) {
+            e.preventDefault();
+
+            $("#progress-tabs .nav-link").removeClass("active");
+            $(this).addClass("active");
+
+            // destroy the current chart
             if (currentChart !== null) {
                 currentChart.destroy();
             }
-
-            // calling the proper funtion based on the option selected
-            if ($(this).val() == "Daily") {
-                make_daily_habit_graph(data)
-            }else if ($(this).val() == "Weekly") {
-                make_weekly_habit_graph(data)
-            }else{
-                make_monthly_habit_graph(data)
+            const frequency = $(this).data("frequency");
+            if (frequency === "daily") {
+                make_daily_habit_graph(data);
+            } else if (frequency === "weekly") {
+                make_weekly_habit_graph(data);
+            } else {
+                make_monthly_habit_graph(data);
             }
         });
-        $(".progress_report_frequency").trigger("change");
+
+        $("#progress-tabs .nav-link.active").trigger("click");
     });
-})
+});
 
 function make_daily_habit_graph(data){
     const ctx = document.getElementById('chart');

@@ -1,77 +1,82 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h1>Leaderboard</h1>
+<h1><i class="fas fa-trophy me-2"></i>Leaderboard</h1>
 <div class="leaderboard">
 <!-- logged in user -->
-<h3>Your Rank</h3>
 <div class='card'>
-<table id="user-leaderboard" class="display">
-    <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Username</th>
-            <th>Level</th>
-            <th>Experience</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% if self %}
-        <tr>
-            <td>{{ self.user_rank }}</td>
-            <td><strong>{{ self.user.username }}</strong> the {{ self.rank }}</td>
-            <td>{{ self.level }}</td>
-            <td>{{ self.total_exp }}</td>
-        </tr>
-        {% endif %}
-    </tbody>
-</table>
+    <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+        <h5 class="m-0 text-light"><i class="fas fa-user me-2"></i>Your Rank</h5>
+    </div>
+    <table id="user-leaderboard" class="display">
+        <thead>
+            <tr>
+                <th><i class="fas fa-hashtag me-2"></i>Rank</th>
+                <th><i class="fas fa-user me-2"></i>Username</th>
+                <th><i class="fas fa-level-up-alt me-2"></i>Level</th>
+                <th><i class="fas fa-star me-2"></i>Experience</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if self %}
+            <tr>
+                <td>{{ self.user_rank }}</td>
+                <td><strong>{{ self.user.username }}</strong> the {{ self.rank }}</td>
+                <td>{{ self.level }}</td>
+                <td>{{ self.total_exp }}</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
 </div>
 
 
 <!-- Top 100 -->
-<h3>All Time Top Players</h3>
 <div class='card'>
-<table id="global-leaderboard" class="display">
-    <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Username</th>
-            <th>Level</th>
-            <th>Experience</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in top100 %}
-        <tr>
-            <td>{{ user.user_rank }}</td>
-            <td><strong>{{ user.user.username }}</strong> the {{ user.rank }}</td>
-            <td>{{ user.level }}</td>
-            <td>{{ user.total_exp }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+        <h5 class="m-0 text-light"><i class="fas fa-crown me-2"></i>All Time Top Players</h5>
+    </div>
+    <table id="global-leaderboard" class="display">
+        <thead>
+            <tr>
+                <th><i class="fas fa-hashtag me-2"></i>Rank</th>
+                <th><i class="fas fa-user me-2"></i>Username</th>
+                <th><i class="fas fa-level-up-alt me-2"></i>Level</th>
+                <th><i class="fas fa-star me-2"></i>Experience</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in top100 %}
+            <tr>
+                <td>{{ user.user_rank }}</td>
+                <td><strong>{{ user.user.username }}</strong> the {{ user.rank }}</td>
+                <td>{{ user.level }}</td>
+                <td>{{ user.total_exp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-
-<h3>Current Top Players</h3>
 
 <div class="tabs">
     <ul class="tab-nav">
-        <li><a href="#today-tab" class="active">Today</a></li>
-        <li><a href="#week-tab">This Week</a></li>
-        <li><a href="#month-tab">This Month</a></li>
+        <li><a href="#today-tab" class="active"><i class="fas fa-calendar-day me-2"></i>Today</a></li>
+        <li><a href="#week-tab"><i class="fas fa-calendar-week me-2"></i>This Week</a></li>
+        <li><a href="#month-tab"><i class="fas fa-calendar-alt me-2"></i>This Month</a></li>
     </ul>
     <div class='card'>
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center py-2">
+            <h5 class="m-0 text-light"><i class="fas fa-chart-line me-2"></i>Current Top Players</h5>
+        </div>
         <!-- Today -->
         <div id="today-tab" class="tab-pane active">
             <table id="today-leaderboard" class="display">
                 <thead>
                     <tr>
-                        <th>Rank</th>
-                        <th>Username</th>
-                        <th>Habits Done</th>
-                        <th>Experience Gained</th>
+                        <th><i class="fas fa-hashtag me-2"></i>Rank</th>
+                        <th><i class="fas fa-user me-2"></i>Username</th>
+                        <th><i class="fas fa-check-circle me-2"></i>Habits Done</th>
+                        <th><i class="fas fa-star me-2"></i>Experience Gained</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,10 +97,10 @@
             <table id="week-leaderboard" class="display">
                 <thead>
                     <tr>
-                        <th>Rank</th>
-                        <th>Username</th>
-                        <th>Habits Done</th>
-                        <th>Experience Gained</th>
+                        <th><i class="fas fa-hashtag me-2"></i>Rank</th>
+                        <th><i class="fas fa-user me-2"></i>Username</th>
+                        <th><i class="fas fa-check-circle me-2"></i>Habits Done</th>
+                        <th><i class="fas fa-star me-2"></i>Experience Gained</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,10 +121,10 @@
             <table id="month-leaderboard" class="display">
                 <thead>
                     <tr>
-                        <th>Rank</th>
-                        <th>Username</th>
-                        <th>Habits Done</th>
-                        <th>Experience Gained</th>
+                        <th><i class="fas fa-hashtag me-2"></i>Rank</th>
+                        <th><i class="fas fa-user me-2"></i>Username</th>
+                        <th><i class="fas fa-check-circle me-2"></i>Habits Done</th>
+                        <th><i class="fas fa-star me-2"></i>Experience Gained</th>
                     </tr>
                 </thead>
                 <tbody>
