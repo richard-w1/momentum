@@ -70,11 +70,33 @@ def dashboard(request):
     custom_user_profile = request.user.custom_user
     today = timezone.now().date()
 
+    streak_rewards = {
+        1: 100,
+        2: 100,
+        3: 100,
+        4: 100,
+        5: 100,
+        6: 100,
+        7: 1000,
+    }
+
     if custom_user_profile.last_login_date == today - timedelta(days=1):
         custom_user_profile.current_streak += 1
+
+        if custom_user_profile.current_streak <= 7:
+            reward_exp = streak_rewards[custom_user_profile.current_streak]
+            custom_user_profile.total_exp += reward_exp
+            messages.success(request, f"Welcome back! You received {reward_exp} Exp for your daily login reward!")
     elif custom_user_profile.last_login_date != today:
         # Reset
         custom_user_profile.current_streak = 1
+        if custom_user_profile.current_streak <= 7:
+            reward_exp = streak_rewards[custom_user_profile.current_streak]
+            custom_user_profile.total_exp += reward_exp
+            messages.success(request, f"Welcome back! You received {reward_exp} Exp for your daily login reward!")
+
+    has_spun_today = custom_user_profile.last_spin_date == today
+    last_spin_reward = custom_user_profile.last_spin_reward if has_spun_today else None
 
     custom_user_profile.last_login_date = today
     custom_user_profile.save()
@@ -117,7 +139,7 @@ def dashboard(request):
     random_tip = random.choice(tips)
 
     # progress
-    
+
     habits = Habit.objects.filter(user=request.user)
     total_habits = habits.count()
     completed_habits = sum(
@@ -141,6 +163,8 @@ def dashboard(request):
         'completed_habits': completed_habits,
         'total_habits': total_habits,
         'streak_days': range(1, 8), 
+        'has_spun_today': has_spun_today,
+        'last_spin_reward': last_spin_reward,
         'today': today,
     }
     return render(request, 'dashboard.html', context)
@@ -765,3 +789,24 @@ def user_profile(request, user_id):
         'user_profile': user_profile,
         'is_friend': is_friend,
     })
+
+@login_required
+def daily_spin(request):
+    user = request.user.custom_user
+    #check if can spin
+    today = timezone.now().date()
+    if user.last_spin_date == today:
+        return JsonResponse({'error': 'You have already spun the wheel today!'}, status=400)
+
+    reward = random.choices(
+        [50, 100, 200],
+        weights=[75, 20, 5],
+        k=1
+    )[0]
+
+    user.total_exp += reward
+    user.last_spin_date = today
+    user.last_spin_reward = reward
+    user.save()
+
+    return JsonResponse({'message': f'You won {reward} Exp!', 'reward': reward})
