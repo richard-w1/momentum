@@ -59,12 +59,9 @@ urlpatterns = [
     path('friend-request/accept/<int:friend_id>/', views.accept_friend_request, name='accept_friend_request'),
     path('friend-request/decline/<int:friend_id>/', views.decline_friend_request, name='decline_friend_request'),
     path('profile/<int:user_id>/', views.user_profile, name='user_profile'),
-    path('summary/<str:username>/', views.profile_summary, name='profile_summary'),
     path('daily-spin/', views.daily_spin, name='daily_spin'),
 ]
 
 # profile pictures
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
- 

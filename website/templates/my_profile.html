@@ -26,7 +26,6 @@
           <h2 class="mb-1">{{ user.username }} the {{ user.custom_user.rank }}</h2>
           
           <div class="text-start mt-4">
-
             <div class="mb-3">
               <label class="text-secondary">Level</label>
               <p>{{ user.custom_user.level }}</p>
@@ -46,10 +45,12 @@
               <label class="text-secondary">Email</label>
               <p>{{ user.email }}</p>
             </div>
+
             <div class="mb-3">
               <label class="text-secondary">Date of Birth</label>
               <p>{{ user.custom_user.birth_date|default:"Not provided" }}</p>
             </div>
+
             <div class="mb-3">
               <label class="text-secondary">Bio</label>
               <div class="p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05);">
@@ -61,14 +62,61 @@
           <div class="mt-4">
             <a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
             <a href="{% url 'change_password' %}" class="btn">Change Password</a>
-            <a href="{% url 'profile_summary' user.username %}" class="btn">View Profile Summary</a>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Achievements -->
+    <!-- right side -->
     <div class="col-lg-8">
+      <div class="card text-light mb-4">
+        <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
+          <h5 class="m-0">Stats</h5>
+        </div>
+        <div class="card-body py-2">
+          <div class="row g-2">
+            <!-- stats -->
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-level-up-alt me-1"></i>Level</h6>
+                <p class="h5 mb-0">{{ level }}</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-star me-1"></i>Total Exp</h6>
+                <p class="h5 mb-0">{{ total_exp }}</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-list-ul me-1"></i>Total Habits</h6>
+                <p class="h5 mb-0">{{ total_habits }}</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-check-circle me-1"></i>Completed</h6>
+                <p class="h5 mb-0">{{ total_completions }}</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-fire me-1"></i>Longest Streak</h6>
+                <p class="h5 mb-0">{{ longest_streak }}d</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-2">
+              <div class="card text-center bg-dark text-light p-2 h-100 d-flex flex-column justify-content-center">
+                <h6 class="small"><i class="fas fa-calendar-alt me-1"></i>Days Active</h6>
+                <p class="h5 mb-0">{{ total_days_active }}d</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- achievements -->
       <div class="card text-light">
         <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
           <h5 class="m-0">Achievements</h5>
@@ -112,4 +160,36 @@
   </div>
 </div>
 
+<!-- share -->
+<div class="card text-light mt-4">
+  <div class="card-header bg-dark border-bottom border-secondary d-flex justify-content-between align-items-center">
+    <h5 class="m-0"><i class="fas fa-share-alt me-2"></i>Share My Profile</h5>
+  </div>
+  <div class="card-body text-center">
+    <p class="text-secondary">Let your friends know about your progress!</p>
+    <div class="d-flex justify-content-center gap-2">
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|slice:':-12' }}user_profile/{{ user.id }}/" target="_blank" class="btn btn-primary">
+        <i class="fab fa-facebook-f me-2"></i>Facebook
+      </a>
+      <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|slice:':-12' }}user_profile/{{ user.id }}/&text=Check out my profile!" target="_blank" class="btn btn-info">
+        <i class="fab fa-twitter me-2"></i>Twitter / X
+      </a>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri|slice:':-12' }}user_profile/{{ user.id }}/" target="_blank" class="btn btn-secondary">
+        <i class="fab fa-linkedin-in me-2"></i>LinkedIn
+      </a>
+      <button class="btn btn-success" onclick="copyProfileLink()">
+        <i class="fas fa-link me-2"></i>Copy Link
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copyProfileLink() {
+    const profileLink = "{{ request.build_absolute_uri|slice:':-12' }}user_profile/{{ user.id }}/";
+    navigator.clipboard.writeText(profileLink).then(() => {
+      alert("Profile link copied to clipboard!");
+    });
+  }
+</script>
 {% endblock %}

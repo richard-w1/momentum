@@ -174,7 +174,43 @@ def my_profile(request):
     unlock_achievement(request.user, "Self Scan", "👨‍🚀 View your own profile.", request)
     user = request.user
     achievements = Achievement.objects.filter(user=user)
-    return render(request, 'my_profile.html', {'achievements': achievements})
+    habits = Habit.objects.filter(user=user)
+    level = user.custom_user.level
+    total_exp = user.custom_user.total_exp
+    total_habits = habits.count()
+    total_completions = HabitCompletion.objects.filter(habit__user=user).count()
+    user = request.user
+    habits = Habit.objects.filter(user=user)
+    total_habits = habits.count()
+    completed_habits = habits.filter(completions__isnull=False).distinct().count()
+    total_missed_habits = sum(habit.get_missed_occurrences() for habit in habits)
+
+    # stats
+    overall_completion_rate = (
+        (completed_habits / (completed_habits + total_missed_habits)) * 100 if total_habits > 0 else 0
+    )
+    longest_streak = max((habit.get_max_streak() for habit in habits), default=0)
+    current_streak = max((habit.get_current_streak() for habit in habits), default=0)
+    total_days_active = (timezone.now().date() - user.date_joined.date()).days
+
+    context = {
+        'daily_percentage': int((completed_habits / total_habits) * 100) if total_habits > 0 else 0,
+        'completed_habits': completed_habits,
+        'total_habits': total_habits,
+        'total_missed_habits': total_missed_habits,
+        'overall_completion_rate': round(overall_completion_rate, 2),
+        'longest_streak': longest_streak,
+        'current_streak': current_streak,
+        'total_days_active': total_days_active,
+        'username': user.username,
+        'total_habits': total_habits,
+        'total_completions': total_completions,
+        'achievements': achievements,
+        'level': level,
+        'total_exp': total_exp,
+    }
+
+    return render(request, 'my_profile.html', context)
 
 @login_required
 def edit_profile(request):
@@ -770,25 +806,50 @@ def friends_list(request):
 @login_required
 def user_profile(request, user_id):
     user_profile = get_object_or_404(User, id=user_id)
-    
-    is_friend = False
 
-    # if its the logged in user, redirect to my profile
     if user_id == request.user.id:
         return redirect('my_profile')
-    
-    # check if friend
-    else:
-        is_friend = Friend.objects.filter(
-            from_user=request.user,
-            to_user=user_profile,
-            status='accepted'
-        ).exists()
 
-    return render(request, 'user_profile.html', {
+    # check if friends
+    is_friend = Friend.objects.filter(
+        from_user=request.user,
+        to_user=user_profile,
+        status='accepted'
+    ).exists()
+
+    is_private = user_profile.custom_user.privacy_mode
+    habits = Habit.objects.filter(user=user_profile)
+    total_habits = habits.count()
+    total_completions = HabitCompletion.objects.filter(habit__user=user_profile).count()
+    longest_streak = max((habit.get_max_streak() for habit in habits), default=0)
+    total_days_active = (timezone.now().date() - user_profile.date_joined.date()).days
+    achievements = Achievement.objects.filter(user=user_profile)
+
+    # pass info if privacy is off or is friends
+    private_info = {}
+    if is_friend or not is_private:
+        private_info = {
+            'level': user_profile.custom_user.level,
+            'total_exp': user_profile.custom_user.total_exp,
+            'bio': user_profile.custom_user.bio,
+            'birth_date': user_profile.custom_user.birth_date,
+            'email': user_profile.email,
+            'name': f"{user_profile.first_name} {user_profile.last_name}",
+        }
+
+    context = {
         'user_profile': user_profile,
         'is_friend': is_friend,
-    })
+        'is_private': is_private,
+        'total_habits': total_habits,
+        'total_completions': total_completions,
+        'longest_streak': longest_streak,
+        'total_days_active': total_days_active,
+        'achievements': achievements,
+        **private_info,
+    }
+
+    return render(request, 'user_profile.html', context)
 
 @login_required
 def daily_spin(request):
@@ -810,18 +871,3 @@ def daily_spin(request):
     user.save()
 
     return JsonResponse({'message': f'You won {reward} Exp!', 'reward': reward})
-def profile_summary(request, username):
-    user = get_object_or_404(User, username=username)
-    habits = Habit.objects.filter(user=user)
-    achievements = Achievement.objects.filter(user=user)
-
-    total_habits = habits.count()
-    total_completions = HabitCompletion.objects.filter(habit__user=user).count()
-
-    context = {
-        'username': user.username,
-        'total_habits': total_habits,
-        'total_completions': total_completions,
-        'achievements': achievements,
-    }
-    return render(request, 'profile_summary.html', context)
