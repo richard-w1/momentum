@@ -43,6 +43,23 @@ class custom_user(models.Model):
     last_login_date = models.DateField(null=True, blank=True)
     streak_rewards_claimed = models.PositiveIntegerField(default=0)
 
+    last_spin_date = models.DateField(null=True, blank=True)
+    last_spin_reward = models.IntegerField(null=True, blank=True)
+
+    def can_spin_today(self):
+        return self.last_spin_date != timezone.now().date()
+
+    def daily_spin(self):
+        reward = random.choices(
+            [50, 100, 200],
+            weights=[75, 20, 5],
+            k=1
+        )[0]
+        self.total_exp += reward
+        self.last_spin_date = timezone.now().date()
+        self.save()
+        return reward
+
     def __str__(self):
         return f'{self.user.username} custom_user'
 
